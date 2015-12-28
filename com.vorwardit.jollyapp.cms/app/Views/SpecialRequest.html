@@ -1,0 +1,59 @@
+﻿<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">Haben Sie spezielle W&uuml;nsche?</h1>
+            </div>
+            <div class="panel-body">
+                <p class="lead">
+                    Kein Problem! Sagen Sie uns, wie wir helfen k&ouml;nnen.
+                </p>
+                <div class="well well-sm">
+                    <h4>Reisedaten <small><a href="/request?r={{requestId}}&s=o"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                    <div class="row">
+                        <div class="col-xs-2">Fahrt:</div>
+                        <div class="col-xs-10">
+                            Von <strong>{{request.startName}}</strong> nach <strong>{{request.targetName}}</strong>
+                        </div>
+                        <div class="col-xs-offset-2 col-xs-10" ng-show="request.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
+                        <div class="col-xs-2">Hinfahrt:</div>
+                        <div class="col-xs-10">
+                            Am <strong>{{request.startDate | date}}</strong>,
+                            <span ng-show="request.startTimeMode == 'Departure'">Abfahrt <strong>{{request.startTimeDepart}}</strong> (Ankunft ca. {{request.startTimeArrive}})</span>
+                            <span ng-show="request.startTimeMode == 'Arrival'">Ankunft <strong>{{request.startTimeArrive}}</strong> (Abfahrt ca. {{request.startTimeDepart}})</span>
+                        </div>
+                        <div class="col-xs-2">R&uuml;ckfahrt:</div>
+                        <div class="col-xs-10">
+                            <span ng-show="request.tripType == 'OneWay'"><strong>Keine R&uuml;ckfahrt</strong></span>
+                            <span ng-show="request.tripType == 'Return'">
+                                Am <strong>{{request.returnDate | date}}</strong>,
+                                <span ng-show="request.returnTimeMode == 'Departure'">R&uuml;ckfahrt <strong>{{request.returnTimeDepart}}</strong> (R&uuml;ckkunft ca. {{request.returnTimeArrive}})</span>
+                                <span ng-show="request.returnTimeMode == 'Arrival'">R&uuml;ckkunft <strong>{{request.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{request.returnTimeDepart}})</span>
+                            </span>
+                        </div>
+                        <div class="col-xs-2">Personen:</div>
+                        <div class="col-xs-10">
+                            <strong>{{request.passengers}}</strong>
+                        </div>
+                    </div>
+                </div>
+                <form class="form-horizontal" name="form" ng-hide="success">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Anfrage</label>
+                        <div class="col-sm-10">
+                            <textarea rows="5" class="form-control" required ng-model="SpecialRequests" placeholder="Ihre Anforderungen"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <button type="submit" class="btn btn-primary btn-block btn-lg" ng-click="submit()"><span class="fa fa-envelope"></span> Anfragen</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="alert alert-success" ng-show="success">
+                    <span class="fa fa-check-circle"></span> Vielen Dank! Wir melden uns umgehend bei Ihnen.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
