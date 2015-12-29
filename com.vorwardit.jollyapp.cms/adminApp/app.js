@@ -18,9 +18,12 @@
                 controller: 'WelcomeController'
             })
             .when('/sites', {
-                reloadOnSearch: false,
                 templateUrl: 'adminApp/Views/Sites.html',
                 controller: 'SitesController as ctrl'
+            })
+            .when('/layouts', {
+                templateUrl: 'adminApp/Views/Layouts.html',
+                controller: 'LayoutsController as ctrl'
             })
             .otherwise({
                 redirectTo: '/'

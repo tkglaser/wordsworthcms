@@ -1,0 +1,30 @@
+﻿ <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Layouts
+        <small>Alle Layouts des CMS</small>
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Layouts</h3>
+            <button class="btn btn-success btn-xs" ng-click="ctrl.newLayout()"><i class="fa fa-plus"></i> Neues Layout</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="layout in ctrl.layouts">
+                <td>{{layout.name}}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" ng-click="ctrl.editLayout(layout)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                    <button class="btn btn-danger btn-sm" ng-click="ctrl.deleteLayout(layout)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                </td>
+            </tr>
+        </table>
+    </div><!-- /.box -->
+</section><!-- /.content -->
