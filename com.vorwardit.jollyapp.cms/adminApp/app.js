@@ -29,6 +29,10 @@
                 templateUrl: 'adminApp/Views/PageLayouts.html',
                 controller: 'PageLayoutsController as ctrl'
             })
+            .when('/pages', {
+                templateUrl: 'adminApp/Views/Pages.html',
+                controller: 'PagesController as ctrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

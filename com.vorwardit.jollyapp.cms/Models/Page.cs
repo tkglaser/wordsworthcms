@@ -24,5 +24,7 @@ namespace com.vorwardit.jollyapp.cms.Models
         public string Name { get; set; }
 
         public virtual ICollection<PageVersion> Versions { get; set; }
+
+        public virtual ICollection<PageUrl> Urls { get; set; }
     }
 }

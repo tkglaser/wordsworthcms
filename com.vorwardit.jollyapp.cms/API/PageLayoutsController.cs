@@ -52,7 +52,7 @@ namespace com.vorwardit.jollyapp.cms.API
             }
             else
             {
-                pageLayout = await db.PageLayouts.FindAsync(model.LayoutId);
+                pageLayout = await db.PageLayouts.FindAsync(model.PageLayoutId);
             }
             pageLayout.LayoutId = model.LayoutId;
             pageLayout.Name = model.Name;

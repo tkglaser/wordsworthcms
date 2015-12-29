@@ -5,9 +5,9 @@
         .module('app')
         .directive('loading', LoadingDirective);
 
-    LoadingDirective.$inject = ['$http', '$window'];
+    LoadingDirective.$inject = ['$http', '$window', '$timeout'];
     
-    function LoadingDirective ($http, $window) {
+    function LoadingDirective($http, $window, $timeout) {
         var directive = {
             link: link,
             restrict: 'A'
@@ -19,10 +19,18 @@
                 return $http.pendingRequests.length > 0;
             };
 
+            scope.timer = null;
+
             scope.$watch(scope.isLoading, function (v) {
                 if (v) {
-                    element.fadeIn();
+                    scope.timer = $timeout(function () {
+                        element.fadeIn();
+                        scope.timer = null;
+                    }, 300);
                 } else {
+                    if (scope.timer != null) {
+                        $timeout.cancel(scope.timer);
+                    }
                     element.fadeOut();
                 }
             });
