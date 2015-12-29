@@ -173,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\LayoutsController.cs" />
+    <Compile Include="API\PageLayoutsController.cs" />
     <Compile Include="API\SitesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -219,13 +220,16 @@
   <ItemGroup>
     <Content Include="adminApp\app.js" />
     <Content Include="adminApp\Controllers\LayoutsController.js" />
+    <Content Include="adminApp\Controllers\PageLayoutsController.js" />
     <Content Include="adminApp\Controllers\WelcomeController.js" />
     <Content Include="adminApp\Controllers\SitesController.js" />
     <Content Include="adminApp\Directives\ActiveLinkDirective.js" />
     <Content Include="adminApp\Directives\LoadingDirective.js" />
     <Content Include="adminApp\Factories\LayoutsFactory.js" />
+    <Content Include="adminApp\Factories\PageLayoutsFactory.js" />
     <Content Include="adminApp\Factories\SitesFactory.js" />
     <Content Include="adminApp\Views\Layouts.html" />
+    <Content Include="adminApp\Views\PageLayouts.html" />
     <Content Include="adminApp\Views\Sites.html" />
     <Content Include="adminApp\Views\Welcome.html" />
     <Content Include="app\app.js" />

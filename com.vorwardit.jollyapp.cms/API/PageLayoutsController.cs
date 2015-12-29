@@ -11,7 +11,7 @@ using System.Web.Http;
 namespace com.vorwardit.jollyapp.cms.API
 {
     [RoutePrefix("/api/layouts")]
-    public class LayoutsController : ApiController
+    public class PageLayoutsController : ApiController
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
@@ -26,35 +26,37 @@ namespace com.vorwardit.jollyapp.cms.API
         {
             if (noBody)
             {
-                return Ok(from l in db.Layouts
+                return Ok(from l in db.PageLayouts
                           select new
                           {
+                              l.PageLayoutId,
                               l.LayoutId,
                               l.Name
                           });
             }
             else
             {
-                return Ok(await db.Layouts.ToListAsync());
+                return Ok(await db.PageLayouts.ToListAsync());
             }
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Layout model)
+        public async Task<IHttpActionResult> Post(PageLayout model)
         {
-            Layout layout;
-            if (model.LayoutId == Guid.Empty)
+            PageLayout pageLayout;
+            if (model.PageLayoutId == Guid.Empty)
             {
-                layout = new Layout();
-                layout.LayoutId = Guid.NewGuid();
-                db.Layouts.Add(layout);
+                pageLayout = new PageLayout();
+                pageLayout.PageLayoutId = Guid.NewGuid();
+                db.PageLayouts.Add(pageLayout);
             }
             else
             {
-                layout = await db.Layouts.FindAsync(model.LayoutId);
+                pageLayout = await db.PageLayouts.FindAsync(model.LayoutId);
             }
-            layout.Name = model.Name;
-            layout.Body = model.Body;
+            pageLayout.LayoutId = model.LayoutId;
+            pageLayout.Name = model.Name;
+            pageLayout.Body = model.Body;
             await db.SaveChangesAsync();
             return Ok();
         }
@@ -62,10 +64,10 @@ namespace com.vorwardit.jollyapp.cms.API
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            var layout = await db.Layouts.FindAsync(id);
-            if (layout != null)
+            var pageLayout = await db.PageLayouts.FindAsync(id);
+            if (pageLayout != null)
             {
-                db.Layouts.Remove(layout);
+                db.PageLayouts.Remove(pageLayout);
                 await db.SaveChangesAsync();
             }
             return Ok();

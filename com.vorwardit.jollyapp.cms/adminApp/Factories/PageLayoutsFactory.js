@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .factory('LayoutsFactory', LayoutsFactory);
+        .factory('PageLayoutsFactory', PageLayoutsFactory);
 
-    LayoutsFactory.$inject = ['$http'];
+    PageLayoutsFactory.$inject = ['$http'];
 
-    function LayoutsFactory($http) {
+    function PageLayoutsFactory($http) {
         var service = {
             getData: getData,
             update: update,
@@ -18,19 +18,19 @@
 
         function getData(noBody) {
             if (noBody == true) {
-                return $http.get('/api/layouts?noBody=true');
+                return $http.get('/api/pagelayouts?noBody=true');
             }
             else {
-                return $http.get('/api/layouts');
+                return $http.get('/api/pagelayouts');
             }
         }
 
         function update(data) {
-            return $http.post('/api/layouts', data);
+            return $http.post('/api/pagelayouts', data);
         }
 
         function remove(id) {
-            return $http.delete('/api/layouts/' + id);
+            return $http.delete('/api/pagelayouts/' + id);
         }
     }
 })();
