@@ -9,13 +9,23 @@
 
     function LayoutsFactory($http) {
         var service = {
-            getData: getData
+            getData: getData,
+            update: update,
+            remove: remove,
         };
 
         return service;
 
         function getData() {
             return $http.get('/api/layouts');
+        }
+
+        function update(data) {
+            return $http.post('/api/layouts', data);
+        }
+
+        function remove(id) {
+            return $http.delete('/api/layouts/' + id);
         }
     }
 })();

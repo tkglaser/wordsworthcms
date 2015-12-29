@@ -20,5 +20,37 @@ namespace com.vorwardit.jollyapp.cms.API
         {
             return Ok(await db.Layouts.ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> Post(Layout model)
+        {
+            Layout layout;
+            if (model.LayoutId == Guid.Empty)
+            {
+                layout = new Layout();
+                layout.LayoutId = Guid.NewGuid();
+                db.Layouts.Add(layout);
+            }
+            else
+            {
+                layout = await db.Layouts.FindAsync(model.LayoutId);
+            }
+            layout.Name = model.Name;
+            layout.Body = model.Body;
+            await db.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> Delete(Guid id)
+        {
+            var layout = await db.Layouts.FindAsync(id);
+            if (layout != null)
+            {
+                db.Layouts.Remove(layout);
+                await db.SaveChangesAsync();
+            }
+            return Ok();
+        }
     }
 }

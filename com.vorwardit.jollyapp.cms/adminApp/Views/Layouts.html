@@ -11,7 +11,7 @@
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Layouts</h3>
-            <button class="btn btn-success btn-xs" ng-click="ctrl.newLayout()"><i class="fa fa-plus"></i> Neues Layout</button>
+            <button class="btn btn-success btn-xs" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Layout</button>
         </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
@@ -21,10 +21,74 @@
             <tr ng-repeat="layout in ctrl.layouts">
                 <td>{{layout.name}}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="ctrl.editLayout(layout)"><i class="fa fa-edit"></i> Bearbeiten</button>
-                    <button class="btn btn-danger btn-sm" ng-click="ctrl.deleteLayout(layout)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                    <button class="btn btn-primary btn-sm" ng-click="ctrl.edit(layout)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                    <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(layout)"><i class="fa fa-remove"></i> L&ouml;schen</button>
                 </td>
             </tr>
         </table>
     </div><!-- /.box -->
 </section><!-- /.content -->
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{ctrl.modalHeading}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Name</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control" ng-model="ctrl.layout.name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">HTML</label>
+                        <div class="col-sm-11">
+                            <textarea rows="20" type="text" class="form-control" ng-model="ctrl.layout.body" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="alert alert-danger alert-dismissible" style="display:none" id="saveError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
+                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Layout L&ouml;schen?</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Soll die Site <strong>{{ctrl.layout.name}}</strong> wirklich gel&ouml;scht werden?</p>
+
+                <div class="alert alert-danger alert-dismissible" style="display:none" id="deleteError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
+                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+            </div>
+        </div>
+    </div>
+</div>
