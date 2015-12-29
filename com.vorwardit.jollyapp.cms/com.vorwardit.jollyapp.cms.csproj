@@ -175,6 +175,7 @@
     <Compile Include="API\LayoutsController.cs" />
     <Compile Include="API\PagesController.cs" />
     <Compile Include="API\PageLayoutsController.cs" />
+    <Compile Include="API\PageVersionsController.cs" />
     <Compile Include="API\SitesController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

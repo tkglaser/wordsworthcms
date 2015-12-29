@@ -29,8 +29,11 @@
                     <p ng-repeat="url in page.urls">{{url.url}}</p>
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm" ng-click="ctrl.edit(page)"><i class="fa fa-edit"></i> Bearbeiten</button>
-                    <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(page)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-sm" ng-click="ctrl.edit(page)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                        <button class="btn btn-info btn-sm" ng-click="ctrl.editContent(page)"><i class="fa fa-edit"></i> Content</button>
+                        <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(page)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -93,6 +96,50 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
                 <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Content Modal -->
+<div class="modal fade" id="editContentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Content bearbeiten</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Titel</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control" ng-model="ctrl.pageversion.title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Meta</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control" ng-model="ctrl.pageversion.metaDescription" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">HTML</label>
+                        <div class="col-sm-11">
+                            <textarea rows="18" type="text" class="form-control" ng-model="ctrl.pageversion.body" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="alert alert-danger alert-dismissible" style="display:none" id="saveContentError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
+                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.saveVersion()">Speichern</button>
             </div>
         </div>
     </div>

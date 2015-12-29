@@ -11,11 +11,12 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PagesController';
-        vm.modalHeadingNew = 'Neues Layout anlegen';
-        vm.modalHeadingEdit = 'Layout bearbeiten';
+        vm.modalHeadingNew = 'Neue Page anlegen';
+        vm.modalHeadingEdit = 'Page bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
         vm.pages = [];
         vm.page = {};
+        vm.pageversion = {};
 
         vm.pageLayouts = [];
         vm.sites = [];
@@ -54,6 +55,18 @@
             vm.page.urls = angular.copy(page.urls);
             $('#editModal').modal();
         };
+
+        vm.editContent = function (page) {
+            $('#saveContentError').hide();
+            PagesFactory.getVersions(page.pageId).success(function (data) {
+                if (data.length > 0) {
+                    vm.pageversion = data[0];
+                } else {
+                    vm.pageversion = { pageId: page.pageId };
+                }
+                $('#editContentModal').modal();
+            });
+        }
 
         vm.addUrl = function () {
             vm.page.urls.push({ url: '', pageUrlId: -1 });
@@ -94,6 +107,22 @@
             },
             function () {
                 $('#saveError').show();
+            });
+        }
+
+        vm.saveVersion = function () {
+            var data = {
+                PageId: vm.pageversion.pageId,
+                Title: vm.pageversion.title,
+                MetaDescription: vm.pageversion.metaDescription,
+                Body: vm.pageversion.body
+            }
+            PagesFactory.updateVersion(data).then(function () {
+                $('#editContentModal').modal("hide");
+                activate();
+            },
+            function () {
+                $('#saveContentError').show();
             });
         }
     }
