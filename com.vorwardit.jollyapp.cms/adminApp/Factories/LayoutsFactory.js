@@ -11,7 +11,7 @@
         var service = {
             getData: getData,
             update: update,
-            remove: remove,
+            remove: remove
         };
 
         return service;

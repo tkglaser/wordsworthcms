@@ -33,6 +33,10 @@
                 templateUrl: 'adminApp/Views/Pages.html',
                 controller: 'PagesController as ctrl'
             })
+            .when('/assets', {
+                templateUrl: 'adminApp/Views/Assets.html',
+                controller: 'AssetsController as ctrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

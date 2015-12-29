@@ -1,0 +1,86 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Assets
+        <small>Alle Assets des CMS</small>
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-header with-border">
+            <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Asset</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="asset in ctrl.assets">
+                <td><a href="{{asset.uri}}" target="_blank">{{asset.name}}</a></td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(asset)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div><!-- /.box -->
+</section><!-- /.content -->
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Asset hochladen</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Datei</label>
+                        <div class="col-sm-11">
+                            <input type="file" class="form-control" file-model="ctrl.asset.file" />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="alert alert-danger alert-dismissible" style="display:none" id="saveError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
+                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Asset L&ouml;schen?</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Soll die Datei <strong>{{ctrl.asset.name}}</strong> wirklich gel&ouml;scht werden?</p>
+
+                <div class="alert alert-danger alert-dismissible" style="display:none" id="deleteError">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
+                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+            </div>
+        </div>
+    </div>
+</div>

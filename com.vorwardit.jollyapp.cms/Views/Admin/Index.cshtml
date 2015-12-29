@@ -122,6 +122,11 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MAIN NAVIGATION</li>
+                    <li active-link="/assets">
+                        <a href="#/assets">
+                            <i class="fa fa-file"></i> <span>Assets</span>
+                        </a>
+                    </li>
                     <li active-link="/sites">
                         <a href="#/sites">
                             <i class="fa fa-home"></i> <span>Sites</span>
@@ -316,14 +321,17 @@
     <script src="~/adminApp/app.js"></script>
     <script src="~/adminApp/Directives/LoadingDirective.js"></script>
     <script src="~/adminApp/Directives/ActiveLinkDirective.js"></script>
+    <script src="~/adminApp/Directives/FileModelDirective.js"></script>
     <script src="~/adminApp/Factories/SitesFactory.js"></script>
     <script src="~/adminApp/Factories/LayoutsFactory.js"></script>
     <script src="~/adminApp/Factories/PageLayoutsFactory.js"></script>
     <script src="~/adminApp/Factories/PagesFactory.js"></script>
+    <script src="~/adminApp/Factories/AssetsFactory.js"></script>
     <script src="~/adminApp/Controllers/WelcomeController.js"></script>
     <script src="~/adminApp/Controllers/SitesController.js"></script>
     <script src="~/adminApp/Controllers/LayoutsController.js"></script>
     <script src="~/adminApp/Controllers/PageLayoutsController.js"></script>
     <script src="~/adminApp/Controllers/PagesController.js"></script>
+    <script src="~/adminApp/Controllers/AssetsController.js"></script>
 </body>
 </html>
