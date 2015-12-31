@@ -217,7 +217,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Engine\AzureStorageManager.cs" />
+    <Compile Include="Engine\DbCacheDependency.cs" />
     <Compile Include="Engine\DbPathProvider.cs" />
+    <Compile Include="Engine\DbPathProviderSingleton.cs" />
     <Compile Include="Engine\DbVirtualFile.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

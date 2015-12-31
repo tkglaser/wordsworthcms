@@ -15,7 +15,7 @@ namespace com.vorwardit.jollyapp.cms
     {
         protected void Application_Start()
         {
-            HostingEnvironment.RegisterVirtualPathProvider(new DbPathProvider());
+            HostingEnvironment.RegisterVirtualPathProvider(DbPathProviderSingleton.Instance);
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

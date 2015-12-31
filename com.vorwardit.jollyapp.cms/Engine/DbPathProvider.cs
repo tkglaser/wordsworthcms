@@ -13,7 +13,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
-        private Dictionary<Guid, string> ContentCache = new Dictionary<Guid, string>();
+        private List<DbCacheDependency> dependencyCache = new List<DbCacheDependency>();
 
         private bool IsDbDirectory(string virtualPath)
         {
@@ -86,15 +86,29 @@ namespace com.vorwardit.jollyapp.cms.Engine
             return base.GetFile(virtualPath);
         }
 
+        public void InvalidateCache()
+        {
+            var separatearray = dependencyCache.ToArray();
+            foreach(var dependency in separatearray)
+            {
+                dependency.Invalidate();
+            }
+        }
+
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
         {
             if (IsDbDirectory(virtualPath))
             {
-                return null;
+                var dbc = new DbCacheDependency((dependency) => 
+                {
+                    dependencyCache.Remove(dependency);
+                });
+                dependencyCache.Add(dbc);
+                return dbc;
             }
             else
             {
-                return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart);
+                return base.GetCacheDependency(virtualPath, virtualPathDependencies, utcStart); ;
             }
         }
     }

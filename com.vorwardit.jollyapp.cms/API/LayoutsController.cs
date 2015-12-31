@@ -1,4 +1,5 @@
-﻿using com.vorwardit.jollyapp.cms.Models;
+﻿using com.vorwardit.jollyapp.cms.Engine;
+using com.vorwardit.jollyapp.cms.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -57,6 +58,7 @@ namespace com.vorwardit.jollyapp.cms.API
             layout.Name = model.Name;
             layout.Body = model.Body;
             await db.SaveChangesAsync();
+            DbPathProviderSingleton.Instance.InvalidateCache();
             return Ok();
         }
 
