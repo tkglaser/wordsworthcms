@@ -1,8 +1,8 @@
-﻿<!-- Content Header (Page header) -->
+﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Assets
-        <small>Alle Assets des CMS</small>
+        Content
+        <small>Alle Contents des CMS</small>
     </h1>
 </section>
 <!-- Main content -->
@@ -10,19 +10,20 @@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Asset</button>
+            <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neuer Content</button>
         </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
-                <th>Site</th>
-                <th>Url</th>
+                <th>Name</th>
                 <th></th>
             </tr>
-            <tr ng-repeat="asset in ctrl.assets">
-                <td><a href="{{asset.uri}}" target="_blank">{{asset.name}}</a></td>
+            <tr ng-repeat="content in ctrl.contents">
+                <td>{{content.site.name}}</td>
+                <td>{{content.url}}</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(asset)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                        <button class="btn btn-primary btn-sm" ng-click="ctrl.edit(content)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                        <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(content)"><i class="fa fa-remove"></i> L&ouml;schen</button>
                     </div>
                 </td>
             </tr>
@@ -35,14 +36,28 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Asset hochladen</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ctrl.modalHeading}}</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Datei</label>
+                        <label class="col-sm-1 control-label">Site</label>
                         <div class="col-sm-11">
-                            <input type="file" class="form-control" file-model="ctrl.asset.file" />
+                            <select class="form-control" ng-model="ctrl.content.siteId">
+                                <option ng-repeat="site in ctrl.sites" value="{{site.siteId}}">{{site.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Url</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control" ng-model="ctrl.content.url" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">Text</label>
+                        <div class="col-sm-11">
+                            <textarea rows="19" type="text" class="form-control" ng-model="ctrl.content.body" />
                         </div>
                     </div>
                 </form>
@@ -61,16 +76,17 @@
     </div>
 </div>
 
+
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Asset L&ouml;schen?</h4>
+                <h4 class="modal-title" id="myModalLabel">Layout L&ouml;schen?</h4>
             </div>
             <div class="modal-body">
-                <p class="text-danger">Soll die Datei <strong>{{ctrl.asset.name}}</strong> wirklich gel&ouml;scht werden?</p>
+                <p class="text-danger">Soll die Site <strong>{{ctrl.layout.name}}</strong> wirklich gel&ouml;scht werden?</p>
 
                 <div class="alert alert-danger alert-dismissible" style="display:none" id="deleteError">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

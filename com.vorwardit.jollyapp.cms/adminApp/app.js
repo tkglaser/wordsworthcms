@@ -37,6 +37,10 @@
                 templateUrl: 'adminApp/Views/Assets.html',
                 controller: 'AssetsController as ctrl'
             })
+            .when('/content', {
+                templateUrl: 'adminApp/Views/Content.html',
+                controller: 'ContentController as ctrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

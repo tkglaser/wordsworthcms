@@ -198,6 +198,7 @@
   <ItemGroup>
     <Compile Include="API\AssetsController.cs" />
     <Compile Include="API\AssetsUploadController.cs" />
+    <Compile Include="API\ContentController.cs" />
     <Compile Include="API\LayoutsController.cs" />
     <Compile Include="API\PagesController.cs" />
     <Compile Include="API\PageLayoutsController.cs" />
@@ -233,8 +234,13 @@
     <Compile Include="Migrations\201512281141435_VersionsData.Designer.cs">
       <DependentUpon>201512281141435_VersionsData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201512310947492_MigContent.cs" />
+    <Compile Include="Migrations\201512310947492_MigContent.Designer.cs">
+      <DependentUpon>201512310947492_MigContent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Content.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Layout.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -249,6 +255,7 @@
   <ItemGroup>
     <Content Include="adminApp\app.js" />
     <Content Include="adminApp\Controllers\AssetsController.js" />
+    <Content Include="adminApp\Controllers\ContentController.js" />
     <Content Include="adminApp\Controllers\LayoutsController.js" />
     <Content Include="adminApp\Controllers\PageLayoutsController.js" />
     <Content Include="adminApp\Controllers\PagesController.js" />
@@ -258,11 +265,13 @@
     <Content Include="adminApp\Directives\FileModelDirective.js" />
     <Content Include="adminApp\Directives\LoadingDirective.js" />
     <Content Include="adminApp\Factories\AssetsFactory.js" />
+    <Content Include="adminApp\Factories\ContentFactory.js" />
     <Content Include="adminApp\Factories\LayoutsFactory.js" />
     <Content Include="adminApp\Factories\PageLayoutsFactory.js" />
     <Content Include="adminApp\Factories\PagesFactory.js" />
     <Content Include="adminApp\Factories\SitesFactory.js" />
     <Content Include="adminApp\Views\Assets.html" />
+    <Content Include="adminApp\Views\Content.html" />
     <Content Include="adminApp\Views\Layouts.html" />
     <Content Include="adminApp\Views\PageLayouts.html" />
     <Content Include="adminApp\Views\Pages.html" />
@@ -1329,6 +1338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512281141435_VersionsData.resx">
       <DependentUpon>201512281141435_VersionsData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512310947492_MigContent.resx">
+      <DependentUpon>201512310947492_MigContent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

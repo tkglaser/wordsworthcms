@@ -36,5 +36,6 @@ namespace com.vorwardit.jollyapp.cms.Models
         public DbSet<Page> Pages { get; set; }
         public DbSet<PageUrl> PageUrls { get; set; }
         public DbSet<PageVersion> PageVersions { get; set; }
+        public DbSet<Content> Contents { get; set; }
     }
 }
