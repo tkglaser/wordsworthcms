@@ -18,7 +18,7 @@ namespace com.vorwardit.jollyapp.cms.API
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            var pages = await db.Pages.Include("Site").Include("PageLayout").AsNoTracking().ToListAsync();
+            var pages = await db.Pages.OrderBy(p => p.Name).Include("Site").Include("PageLayout").AsNoTracking().ToListAsync();
 
             // remove recursive backlinks so it can serialise
             foreach(var page in pages)

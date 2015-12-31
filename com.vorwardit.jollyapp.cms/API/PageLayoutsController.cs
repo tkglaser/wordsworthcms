@@ -27,6 +27,7 @@ namespace com.vorwardit.jollyapp.cms.API
             if (noBody)
             {
                 return Ok(from l in db.PageLayouts
+                          orderby l.Name
                           select new
                           {
                               l.PageLayoutId,
@@ -36,7 +37,7 @@ namespace com.vorwardit.jollyapp.cms.API
             }
             else
             {
-                return Ok(await db.PageLayouts.ToListAsync());
+                return Ok(await db.PageLayouts.OrderBy(l => l.Name).ToListAsync());
             }
         }
 

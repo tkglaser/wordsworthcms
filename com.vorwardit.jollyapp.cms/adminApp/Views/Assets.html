@@ -14,12 +14,17 @@
         </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
-                <th>Site</th>
-                <th>Url</th>
+                <th style="width:170px"></th>
+                <th>Name</th>
                 <th></th>
             </tr>
             <tr ng-repeat="asset in ctrl.assets">
-                <td><a href="{{asset.uri}}" target="_blank">{{asset.name}}</a></td>
+                <td style="text-align:center">
+                    <img ng-if="!asset.uri.endsWith('.pdf')" ng-src="{{asset.uri}}" style="max-height:50px;max-width:150px" />
+                </td>
+                <td>
+                    <a href="{{asset.uri}}" target="_blank">{{asset.name}}</a>
+                </td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-danger btn-sm" ng-click="ctrl.delete(asset)"><i class="fa fa-remove"></i> L&ouml;schen</button>
