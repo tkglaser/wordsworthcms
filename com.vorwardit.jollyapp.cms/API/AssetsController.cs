@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.jollyapp.cms.API
 {
-    [RoutePrefix("/api/assets")]
+    [RoutePrefix("api/assets")]
     public class AssetsController : ApiController
     {
         AzureStorageManager storage = new AzureStorageManager();

@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.jollyapp.cms.API
 {
-    [RoutePrefix("/api/content")]
+    [RoutePrefix("api/content")]
     public class ContentController : ApiController
     {
         public ApplicationDbContext db = new ApplicationDbContext();

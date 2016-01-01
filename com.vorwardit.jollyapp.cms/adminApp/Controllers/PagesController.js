@@ -16,6 +16,7 @@
         vm.modalHeading = vm.modalHeadingEdit;
         vm.pages = [];
         vm.page = {};
+        vm.pageversions = [];
         vm.pageversion = {};
 
         vm.pageLayouts = [];
@@ -65,6 +66,26 @@
                     vm.pageversion = { pageId: page.pageId };
                 }
                 $('#editContentModal').modal();
+            });
+        }
+
+        vm.showVersions = function (page) {
+            $('#publishError').hide();
+            vm.page = page;
+            PagesFactory.getVersions(page.pageId).success(function (data) {
+                vm.pageversions = data;
+                $('#publishModal').modal();
+            });
+        }
+
+        vm.publish = function (versionId) {
+            PagesFactory.publish(versionId).then(function () {
+                PagesFactory.getVersions(vm.page.pageId).success(function (data) {
+                    vm.pageversions = data;
+                });
+            },
+            function () {
+                $('#publishError').show();
             });
         }
 

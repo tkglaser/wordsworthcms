@@ -12,6 +12,7 @@
             getData: getData,
             getVersions: getVersions,
             update: update,
+            publish: publish,
             updateVersion: updateVersion,
             remove: remove,
         };
@@ -37,6 +38,10 @@
 
         function updateVersion(data) {
             return $http.post('/api/pageversions', data);
+        }
+
+        function publish(versionId) {
+            return $http.post('/api/pageversions/publish?versionId=' + versionId);
         }
 
         function remove(id) {

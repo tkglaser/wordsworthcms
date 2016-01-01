@@ -11,7 +11,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.jollyapp.cms.API
 {
-    [RoutePrefix("/api/pageversions")]
+    [RoutePrefix("api/pageversions")]
     public class PageVersionsController : ApiController
     {
         public ApplicationDbContext db = new ApplicationDbContext();
@@ -25,6 +25,28 @@ namespace com.vorwardit.jollyapp.cms.API
                                select pv).ToListAsync();
 
             return Ok(pages);
+        }
+
+        [HttpPost]
+        [Route("publish")]
+        public async Task<IHttpActionResult> Post(Guid versionId)
+        {
+            var page = await (from v in db.PageVersions
+                              where v.PageVersionId == versionId
+                              select v.Page).SingleOrDefaultAsync();
+            foreach(var v in page.Versions)
+            {
+                if (v.PageVersionId == versionId)
+                {
+                    v.Status = PageVersionStatus.Published;
+                }
+                else
+                {
+                    v.Status = PageVersionStatus.Draft;
+                }
+            }
+            await db.SaveChangesAsync();
+            return Ok();
         }
 
         [HttpPost]

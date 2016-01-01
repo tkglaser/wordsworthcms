@@ -11,7 +11,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.jollyapp.cms.API
 {
-    [RoutePrefix("/api/layouts")]
+    [RoutePrefix("api/layouts")]
     public class PageLayoutsController : ApiController
     {
         public ApplicationDbContext db = new ApplicationDbContext();
