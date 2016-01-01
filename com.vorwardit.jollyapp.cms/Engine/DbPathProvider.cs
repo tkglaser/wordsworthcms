@@ -72,7 +72,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                     {
                         content += "@Html.Action(\"Index\",\"PageEditor\")";
                     }
-                    content += pageVersion.Body;
+                    //content += pageVersion.Body;
                     return new DbVirtualFile(virtualPath, content);
                 }
 
@@ -113,6 +113,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
             {
                 dependency.Invalidate();
             }
+            db = new ApplicationDbContext();
         }
 
         public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)

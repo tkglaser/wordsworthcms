@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +12,13 @@ namespace com.vorwardit.jollyapp.cms.Models
     {
         Draft = 0,
         Published = 1
+    }
+
+    public class PageModule
+    {
+        public string Position { get; set; }
+        public string Type { get; set; }
+        public dynamic Data { get; set; }
     }
 
     public class PageVersion
@@ -33,5 +41,25 @@ namespace com.vorwardit.jollyapp.cms.Models
         public PageVersionStatus Status { get; set; }
 
         public string Body { get; set; }
+
+        [NotMapped]
+        public List<PageModule> ModuleData
+        {
+            get
+            {
+                try
+                {
+                    return JsonConvert.DeserializeObject<List<PageModule>>(Body);
+                }
+                catch
+                {
+                    return new List<PageModule>();
+                }
+            }
+            set
+            {
+                Body = JsonConvert.SerializeObject(value);
+            }
+        }
     }
 }
