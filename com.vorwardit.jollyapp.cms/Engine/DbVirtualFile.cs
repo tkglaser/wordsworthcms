@@ -19,7 +19,13 @@ namespace com.vorwardit.jollyapp.cms.Engine
 
         public override Stream Open()
         {
-            return new MemoryStream(Encoding.UTF8.GetBytes(content));
+            var template = Encoding.UTF8
+                .GetBytes(this.content);
+            var buffer = Encoding.UTF8
+                .GetPreamble()
+                .Concat(template)
+                .ToArray();
+            return new MemoryStream(buffer);
         }
     }
 }

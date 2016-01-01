@@ -52,9 +52,8 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageVersion != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";}}";
+                    content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";ViewBag.Title=\"{pageVersion.Title}\";ViewBag.MetaDescription=\"{pageVersion.MetaDescription}\";}}";
                     content += pageVersion.Body;
-
                     return new DbVirtualFile(virtualPath, content);
                 }
 
