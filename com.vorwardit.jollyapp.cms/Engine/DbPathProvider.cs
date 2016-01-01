@@ -20,9 +20,14 @@ namespace com.vorwardit.jollyapp.cms.Engine
             return virtualPath.StartsWith("/db/");
         }
 
+        private bool IsEditMode(string virtualPath)
+        {
+            return virtualPath.Contains("/edit/");
+        }
+
         private Guid? GetViewGuid(string virtualPath)
         {
-            var guidStr = virtualPath.Replace("/db/", "").Replace(".cshtml", "");
+            var guidStr = virtualPath.Replace("/db/", "").Replace("edit/", "").Replace(".cshtml", "");
             Guid id;
             if (Guid.TryParse(guidStr, out id))
             {
@@ -52,7 +57,21 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageVersion != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";ViewBag.Title=\"{pageVersion.Title}\";ViewBag.MetaDescription=\"{pageVersion.MetaDescription}\";}}";
+                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
+                    content += "@using System.Web.Mvc.Html;";
+                    content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";" +
+                        $"ViewBag.PageVersionId=\"{pageVersion.PageVersionId}\";" +
+                        $"ViewBag.Title=\"{pageVersion.Title}\";" +
+                        $"ViewBag.MetaDescription=\"{pageVersion.MetaDescription}\";";
+                    if (IsEditMode(virtualPath))
+                    {
+                        content += "ViewBag.EditMode=true;";
+                    }
+                    content += "}";
+                    if (IsEditMode(virtualPath))
+                    {
+                        content += "@Html.Action(\"Index\",\"PageEditor\")";
+                    }
                     content += pageVersion.Body;
                     return new DbVirtualFile(virtualPath, content);
                 }
@@ -64,6 +83,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageLayout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
+                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
                     content += $"@{{Layout=\"/db/{pageLayout.LayoutId}.cshtml\";}}";
                     content += pageLayout.Body;
 
@@ -77,6 +97,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (layout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
+                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
                     content += layout.Body;
 
                     return new DbVirtualFile(virtualPath, content);

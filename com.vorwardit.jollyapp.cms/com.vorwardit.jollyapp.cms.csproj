@@ -216,6 +216,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\PageEditorController.cs" />
     <Compile Include="Engine\AzureStorageManager.cs" />
     <Compile Include="Engine\DbCacheDependency.cs" />
     <Compile Include="Engine\DbPathProvider.cs" />
@@ -251,6 +252,10 @@
     <Compile Include="Models\PageUrl.cs" />
     <Compile Include="Models\PageVersion.cs" />
     <Compile Include="Models\Site.cs" />
+    <Compile Include="Modules\ModuleAttribute.cs" />
+    <Compile Include="Modules\ModuleHelper.cs" />
+    <Compile Include="Modules\ModuleParameterAttribute.cs" />
+    <Compile Include="Modules\TopBannerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -1318,6 +1323,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\TopBanner\Index.cshtml" />
+    <Content Include="Views\PageEditor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

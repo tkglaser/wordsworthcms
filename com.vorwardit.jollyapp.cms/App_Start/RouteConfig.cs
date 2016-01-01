@@ -20,6 +20,18 @@ namespace com.vorwardit.jollyapp.cms
             );
 
             routes.MapRoute(
+                name: "Preview",
+                url: "preview/{id}",
+                defaults: new { controller = "Page", action = "Preview" }
+            );
+
+            routes.MapRoute(
+                name: "Edit",
+                url: "edit/{id}",
+                defaults: new { controller = "Page", action = "Edit" }
+            );
+
+            routes.MapRoute(
                 name: "CmsContent",
                 url: "{*pathinfo}",
                 defaults: new { controller = "Page", action = "Index" }

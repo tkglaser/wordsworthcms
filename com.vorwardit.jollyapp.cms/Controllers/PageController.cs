@@ -14,15 +14,6 @@ namespace com.vorwardit.jollyapp.cms.Controllers
         public async Task<ActionResult> Index(string pathinfo)
         {
             var path = "/" + pathinfo;
-            if (path.StartsWith("/preview/"))
-            {
-                var guidStr = path.Replace("/preview/", "");
-                Guid versionId;
-                if (Guid.TryParse(guidStr, out versionId))
-                {
-                    return await getPreview(versionId);
-                }
-            }
 
             var page = await (from url in db.PageUrls
                               where url.Url == path
@@ -43,15 +34,24 @@ namespace com.vorwardit.jollyapp.cms.Controllers
             return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
         }
 
-        [NonAction]
-        private async Task<ActionResult> getPreview(Guid versionId)
+        public async Task<ActionResult> Preview(Guid id)
         {
-            var pageversion = await db.PageVersions.FindAsync(versionId);
+            var pageversion = await db.PageVersions.FindAsync(id);
             if (pageversion == null)
             {
                 return HttpNotFound();
             }
             return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
+        }
+
+        public async Task<ActionResult> Edit(Guid id)
+        {
+            var pageversion = await db.PageVersions.FindAsync(id);
+            if (pageversion == null)
+            {
+                return HttpNotFound();
+            }
+            return View($"/db/edit/{pageversion.PageVersionId.ToString()}.cshtml");
         }
 
         [NonAction]
