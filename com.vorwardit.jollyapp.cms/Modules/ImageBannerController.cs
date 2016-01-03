@@ -30,7 +30,7 @@ namespace com.vorwardit.jollyapp.cms.Modules
                 model.Heading = moduledata.Data.Heading;
                 model.SubHeading = moduledata.Data.SubHeading;
             }
-            return PartialView(model);
+            return PartialView("~/Views/ImageBanner/Index.cshtml", model);
         }
     }
 }

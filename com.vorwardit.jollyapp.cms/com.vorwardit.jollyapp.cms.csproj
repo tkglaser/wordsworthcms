@@ -215,8 +215,8 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\PageController.cs" />
-    <Compile Include="Controllers\PageEditorController.cs" />
     <Compile Include="Engine\AzureStorageManager.cs" />
     <Compile Include="Engine\DbCacheDependency.cs" />
     <Compile Include="Engine\DbPathProvider.cs" />
@@ -1324,7 +1324,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\ImageBanner\Index.cshtml" />
-    <Content Include="Views\PageEditor\Index.cshtml" />
+    <Content Include="Views\Module\PageEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

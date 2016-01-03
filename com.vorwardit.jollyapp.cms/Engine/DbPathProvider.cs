@@ -70,7 +70,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                     content += "}";
                     if (IsEditMode(virtualPath))
                     {
-                        content += "@Html.Action(\"Index\",\"PageEditor\")";
+                        content += $"@Html.Action(\"PageEditor\",\"Module\", new {{ pageVersionId=\"{id.ToString()}\" }})";
                     }
                     //content += pageVersion.Body;
                     return new DbVirtualFile(virtualPath, content);
