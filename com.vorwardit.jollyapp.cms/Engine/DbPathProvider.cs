@@ -57,7 +57,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageVersion != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
+                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
                     content += "@using System.Web.Mvc.Html;";
                     content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";" +
                         $"ViewBag.PageVersionId=\"{pageVersion.PageVersionId}\";" +
@@ -83,7 +83,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageLayout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
+                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
                     content += $"@{{Layout=\"/db/{pageLayout.LayoutId}.cshtml\";}}";
                     content += pageLayout.Body;
 
@@ -97,7 +97,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (layout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules;";
+                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
                     content += layout.Body;
 
                     return new DbVirtualFile(virtualPath, content);

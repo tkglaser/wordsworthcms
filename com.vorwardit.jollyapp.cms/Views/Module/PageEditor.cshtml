@@ -46,6 +46,9 @@
     .cmsEditButton:active {
 	    top:1px;
     }
+    [data-editor] {
+        z-index:10000;
+    }
 </style>
 <script>
     $(document).ready(function(){
@@ -76,8 +79,34 @@
             var editor = module.find($('[data-editor]'));
             var content = module.find($('[data-content]'));
 
-            editor.html("<strong>todo</strong>");
-            content.load('/module/editmodule?pageVersionId=' + pageVersionId + '&position=' + position);
+            editor.html("");
+            content.load('/module/editmoduletype?pageVersionId=' + pageVersionId + '&position=' + position);
+        });
+
+        $(document).on('click', '.cmsTypeSaveButton', function(){
+            var form = $(this).closest($('form'));
+            var module = $(this).closest('[data-module]');
+            var position = module.attr('data-position');
+            var editor = module.find($('[data-editor]'));
+            var content = module.find($('[data-content]'));
+
+            $.post(form.attr('action'), form.serialize(), function(){
+                editor.html("");
+                content.load('/module/editmodulesettings?pageVersionId=' + pageVersionId + '&position=' + position);
+            });
+        });
+
+        $(document).on('click', '.cmsTypeSaveSettingsButton', function(){
+            var form = $(this).closest($('form'));
+            var module = $(this).closest('[data-module]');
+            var position = module.attr('data-position');
+            var editor = module.find($('[data-editor]'));
+            var content = module.find($('[data-content]'));
+
+            $.post(form.attr('action'), form.serialize(), function(){
+                editor.html("");
+                content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
+            });
         });
     });
 </script>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace com.vorwardit.jollyapp.cms.Modules
+namespace com.vorwardit.jollyapp.cms.Modules.Core
 {
     public class ModuleAttribute : Attribute
     {
@@ -13,5 +13,5 @@ namespace com.vorwardit.jollyapp.cms.Modules
         {
             this.Friendlyname = friendlyName;
         }
-    }
+	}
 }

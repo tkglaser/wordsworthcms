@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace com.vorwardit.jollyapp.cms.Modules
+namespace com.vorwardit.jollyapp.cms.Modules.Core
 {
     public static class ModuleHelper
     {
@@ -15,7 +15,6 @@ namespace com.vorwardit.jollyapp.cms.Modules
             if (helper.ViewBag.EditMode == true)
             {
                 return MvcHtmlString.Create($"<div data-module data-position='{position}'><div data-editor></div><div data-content></div></div>");
-                    //"<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
             }
 
             return helper.Action("RenderModule", "Module", new

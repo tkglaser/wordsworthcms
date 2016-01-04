@@ -252,12 +252,15 @@
     <Compile Include="Models\PageUrl.cs" />
     <Compile Include="Models\PageVersion.cs" />
     <Compile Include="Models\Site.cs" />
-    <Compile Include="Modules\ModuleAttribute.cs" />
-    <Compile Include="Modules\ModuleHelper.cs" />
-    <Compile Include="Modules\ModuleParameterAttribute.cs" />
+    <Compile Include="Modules\ContentController.cs" />
+    <Compile Include="Modules\Core\ModuleFinder.cs" />
+    <Compile Include="Modules\Core\IModule.cs" />
+    <Compile Include="Modules\Core\ModuleAttribute.cs" />
+    <Compile Include="Modules\Core\ModuleHelper.cs" />
     <Compile Include="Modules\ImageBannerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\EditModuleModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="adminApp\app.js" />
@@ -1327,6 +1330,9 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\ImageBanner\Index.cshtml" />
     <Content Include="Views\Module\PageEditor.cshtml" />
+    <Content Include="Views\Module\EditModuleType.cshtml" />
+    <Content Include="Views\ImageBanner\Edit.cshtml" />
+    <Content Include="Views\Content\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
