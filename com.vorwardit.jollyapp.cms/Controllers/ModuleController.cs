@@ -12,7 +12,6 @@ namespace com.vorwardit.jollyapp.cms.Controllers
         public ActionResult RenderModule(Guid pageVersionId, string position)
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
-            MvcHtmlString actionresult = MvcHtmlString.Create("");
             var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
             if (moduledata != null)
             {
@@ -37,6 +36,15 @@ namespace com.vorwardit.jollyapp.cms.Controllers
 
 			return PartialView();
         }
+
+		[AcceptVerbs(HttpVerbs.Get)]
+		public ActionResult GetModuleData(Guid pageVersionId, string position)
+		{
+			var pageVersion = db.PageVersions.Find(pageVersionId);
+			//var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
+			//return Json(pageVersion.Body, JsonRequestBehavior.AllowGet);
+			return Content(pageVersion.Body, "application/json");
+		}
 
 		public ActionResult EditModule(Guid pageVersionId, string position)
 		{

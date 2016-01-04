@@ -50,6 +50,17 @@
 <script>
     $(document).ready(function(){
         var pageVersionId = '@ViewBag.PageVersionId';
+        var siteData = {}
+        $.ajax({
+            method: 'GET',
+            url: '/module/getmoduledata?pageVersionId=' + pageVersionId,
+            success: function(data){
+                siteData = data;
+            },
+            error:function(x,t,e){
+            }
+        });
+
         $('[data-module]').each(function(){
             var position = $(this).attr('data-position');
             var editor = $(this).find($('[data-editor]'));
