@@ -47,3 +47,26 @@
 	    top:1px;
     }
 </style>
+<script>
+    $(document).ready(function(){
+        var pageVersionId = '@ViewBag.PageVersionId';
+        $('[data-module]').each(function(){
+            var position = $(this).attr('data-position');
+            var editor = $(this).find($('[data-editor]'));
+            var content = $(this).find($('[data-content]'));
+
+            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
+            content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
+        });
+
+        $('.cmsEditButton').on('click', function(){
+            var module = $(this).closest('[data-module]');
+            var position = module.attr('data-position');
+            var editor = module.find($('[data-editor]'));
+            var content = module.find($('[data-content]'));
+
+            editor.html("<strong>todo</strong>");
+            content.load('/module/editmodule?pageVersionId=' + pageVersionId + '&position=' + position);
+        });
+    });
+</script>

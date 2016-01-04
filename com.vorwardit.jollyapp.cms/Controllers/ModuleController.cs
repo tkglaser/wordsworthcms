@@ -33,7 +33,14 @@ namespace com.vorwardit.jollyapp.cms.Controllers
 
         public ActionResult PageEditor(Guid pageVersionId)
         {
-            return PartialView();
+			ViewBag.PageVersionId = pageVersionId;
+
+			return PartialView();
         }
-    }
+
+		public ActionResult EditModule(Guid pageVersionId, string position)
+		{
+			return Content("Editor");
+		}
+	}
 }

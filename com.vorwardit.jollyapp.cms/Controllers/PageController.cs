@@ -13,6 +13,11 @@ namespace com.vorwardit.jollyapp.cms.Controllers
         // GET: Page
         public async Task<ActionResult> Index(string pathinfo)
         {
+			if (CurrentSite == null)
+			{
+				return HttpNotFound();
+			}
+
             var path = "/" + pathinfo;
 
             var page = await (from url in db.PageUrls
