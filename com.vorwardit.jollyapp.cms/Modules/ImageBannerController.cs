@@ -25,51 +25,24 @@ namespace com.vorwardit.jollyapp.cms.Modules
         public ActionResult Index(Guid pageVersionId, string position)
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			var model = new ImageBannerModel();
-
-			try
-			{
-				model.Heading = md.Data.Heading;
-				model.SubHeading = md.Data.SubHeading;
-				model.Image = md.Data.Image;
-			}
-			catch
-			{
-
-			}
-
-			return PartialView("~/Views/ImageBanner/Index.cshtml", model);
+			var md = pageVersion.GetModule<ImageBannerModel>(position);
+			return PartialView("~/Views/ImageBanner/Index.cshtml", md.Data);
         }
 
 		public ActionResult Edit(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			var model = new ImageBannerModel();
-			try
-			{
-				model.Heading = md.Data.Heading;
-				model.SubHeading = md.Data.SubHeading;
-				model.Image = md.Data.Image;
-			}
-			catch
-			{
-
-			}
-			return PartialView("~/Views/ImageBanner/Edit.cshtml", model);
+			var md = pageVersion.GetModule<ImageBannerModel>(position);
+			return PartialView("~/Views/ImageBanner/Edit.cshtml", md.Data);
 		}
 
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			md.Data = new ImageBannerModel
-			{
-				Heading = form["Heading"],
-				SubHeading = form["SubHeading"],
-				Image = form["Image"]
-			};
+			var md = pageVersion.GetModule<ImageBannerModel>(position);
+			md.Data.Heading = form["Heading"];
+			md.Data.SubHeading = form["SubHeading"];
+			md.Data.Image = form["Image"];
 			pageVersion.SetModule(position, md);
 			db.SaveChanges();
 			return Content("ok");

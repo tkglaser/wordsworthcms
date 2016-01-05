@@ -26,46 +26,23 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Index(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			var model = new ContentModel();
-			if (md != null)
-			{
-				try
-				{
-					model.Content = md.Data.Content;
-				}
-				catch
-				{ }
-			}
-			return Content(model.Content, "text/html");
+			var md = pageVersion.GetModule<ContentModel>(position);
+			return Content(md.Data.Content, "text/html");
 		}
 
 		public ActionResult Edit(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			var model = new ContentModel();
-			if (md != null)
-			{
-				try
-				{
-					model.Content = md.Data.Content;
-				}
-				catch
-				{ }
-			}
-			return PartialView("~/Views/Content/Edit.cshtml", model);
+			var md = pageVersion.GetModule<ContentModel>(position);
+			return PartialView("~/Views/Content/Edit.cshtml", md.Data);
 		}
 
 		[ValidateInput(false)]
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			md.Data = new ContentModel
-			{
-				Content = form["Content"]
-			};
+			var md = pageVersion.GetModule<ContentModel>(position);
+			md.Data.Content = form["Content"];
 			pageVersion.SetModule(position, md);
 			db.SaveChanges();
 			return Content("ok");
