@@ -14,7 +14,7 @@ namespace com.vorwardit.jollyapp.cms.Modules.Core
         {
             if (helper.ViewBag.EditMode == true)
             {
-                return MvcHtmlString.Create($"<div data-module data-position='{position}'><div data-editor></div><div data-content></div></div>");
+                return MvcHtmlString.Create($"<div data-module data-position='{position}'><div data-content></div><div data-editor></div></div>");
             }
 
             return helper.Action("RenderModule", "Module", new

@@ -135,8 +135,7 @@
             var data = {
                 PageId: vm.pageversion.pageId,
                 Title: vm.pageversion.title,
-                MetaDescription: vm.pageversion.metaDescription,
-                Body: vm.pageversion.body
+                MetaDescription: vm.pageversion.metaDescription
             }
             PagesFactory.updateVersion(data).then(function () {
                 $('#editContentModal').modal("hide");

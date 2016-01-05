@@ -24,25 +24,35 @@ namespace com.vorwardit.jollyapp.cms.Modules
         public ActionResult Index(Guid pageVersionId, string position)
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
-            var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
-            var model = new ImageBannerModel();
-            if (moduledata != null)
-            {
-                model.Heading = moduledata.Data.Heading;
-                model.SubHeading = moduledata.Data.SubHeading;
-            }
-            return PartialView("~/Views/ImageBanner/Index.cshtml", model);
+			var md = pageVersion.GetModule(position);
+			var model = new ImageBannerModel();
+
+			try
+			{
+				model.Heading = md.Data.Heading;
+				model.SubHeading = md.Data.SubHeading;
+			}
+			catch
+			{
+
+			}
+
+			return PartialView("~/Views/ImageBanner/Index.cshtml", model);
         }
 
 		public ActionResult Edit(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
+			var md = pageVersion.GetModule(position);
 			var model = new ImageBannerModel();
-			if (moduledata != null)
+			try
 			{
-				model.Heading = moduledata.Data.Heading;
-				model.SubHeading = moduledata.Data.SubHeading;
+				model.Heading = md.Data.Heading;
+				model.SubHeading = md.Data.SubHeading;
+			}
+			catch
+			{
+
 			}
 			return PartialView("~/Views/ImageBanner/Edit.cshtml", model);
 		}
@@ -50,17 +60,13 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData;
-			if (moduledata != null)
+			var md = pageVersion.GetModule(position);
+			md.Data = new ImageBannerModel
 			{
-				var thisModule = moduledata.FirstOrDefault(md => md.Position == position);
-				if (thisModule != null)
-				{
-					thisModule.Data.Heading = form["Heading"];
-					thisModule.Data.SubHeading = form["SubHeading"];
-					pageVersion.ModuleData = moduledata;
-				}
-			}
+				Heading = form["Heading"],
+				SubHeading = form["SubHeading"]
+			};
+			pageVersion.SetModule(position, md);
 			db.SaveChanges();
 			return Content("ok");
 		}

@@ -26,11 +26,16 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Index(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
+			var md = pageVersion.GetModule(position);
 			var model = new ContentModel();
-			if (moduledata != null)
+			if (md != null)
 			{
-				model.Content = moduledata.Data.Content;
+				try
+				{
+					model.Content = md.Data.Content;
+				}
+				catch
+				{ }
 			}
 			return Content(model.Content, "text/html");
 		}
@@ -38,11 +43,16 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Edit(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
+			var md = pageVersion.GetModule(position);
 			var model = new ContentModel();
-			if (moduledata != null)
+			if (md != null)
 			{
-				model.Content = moduledata.Data.Content;
+				try
+				{
+					model.Content = md.Data.Content;
+				}
+				catch
+				{ }
 			}
 			return PartialView("~/Views/Content/Edit.cshtml", model);
 		}
@@ -50,16 +60,12 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData;
-			if (moduledata != null)
+			var md = pageVersion.GetModule(position);
+			md.Data = new ContentModel
 			{
-				var thisModule = moduledata.FirstOrDefault(md => md.Position == position);
-				if (thisModule != null)
-				{
-					thisModule.Data.Content = form["Content"];
-					pageVersion.ModuleData = moduledata;
-				}
-			}
+				Content = form["Content"]
+			};
+			pageVersion.SetModule(position, md);
 			db.SaveChanges();
 			return Content("ok");
 		}

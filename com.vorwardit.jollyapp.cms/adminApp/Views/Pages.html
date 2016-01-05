@@ -133,6 +133,7 @@
                             <a ng-href="{{'/preview/' + version.pageVersionId}}" target="_blank">Vorschau</a>
                         </td>
                         <td>
+                            <a ng-if="version.status == 0 && $index == 0" target="_blank" ng-href="{{'/edit/' + version.pageVersionId}}" class="btn btn-default btn-sm">Bearbeiten</a>
                             <button ng-if="version.status == 0" ng-click="ctrl.publish(version.pageVersionId)" class="btn btn-primary btn-sm">Ver&ouml;ffentlichen</button>
                         </td>
                     </tr>
@@ -171,12 +172,6 @@
                         <label class="col-sm-1 control-label">Meta</label>
                         <div class="col-sm-11">
                             <input type="text" class="form-control" ng-model="ctrl.pageversion.metaDescription" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">HTML</label>
-                        <div class="col-sm-11">
-                            <textarea rows="18" type="text" class="form-control" ng-model="ctrl.pageversion.body" />
                         </div>
                     </div>
                 </form>

@@ -76,13 +76,13 @@ namespace com.vorwardit.jollyapp.cms.API
                     PageVersionId = Guid.NewGuid(),
                     PageId = model.PageId,
                     RevisionNumber = version.RevisionNumber + 1,
-                    Status = PageVersionStatus.Draft                   
+                    Status = PageVersionStatus.Draft,
+					Body = version.Body
                 };
                 version = newVersion;
                 db.PageVersions.Add(version);
             }
 
-            version.Body = model.Body;
             version.MetaDescription = model.MetaDescription;
             version.Title = model.Title;
 

@@ -14,11 +14,11 @@ namespace com.vorwardit.jollyapp.cms.Models
         Published = 1
     }
 
-    public class PageModule
+    public class PageModule<T>
     {
         public string Position { get; set; }
         public string Type { get; set; }
-        public dynamic Data { get; set; }
+        public T Data { get; set; }
     }
 
     public class PageVersion
@@ -43,17 +43,17 @@ namespace com.vorwardit.jollyapp.cms.Models
         public string Body { get; set; }
 
         [NotMapped]
-        public List<PageModule> ModuleData
+        public List<PageModule<dynamic>> ModuleData
         {
             get
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<List<PageModule>>(Body);
+                    return JsonConvert.DeserializeObject<List<PageModule<dynamic>>>(Body);
                 }
                 catch
                 {
-                    return new List<PageModule>();
+                    return new List<PageModule<dynamic>>();
                 }
             }
             set
@@ -61,5 +61,29 @@ namespace com.vorwardit.jollyapp.cms.Models
                 Body = JsonConvert.SerializeObject(value);
             }
         }
-    }
+
+		public PageModule<dynamic> GetModule(string position)
+		{
+			var md = ModuleData;
+			var result = md.FirstOrDefault(d => d.Position == position);
+			if (result == null)
+			{
+				result = new PageModule<dynamic>
+				{
+					Position = position,
+					Type = "content"
+				};
+				md.Add(result);
+				ModuleData = md;
+			}
+			return result;
+		}
+
+		public void SetModule(string position, PageModule<dynamic> module)
+		{
+			var md = ModuleData.Where(d => d.Position != position).ToList();
+			md.Add(module);
+			ModuleData = md;
+		}
+	}
 }
