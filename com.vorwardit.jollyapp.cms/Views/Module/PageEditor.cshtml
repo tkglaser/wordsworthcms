@@ -46,8 +46,14 @@
     .cmsEditButton:active {
 	    top:1px;
     }
+    [data-module] {
+        position:relative;
+    }
     [data-editor] {
         z-index:10000;
+        position:absolute;
+        background:rgba(255,255,255,0.7);
+        width:100%;
     }
 </style>
 <script>
@@ -73,14 +79,13 @@
             content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
         });
 
-        $('.cmsEditButton').on('click', function(){
+        $(document).on('click', '.cmsEditButton', function(){
             var module = $(this).closest('[data-module]');
             var position = module.attr('data-position');
             var editor = module.find($('[data-editor]'));
             var content = module.find($('[data-content]'));
 
-            editor.html("");
-            content.load('/module/editmoduletype?pageVersionId=' + pageVersionId + '&position=' + position);
+            editor.load('/module/editmoduletype?pageVersionId=' + pageVersionId + '&position=' + position);
         });
 
         $(document).on('click', '.cmsTypeSaveButton', function(){
@@ -91,8 +96,7 @@
             var content = module.find($('[data-content]'));
 
             $.post(form.attr('action'), form.serialize(), function(){
-                editor.html("");
-                content.load('/module/editmodulesettings?pageVersionId=' + pageVersionId + '&position=' + position);
+                editor.load('/module/editmodulesettings?pageVersionId=' + pageVersionId + '&position=' + position);
             });
         });
 
@@ -104,7 +108,7 @@
             var content = module.find($('[data-content]'));
 
             $.post(form.attr('action'), form.serialize(), function(){
-                editor.html("");
+                editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
                 content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
             });
         });

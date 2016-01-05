@@ -50,12 +50,17 @@ namespace com.vorwardit.jollyapp.cms.Modules
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
-			var model = new ContentModel();
+			var moduledata = pageVersion.ModuleData;
 			if (moduledata != null)
 			{
-				model.Content = moduledata.Data.Content;
+				var thisModule = moduledata.FirstOrDefault(md => md.Position == position);
+				if (thisModule != null)
+				{
+					thisModule.Data.Content = form["Content"];
+					pageVersion.ModuleData = moduledata;
+				}
 			}
+			db.SaveChanges();
 			return Content("ok");
 		}
 	}

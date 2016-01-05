@@ -1,24 +1,21 @@
 ﻿@model com.vorwardit.jollyapp.cms.ViewModels.EditModuleModel
 
-<div class="container">
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
 
-                <div class="col-md-offset-2 col-md-10">
-                    @Html.DropDownListFor(model => model.selectedModule, new SelectList(Model.Modules, "Key", "FriendlyName"), new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <button type="button" class="cmsTypeSaveButton btn btn-default">Speichern</button>
-                </div>
+            <div class="col-md-offset-2 col-md-10">
+                @Html.DropDownListFor(model => model.selectedModule, new SelectList(Model.Modules, "Key", "FriendlyName"), new { @class = "form-control" })
             </div>
         </div>
-    }
-
-</div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="cmsTypeSaveButton btn btn-default">Speichern</button>
+            </div>
+        </div>
+    </div>
+}
