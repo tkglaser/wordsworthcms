@@ -15,10 +15,10 @@ namespace com.vorwardit.jollyapp.cms.Controllers
         {
 			if (CurrentSite == null)
 			{
-				return HttpNotFound();
+				return await NotFound();
 			}
 
-            var path = "/" + pathinfo;
+			var path = "/" + pathinfo;
 
             var page = await (from url in db.PageUrls
                               where url.Url == path
@@ -26,7 +26,7 @@ namespace com.vorwardit.jollyapp.cms.Controllers
                               select url.Page).FirstOrDefaultAsync();
             if (page == null)
             {
-                return getContent(path);
+                return await getContent(path);
             }
             var pageversion = (from pv in page.Versions
                                where pv.Status == Models.PageVersionStatus.Published
@@ -34,12 +34,43 @@ namespace com.vorwardit.jollyapp.cms.Controllers
                                select pv).FirstOrDefault();
             if (pageversion == null)
             {
-                return HttpNotFound();
+                return await NotFound();
             }
             return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
         }
 
-        public async Task<ActionResult> Preview(Guid id)
+		[NonAction]
+		public async Task<ActionResult> NotFound()
+		{
+			if (CurrentSite == null)
+			{
+				return HttpNotFound();
+			}
+
+			var path = "/errors/404";
+
+			var page = await (from url in db.PageUrls
+							  where url.Url == path
+							  where url.Page.SiteId == CurrentSite.SiteId
+							  select url.Page).FirstOrDefaultAsync();
+			if (page == null)
+			{
+				return HttpNotFound();
+			}
+			var pageversion = (from pv in page.Versions
+							   where pv.Status == Models.PageVersionStatus.Published
+							   orderby pv.RevisionNumber descending
+							   select pv).FirstOrDefault();
+			if (pageversion == null)
+			{
+				return HttpNotFound();
+			}
+
+			Response.StatusCode = 404;
+			return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
+		}
+
+		public async Task<ActionResult> Preview(Guid id)
         {
             var pageversion = await db.PageVersions.FindAsync(id);
             if (pageversion == null)
@@ -60,17 +91,17 @@ namespace com.vorwardit.jollyapp.cms.Controllers
         }
 
         [NonAction]
-        public ActionResult getContent(string path)
+        public async Task<ActionResult> getContent(string path)
         {
-            var content = (from c in db.Contents
-                           where c.Url == path
-                           where c.SiteId == CurrentSite.SiteId
-                           select c).FirstOrDefault();
+			var content = await (from c in db.Contents
+								 where c.Url == path
+								 where c.SiteId == CurrentSite.SiteId
+								 select c).FirstOrDefaultAsync();
             if (content == null)
             {
-                return HttpNotFound();
-            }
-            string mimetype = "text/html";
+				return await NotFound();
+			}
+			string mimetype = "text/html";
             if (content.Url.EndsWith("css"))
             {
                 mimetype = "text/css";
