@@ -57,6 +57,7 @@ namespace com.vorwardit.jollyapp.cms.Modules
 			return PartialView("~/Views/Content/Edit.cshtml", model);
 		}
 
+		[ValidateInput(false)]
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);

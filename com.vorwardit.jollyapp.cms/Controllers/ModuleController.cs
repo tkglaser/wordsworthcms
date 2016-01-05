@@ -68,6 +68,7 @@ namespace com.vorwardit.jollyapp.cms.Controllers
 		}
 
 		[HttpPost]
+		[ValidateInput(false)]
 		public ActionResult EditModuleSettings(Guid pageVersionId, string position, object model)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);

@@ -257,6 +257,7 @@
     <Compile Include="Modules\Core\IModule.cs" />
     <Compile Include="Modules\Core\ModuleAttribute.cs" />
     <Compile Include="Modules\Core\ModuleHelper.cs" />
+    <Compile Include="Modules\ImageController.cs" />
     <Compile Include="Modules\ImageBannerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1333,6 +1334,8 @@
     <Content Include="Views\Module\EditModuleType.cshtml" />
     <Content Include="Views\ImageBanner\Edit.cshtml" />
     <Content Include="Views\Content\Edit.cshtml" />
+    <Content Include="Views\Image\Index.cshtml" />
+    <Content Include="Views\Image\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

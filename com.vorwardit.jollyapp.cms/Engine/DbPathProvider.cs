@@ -85,9 +85,10 @@ namespace com.vorwardit.jollyapp.cms.Engine
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
                     content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
                     content += $"@{{Layout=\"/db/{pageLayout.LayoutId}.cshtml\";}}";
-                    content += pageLayout.Body;
+					content += pageLayout.Body;
+					content += "@RenderBody()";
 
-                    return new DbVirtualFile(virtualPath, content);
+					return new DbVirtualFile(virtualPath, content);
                 }
 
                 var layout = (from l in db.Layouts

@@ -9,15 +9,13 @@ using System.Web.Mvc;
 
 namespace com.vorwardit.jollyapp.cms.Modules
 {
-    public class ImageBannerModel
+    public class ImageModel
     {
 		public string Image { get; set; }
-        public string Heading { get; set; }
-        public string SubHeading { get; set; }
     }
 
-	[Module("Image Banner")]
-    public class ImageBannerController : Controller, IModule
+	[Module("Image")]
+    public class ImageController : Controller, IModule
 	{
         public ApplicationDbContext db = new ApplicationDbContext();
 
@@ -26,12 +24,10 @@ namespace com.vorwardit.jollyapp.cms.Modules
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
 			var md = pageVersion.GetModule(position);
-			var model = new ImageBannerModel();
+			var model = new ImageModel();
 
 			try
 			{
-				model.Heading = md.Data.Heading;
-				model.SubHeading = md.Data.SubHeading;
 				model.Image = md.Data.Image;
 			}
 			catch
@@ -39,35 +35,31 @@ namespace com.vorwardit.jollyapp.cms.Modules
 
 			}
 
-			return PartialView("~/Views/ImageBanner/Index.cshtml", model);
+			return PartialView("~/Views/Image/Index.cshtml", model);
         }
 
 		public ActionResult Edit(Guid pageVersionId, string position)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
 			var md = pageVersion.GetModule(position);
-			var model = new ImageBannerModel();
+			var model = new ImageModel();
 			try
 			{
-				model.Heading = md.Data.Heading;
-				model.SubHeading = md.Data.SubHeading;
 				model.Image = md.Data.Image;
 			}
 			catch
 			{
 
 			}
-			return PartialView("~/Views/ImageBanner/Edit.cshtml", model);
+			return PartialView("~/Views/Image/Edit.cshtml", model);
 		}
 
 		public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
 		{
 			var pageVersion = db.PageVersions.Find(pageVersionId);
 			var md = pageVersion.GetModule(position);
-			md.Data = new ImageBannerModel
+			md.Data = new ImageModel
 			{
-				Heading = form["Heading"],
-				SubHeading = form["SubHeading"],
 				Image = form["Image"]
 			};
 			pageVersion.SetModule(position, md);

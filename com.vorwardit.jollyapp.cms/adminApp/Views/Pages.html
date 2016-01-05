@@ -27,7 +27,7 @@
                 <td>{{page.site.name}}</td>
                 <td>{{page.pageLayout.name}}</td>
                 <td>
-                    <p ng-repeat="url in page.urls">{{url.url}}</p>
+                    <p ng-repeat="url in page.urls"><a ng-href="{{url.url}}">{{url.url}}</a></p>
                 </td>
                 <td>
                     <div class="btn-group">
