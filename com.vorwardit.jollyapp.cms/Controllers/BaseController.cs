@@ -1,11 +1,11 @@
-﻿using com.vorwardit.jollyapp.cms.Models;
+﻿using com.vorwardit.wordsworthcms.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms.Controllers
+namespace com.vorwardit.wordsworthcms.Controllers
 {
     public abstract class BaseController : Controller
     {

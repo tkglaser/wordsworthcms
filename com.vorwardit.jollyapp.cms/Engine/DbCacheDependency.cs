@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Caching;
 
-namespace com.vorwardit.jollyapp.cms.Engine
+namespace com.vorwardit.wordsworthcms.Engine
 {
     public class DbCacheDependency : CacheDependency
     {

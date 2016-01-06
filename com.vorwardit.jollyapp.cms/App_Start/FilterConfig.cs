@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms
+namespace com.vorwardit.wordsworthcms
 {
     public class FilterConfig
     {

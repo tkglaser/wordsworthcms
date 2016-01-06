@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(com.vorwardit.jollyapp.cms.Startup))]
-namespace com.vorwardit.jollyapp.cms
+[assembly: OwinStartupAttribute(typeof(com.vorwardit.wordsworthcms.Startup))]
+namespace com.vorwardit.wordsworthcms
 {
     public partial class Startup
     {

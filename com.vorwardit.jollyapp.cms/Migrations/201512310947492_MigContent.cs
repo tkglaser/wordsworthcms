@@ -1,4 +1,4 @@
-namespace com.vorwardit.jollyapp.cms.Migrations
+namespace com.vorwardit.wordsworthcms.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms.Modules.Core
+namespace com.vorwardit.wordsworthcms.Modules.Core
 {
 	public class ModuleCacheEntry
 	{

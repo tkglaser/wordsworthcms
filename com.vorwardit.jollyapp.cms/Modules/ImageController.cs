@@ -1,5 +1,5 @@
-﻿using com.vorwardit.jollyapp.cms.Models;
-using com.vorwardit.jollyapp.cms.Modules.Core;
+﻿using com.vorwardit.wordsworthcms.Models;
+using com.vorwardit.wordsworthcms.Modules.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms.Modules
+namespace com.vorwardit.wordsworthcms.Modules
 {
     public class ImageModel
     {

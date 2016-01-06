@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using com.vorwardit.jollyapp.cms.Models;
+using com.vorwardit.wordsworthcms.Models;
 
-namespace com.vorwardit.jollyapp.cms
+namespace com.vorwardit.wordsworthcms
 {
     public class EmailService : IIdentityMessageService
     {

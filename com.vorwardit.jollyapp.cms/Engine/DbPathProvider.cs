@@ -1,4 +1,4 @@
-﻿using com.vorwardit.jollyapp.cms.Models;
+﻿using com.vorwardit.wordsworthcms.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Web.Hosting;
 using System.Collections;
 using System.Web.Caching;
 
-namespace com.vorwardit.jollyapp.cms.Engine
+namespace com.vorwardit.wordsworthcms.Engine
 {
     public class DbPathProvider : VirtualPathProvider
     {
@@ -57,7 +57,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageVersion != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
+                    content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
                     content += "@using System.Web.Mvc.Html;";
                     content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";" +
                         $"ViewBag.PageVersionId=\"{pageVersion.PageVersionId}\";" +
@@ -83,7 +83,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (pageLayout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
+                    content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
                     content += $"@{{Layout=\"/db/{pageLayout.LayoutId}.cshtml\";}}";
 					content += pageLayout.Body;
 					content += "@RenderBody()";
@@ -98,7 +98,7 @@ namespace com.vorwardit.jollyapp.cms.Engine
                 if (layout != null)
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
-                    content += "@using com.vorwardit.jollyapp.cms.Modules.Core;";
+                    content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
                     content += layout.Body;
 
                     return new DbVirtualFile(virtualPath, content);

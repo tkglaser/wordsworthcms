@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace com.vorwardit.jollyapp.cms.Models
+namespace com.vorwardit.wordsworthcms.Models
 {
     public class Layout
     {

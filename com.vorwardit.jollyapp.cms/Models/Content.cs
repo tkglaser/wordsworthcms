@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace com.vorwardit.jollyapp.cms.Models
+namespace com.vorwardit.wordsworthcms.Models
 {
     public class Content
     {

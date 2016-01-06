@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace com.vorwardit.jollyapp.cms.Engine
+namespace com.vorwardit.wordsworthcms.Engine
 {
     public static class DbPathProviderSingleton
     {

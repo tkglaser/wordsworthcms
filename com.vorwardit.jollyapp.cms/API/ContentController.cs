@@ -1,4 +1,4 @@
-﻿using com.vorwardit.jollyapp.cms.Models;
+﻿using com.vorwardit.wordsworthcms.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace com.vorwardit.jollyapp.cms.API
+namespace com.vorwardit.wordsworthcms.API
 {
     [RoutePrefix("api/content")]
     public class ContentController : ApiController

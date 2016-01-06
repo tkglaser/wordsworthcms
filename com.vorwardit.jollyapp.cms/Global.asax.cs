@@ -1,5 +1,5 @@
-﻿using com.vorwardit.jollyapp.cms.Engine;
-using com.vorwardit.jollyapp.cms.Modules.Core;
+﻿using com.vorwardit.wordsworthcms.Engine;
+using com.vorwardit.wordsworthcms.Modules.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace com.vorwardit.jollyapp.cms
+namespace com.vorwardit.wordsworthcms
 {
     public class MvcApplication : System.Web.HttpApplication
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms.Controllers
+namespace com.vorwardit.wordsworthcms.Controllers
 {
     public class HomeController : Controller
     {

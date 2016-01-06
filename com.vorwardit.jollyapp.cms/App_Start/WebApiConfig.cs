@@ -7,7 +7,7 @@ using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
 
-namespace com.vorwardit.jollyapp.cms
+namespace com.vorwardit.wordsworthcms
 {
     public static class WebApiConfig
     {

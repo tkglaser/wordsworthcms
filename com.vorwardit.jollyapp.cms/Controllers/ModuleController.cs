@@ -1,13 +1,13 @@
-﻿using com.vorwardit.jollyapp.cms.Modules;
-using com.vorwardit.jollyapp.cms.Modules.Core;
-using com.vorwardit.jollyapp.cms.ViewModels;
+﻿using com.vorwardit.wordsworthcms.Modules;
+using com.vorwardit.wordsworthcms.Modules.Core;
+using com.vorwardit.wordsworthcms.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace com.vorwardit.jollyapp.cms.Controllers
+namespace com.vorwardit.wordsworthcms.Controllers
 {
     public class ModuleController : BaseController
     {

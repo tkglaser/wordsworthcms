@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace com.vorwardit.jollyapp.cms.Models
+namespace com.vorwardit.wordsworthcms.Models
 {
     public class Page
     {

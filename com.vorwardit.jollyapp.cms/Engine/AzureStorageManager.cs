@@ -10,7 +10,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace com.vorwardit.jollyapp.cms.Engine
+namespace com.vorwardit.wordsworthcms.Engine
 {
     public class AzureStorageManager
     {

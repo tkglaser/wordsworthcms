@@ -1,4 +1,4 @@
-﻿using com.vorwardit.jollyapp.cms.Modules.Core;
+﻿using com.vorwardit.wordsworthcms.Modules.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace com.vorwardit.jollyapp.cms.ViewModels
+namespace com.vorwardit.wordsworthcms.ViewModels
 {
     public class EditModuleModel
     {

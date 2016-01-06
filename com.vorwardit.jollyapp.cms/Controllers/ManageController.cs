@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using com.vorwardit.jollyapp.cms.Models;
+using com.vorwardit.wordsworthcms.Models;
 
-namespace com.vorwardit.jollyapp.cms.Controllers
+namespace com.vorwardit.wordsworthcms.Controllers
 {
     [Authorize]
     public class ManageController : Controller

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace com.vorwardit.jollyapp.cms.Models
+namespace com.vorwardit.wordsworthcms.Models
 {
     public class IndexViewModel
     {

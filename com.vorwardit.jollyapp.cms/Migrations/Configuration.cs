@@ -1,18 +1,18 @@
-namespace com.vorwardit.jollyapp.cms.Migrations
+namespace com.vorwardit.wordsworthcms.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<com.vorwardit.jollyapp.cms.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<com.vorwardit.wordsworthcms.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(com.vorwardit.jollyapp.cms.Models.ApplicationDbContext context)
+        protected override void Seed(com.vorwardit.wordsworthcms.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

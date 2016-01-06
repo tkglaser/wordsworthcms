@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="com.vorwardit.jollyapp.cms.MvcApplication" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="com.vorwardit.wordsworthcms.MvcApplication" Language="C#" %>

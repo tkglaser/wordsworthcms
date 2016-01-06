@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace com.vorwardit.jollyapp.cms.Modules.Core
+namespace com.vorwardit.wordsworthcms.Modules.Core
 {
     public class ModuleAttribute : Attribute
     {

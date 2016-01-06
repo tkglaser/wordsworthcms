@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace com.vorwardit.jollyapp.cms.Models
+namespace com.vorwardit.wordsworthcms.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
