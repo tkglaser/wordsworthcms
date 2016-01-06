@@ -97,12 +97,13 @@ namespace com.vorwardit.jollyapp.cms.Models
 			var typedResult = Activator.CreateInstance<PageModule<T>>();
 			typedResult.Position = position;
 			typedResult.Type = result.Type;
+			typedResult.Data = Activator.CreateInstance<T>();
 
 			foreach(var p in typeof(T).GetProperties())
 			{
 				if (result.Data.ContainsKey(p.Name))
 				{
-					p.SetValue(typedResult, result.Data[p.Name]);
+					p.SetValue(typedResult.Data, result.Data[p.Name]);
 				}
 			}
 
@@ -124,7 +125,7 @@ namespace com.vorwardit.jollyapp.cms.Models
 			untypedModule.Data = new Dictionary<string, string>();
 			foreach (var p in typeof(T).GetProperties())
 			{
-				untypedModule.Data[p.Name] = p.GetValue(untypedModule).ToString();
+				untypedModule.Data[p.Name] = p.GetValue(module.Data).ToString();
 			}
 			var md = ModuleData.Where(d => d.Position != position).ToList();
 			md.Add(untypedModule);
