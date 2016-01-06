@@ -1,5 +1,5 @@
 .vs/
-com.vorwardit.jollyapp.cms/bin/
+com.vorwardit.wordsworthcms/bin/
 packages/
-com.vorwardit.jollyapp.cms/obj/
+com.vorwardit.wordsworthcms/obj/
 *.user
