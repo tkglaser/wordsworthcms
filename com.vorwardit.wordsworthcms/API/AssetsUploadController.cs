@@ -13,6 +13,7 @@ namespace com.vorwardit.wordsworthcms.API
         public HttpPostedFileBase File { get; set; }
     }
 
+    [Authorize]
     public class AssetsUploadController : Controller
     {
         AzureStorageManager storage = new AzureStorageManager();

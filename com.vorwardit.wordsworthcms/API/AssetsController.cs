@@ -9,6 +9,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.wordsworthcms.API
 {
+    [Authorize]
     [RoutePrefix("api/assets")]
     public class AssetsController : ApiController
     {

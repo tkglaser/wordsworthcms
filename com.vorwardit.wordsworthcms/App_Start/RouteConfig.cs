@@ -20,6 +20,12 @@ namespace com.vorwardit.wordsworthcms
             );
 
             routes.MapRoute(
+                name: "Account",
+                url: "account/{action}/{id}",
+                defaults: new { controller = "Account", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Preview",
                 url: "preview/{id}",
                 defaults: new { controller = "Page", action = "Preview" }

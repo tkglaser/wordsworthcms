@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.wordsworthcms.API
 {
+    [Authorize]
     [RoutePrefix("api/layouts")]
     public class PageLayoutsController : ApiController
     {

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace com.vorwardit.wordsworthcms.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         // GET: Admin

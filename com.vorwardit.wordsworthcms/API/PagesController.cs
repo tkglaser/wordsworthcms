@@ -11,6 +11,7 @@ using System.Web.Http;
 
 namespace com.vorwardit.wordsworthcms.API
 {
+    [Authorize]
     [RoutePrefix("api/pages")]
     public class PagesController : ApiController
     {
