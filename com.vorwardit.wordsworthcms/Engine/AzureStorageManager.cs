@@ -23,32 +23,33 @@ namespace com.vorwardit.wordsworthcms.Engine
             mContainer = blobClient.GetContainerReference("jollycmsassets");
         }
 
-        public IEnumerable<Uri> ListFiles()
+        public IEnumerable<Uri> ListFiles(string directory)
         {
-            foreach (var item in mContainer.ListBlobs())
+            var dir = mContainer.GetDirectoryReference(directory);
+            foreach (var item in dir.ListBlobs())
             {
                 yield return item.Uri;
             }
         }
 
-        public async Task SaveFile(string name, Stream data)
+        public async Task SaveFile(string directory, string name, Stream data)
         {
-            var blockBlob = mContainer.GetBlockBlobReference(name);
+            var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             await blockBlob.UploadFromStreamAsync(data);
         }
 
-        public async Task GetFile(string name, Stream data)
+        public async Task GetFile(string directory, string name, Stream data)
         {
-            var blockBlob = mContainer.GetBlockBlobReference(name);
+            var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             if (blockBlob.Exists())
             {
                 await blockBlob.DownloadToStreamAsync(data);
             }
         }
 
-        public async Task DeleteFile(string name)
+        public async Task DeleteFile(string directory, string name)
         {
-            var blockBlob = mContainer.GetBlockBlobReference(name);
+            var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             await blockBlob.DeleteIfExistsAsync();
         }
     }

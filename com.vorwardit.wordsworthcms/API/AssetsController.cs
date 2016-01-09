@@ -16,9 +16,9 @@ namespace com.vorwardit.wordsworthcms.API
         AzureStorageManager storage = new AzureStorageManager();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(Guid siteId)
         {
-            var result = from f in storage.ListFiles()
+            var result = from f in storage.ListFiles(siteId.ToString())
                          select new
                          {
                              name = System.IO.Path.GetFileName(f.LocalPath),
@@ -28,9 +28,9 @@ namespace com.vorwardit.wordsworthcms.API
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> Delete(string name)
+        public async Task<IHttpActionResult> Delete(Guid siteId, string name)
         {
-            await storage.DeleteFile(name);
+            await storage.DeleteFile(siteId.ToString(), name);
             return Ok();
         }
     }

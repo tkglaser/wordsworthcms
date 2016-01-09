@@ -11,15 +11,17 @@
     <div class="box">
         <div class="box-header with-border">
             <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neuer Content</button>
+            <select class="form-control"
+                    ng-model="ctrl.site"
+                    ng-options="site.name for site in ctrl.sites track by site.siteId"
+                    ng-change="ctrl.siteChanged()"></select>
         </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
-                <th>Site</th>
                 <th>Url</th>
                 <th></th>
             </tr>
             <tr ng-repeat="content in ctrl.contents">
-                <td>{{content.site.name}}</td>
                 <td>{{content.url}}</td>
                 <td>
                     <div class="btn-group">
@@ -41,14 +43,6 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Site</label>
-                        <div class="col-sm-11">
-                            <select class="form-control" ng-model="ctrl.content.siteId">
-                                <option ng-repeat="site in ctrl.sites" value="{{site.siteId}}">{{site.name}}</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label class="col-sm-1 control-label">Url</label>
                         <div class="col-sm-11">

@@ -22,7 +22,7 @@ namespace com.vorwardit.wordsworthcms.Controllers
 
             var page = await (from url in db.PageUrls
                               where url.Url == path
-                              where url.Page.SiteId == CurrentSite.SiteId
+                              where url.Page.PageLayout.Layout.SiteId == CurrentSite.SiteId
                               select url.Page).FirstOrDefaultAsync();
             if (page == null)
             {
@@ -51,7 +51,7 @@ namespace com.vorwardit.wordsworthcms.Controllers
 
 			var page = await (from url in db.PageUrls
 							  where url.Url == path
-							  where url.Page.SiteId == CurrentSite.SiteId
+							  where url.Page.PageLayout.Layout.SiteId == CurrentSite.SiteId
 							  select url.Page).FirstOrDefaultAsync();
 			if (page == null)
 			{

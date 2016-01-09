@@ -11,6 +11,10 @@
     <div class="box">
         <div class="box-header with-border">
             <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Layout</button>
+            <select class="form-control"
+                    ng-model="ctrl.site"
+                    ng-options="site.name for site in ctrl.sites track by site.siteId"
+                    ng-change="ctrl.siteChanged()"></select>
         </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>

@@ -18,17 +18,18 @@ namespace com.vorwardit.wordsworthcms.API
         public ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(Guid siteId)
         {
-            return await Get(false);
+            return await Get(siteId, false);
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(bool noBody)
+        public async Task<IHttpActionResult> Get(Guid siteId, bool noBody)
         {
             if (noBody)
             {
                 return Ok(from l in db.PageLayouts
+                          where l.Layout.SiteId == siteId
                           orderby l.Name
                           select new
                           {
@@ -39,7 +40,10 @@ namespace com.vorwardit.wordsworthcms.API
             }
             else
             {
-                return Ok(await db.PageLayouts.OrderBy(l => l.Name).ToListAsync());
+                return Ok(await (from l in db.PageLayouts
+                                 where l.Layout.SiteId == siteId
+                                 orderby l.Name
+                                 select l).ToListAsync());
             }
         }
 

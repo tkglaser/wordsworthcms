@@ -5,9 +5,9 @@
         .module('app')
         .controller('PagesController', PagesController);
 
-    PagesController.$inject = ['$location', 'PagesFactory', 'SitesFactory', 'PageLayoutsFactory'];
+    PagesController.$inject = ['$location', '$rootScope', 'PagesFactory', 'SitesFactory', 'PageLayoutsFactory'];
 
-    function PagesController($location, PagesFactory, SitesFactory, PageLayoutsFactory) {
+    function PagesController($location, $rootScope, PagesFactory, SitesFactory, PageLayoutsFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PagesController';
@@ -20,21 +20,42 @@
         vm.pageversion = {};
 
         vm.pageLayouts = [];
+
         vm.sites = [];
+        vm.site = {};
 
         activate();
 
         function activate() {
-            PagesFactory.getData().success(function (data) {
-                vm.pages = data;
-            });
-            PageLayoutsFactory.getData(true).success(function (data) {
-                vm.pageLayouts = data;
-            });
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
+                if (typeof $rootScope.selectedSiteId === 'undefined') {
+                    vm.site = data[0];
+                } else {
+                    angular.forEach(data, function (site) {
+                        if ($rootScope.selectedSiteId == site.siteId) {
+                            vm.site = site;
+                        };
+                    });
+                }
+                PagesFactory.getData(vm.site.siteId).success(function (data) {
+                    vm.pages = data;
+                });
+                PageLayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+                    vm.pageLayouts = data;
+                });
             });
-        }
+        };
+
+        vm.siteChanged = function () {
+            $rootScope.selectedSiteId = vm.site.siteId;
+            PagesFactory.getData(vm.site.siteId).success(function (data) {
+                vm.pages = data;
+            });
+            PageLayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+                vm.pageLayouts = data;
+            });
+        };
 
         vm.create = function () {
             $('#saveError').hide();
@@ -51,7 +72,6 @@
             vm.page = {};
             vm.page.pageId = page.pageId;
             vm.page.name = page.name;
-            vm.page.siteId = page.siteId;
             vm.page.pageLayoutId = page.pageLayoutId;
             vm.page.urls = angular.copy(page.urls);
             $('#editModal').modal();
@@ -118,7 +138,6 @@
             var data = {
                 PageId: vm.page.pageId,
                 Name: vm.page.name,
-                SiteId: vm.page.siteId,
                 PageLayoutId: vm.page.pageLayoutId,
                 Urls: vm.page.urls
             }

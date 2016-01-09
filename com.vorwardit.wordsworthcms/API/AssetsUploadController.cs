@@ -10,6 +10,7 @@ namespace com.vorwardit.wordsworthcms.API
 {
     public class AssetUploadModel
     {
+        public Guid SiteId { get; set; }
         public HttpPostedFileBase File { get; set; }
     }
 
@@ -23,7 +24,7 @@ namespace com.vorwardit.wordsworthcms.API
         {
             if (model.File != null)
             {
-                await storage.SaveFile(model.File.FileName, model.File.InputStream);
+                await storage.SaveFile(model.SiteId.ToString(), model.File.FileName, model.File.InputStream);
             }
             return Json("Saved", JsonRequestBehavior.AllowGet);
         }

@@ -16,8 +16,8 @@
 
         return service;
 
-        function getData() {
-            return $http.get('/api/assets');
+        function getData(siteId) {
+            return $http.get('/api/assets?siteId=' + siteId);
         }
 
         function getModelAsFormData(data) {
@@ -44,8 +44,8 @@
             return deferred.promise;
         }
 
-        function remove(name) {
-            return $http.delete('/api/assets?name=' + name);
+        function remove(siteId, name) {
+            return $http.delete('/api/assets?name=' + name + "&siteId=" + siteId);
         }
     }
 })();

@@ -5,9 +5,9 @@
         .module('app')
         .controller('PageLayoutsController', PageLayoutsController);
 
-    PageLayoutsController.$inject = ['$location', 'LayoutsFactory', 'PageLayoutsFactory'];
+    PageLayoutsController.$inject = ['$location', '$rootScope', 'LayoutsFactory', 'PageLayoutsFactory', 'SitesFactory'];
 
-    function PageLayoutsController($location, LayoutsFactory, PageLayoutsFactory) {
+    function PageLayoutsController($location, $rootScope, LayoutsFactory, PageLayoutsFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PageLayoutsController';
@@ -17,17 +17,41 @@
         vm.pagelayouts = [];
         vm.pagelayout = {};
         vm.layouts = [];
+        vm.sites = [];
+        vm.site = {};
 
         activate();
 
         function activate() {
-            PageLayoutsFactory.getData().success(function (data) {
+            SitesFactory.getData().success(function (data) {
+                vm.sites = data;
+                if (typeof $rootScope.selectedSiteId === 'undefined') {
+                    vm.site = data[0];
+                } else {
+                    angular.forEach(data, function (site) {
+                        if ($rootScope.selectedSiteId == site.siteId) {
+                            vm.site = site;
+                        };
+                    });
+                }
+                PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
+                    vm.pagelayouts = data;
+                });
+                LayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+                    vm.layouts = data;
+                });
+            });
+        };
+
+        vm.siteChanged = function () {
+            $rootScope.selectedSiteId = vm.site.siteId;
+            PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
                 vm.pagelayouts = data;
             });
-            LayoutsFactory.getData(true).success(function (data) {
+            LayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
                 vm.layouts = data;
             });
-        }
+        };
 
         vm.create = function () {
             $('#saveError').hide();

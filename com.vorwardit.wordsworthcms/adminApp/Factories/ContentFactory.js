@@ -16,12 +16,12 @@
 
         return service;
 
-        function getData(noBody) {
+        function getData(siteId, noBody) {
             if (noBody == true) {
-                return $http.get('/api/content?noBody=true');
+                return $http.get('/api/content?noBody=true&siteId=' + siteId);
             }
             else {
-                return $http.get('/api/content');
+                return $http.get('/api/content?siteId=' + siteId);
             }
         }
 

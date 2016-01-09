@@ -5,9 +5,9 @@
         .module('app')
         .controller('ContentController', ContentController);
 
-    ContentController.$inject = ['$location', 'ContentFactory', 'SitesFactory']; 
+    ContentController.$inject = ['$location', '$rootScope', 'ContentFactory', 'SitesFactory'];
 
-    function ContentController($location, ContentFactory, SitesFactory) {
+    function ContentController($location, $rootScope, ContentFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'ContentController';
@@ -18,17 +18,35 @@
         vm.content = {};
 
         vm.sites = [];
+        vm.site = {};
 
         activate();
 
         function activate() {
-            ContentFactory.getData().success(function (data) {
-                vm.contents = data;
-            });
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
+                if (typeof $rootScope.selectedSiteId === 'undefined') {
+                    vm.site = data[0];
+                } else {
+                    angular.forEach(data, function (site) {
+                        if ($rootScope.selectedSiteId == site.siteId) {
+                            vm.site = site;
+                        };
+                    });
+                };
+                ContentFactory.getData(vm.site.siteId).success(function (data) {
+                    vm.contents = data;
+                });
             });
-        }
+        };
+
+        vm.siteChanged = function () {
+            $rootScope.selectedSiteId = vm.site.siteId;
+            ContentFactory.getData(vm.site.siteId).success(function (data) {
+                vm.contents = data;
+            });
+        };
+
         vm.create = function () {
             $('#saveError').hide();
             vm.modalHeading = vm.modalHeadingNew;
@@ -45,7 +63,6 @@
             vm.content = {};
             vm.content.contentId = content.contentId;
             vm.content.url = content.url;
-            vm.content.siteId = content.siteId;
             vm.content.body = content.body;
             $('#editModal').modal();
         };
@@ -69,10 +86,10 @@
         vm.save = function () {
             var data = {
                 ContentId: vm.content.contentId,
-                SiteId: vm.content.siteId,
+                SiteId: vm.site.siteId,
                 Url: vm.content.url,
                 Body: vm.content.body
-            }
+            };
             ContentFactory.update(data).then(function () {
                 $('#editModal').modal("hide");
                 activate();

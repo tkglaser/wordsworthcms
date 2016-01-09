@@ -19,13 +19,8 @@
 
         return service;
 
-        function getData(noBody) {
-            if (noBody == true) {
-                return $http.get('/api/pages');
-            }
-            else {
-                return $http.get('/api/pages');
-            }
+        function getData(siteId) {
+            return $http.get('/api/pages?siteId=' + siteId);
         }
 
         function getVersions(id) {

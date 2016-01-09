@@ -18,9 +18,12 @@ namespace com.vorwardit.wordsworthcms.API
         public ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(Guid siteId)
         {
-            var pages = await db.Pages.OrderBy(p => p.Name).Include("Site").Include("PageLayout").AsNoTracking().ToListAsync();
+            var pages = await (from p in db.Pages.Include("PageLayout").AsNoTracking()
+                               where p.PageLayout.Layout.SiteId == siteId
+                               orderby p.Name
+                               select p).ToListAsync();
 
             // remove recursive backlinks so it can serialise
             foreach(var page in pages)
@@ -66,7 +69,6 @@ namespace com.vorwardit.wordsworthcms.API
                 });
             }
             page.Name = model.Name;
-            page.SiteId = model.SiteId;
             page.PageLayoutId = model.PageLayoutId;
             await db.SaveChangesAsync();
             DbPathProviderSingleton.Instance.InvalidateCache();

@@ -5,9 +5,9 @@
         .module('app')
         .controller('LayoutsController', LayoutsController);
 
-    LayoutsController.$inject = ['$location', 'LayoutsFactory']; 
+    LayoutsController.$inject = ['$location', '$rootScope', 'LayoutsFactory', 'SitesFactory'];
 
-    function LayoutsController($location, LayoutsFactory) {
+    function LayoutsController($location, $rootScope, LayoutsFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'LayoutsController';
@@ -17,13 +17,36 @@
         vm.layouts = [];
         vm.layout = {};
 
+        vm.sites = [];
+        vm.site = {};
+
         activate();
 
         function activate() {
-            LayoutsFactory.getData().success(function (data) {
+            SitesFactory.getData().success(function (data) {
+                vm.sites = data;
+                if (typeof $rootScope.selectedSiteId === 'undefined') {
+                    vm.site = data[0];
+                } else {
+                    angular.forEach(data, function (site) {
+                        if ($rootScope.selectedSiteId == site.siteId) {
+                            vm.site = site;
+                        };
+                    });
+                }
+                LayoutsFactory.getData(vm.site.siteId).success(function (data) {
+                    vm.layouts = data;
+                });
+            });
+        };
+
+        vm.siteChanged = function () {
+            $rootScope.selectedSiteId = vm.site.siteId;
+            LayoutsFactory.getData(vm.site.siteId).success(function (data) {
                 vm.layouts = data;
             });
-        }
+        };
+
         vm.create = function () {
             $('#saveError').hide();
             vm.modalHeading = vm.modalHeadingNew;
@@ -63,7 +86,8 @@
             var data = {
                 LayoutId: vm.layout.layoutId,
                 Name: vm.layout.name,
-                Body: vm.layout.body
+                Body: vm.layout.body,
+                SiteId: vm.site.siteId
             }
             LayoutsFactory.update(data).then(function () {
                 $('#editModal').modal("hide");

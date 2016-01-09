@@ -18,17 +18,18 @@ namespace com.vorwardit.wordsworthcms.API
         public ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get()
+        public async Task<IHttpActionResult> Get(Guid siteId)
         {
-            return await Get(false);
+            return await Get(siteId, false);
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(bool noBody)
+        public async Task<IHttpActionResult> Get(Guid siteId, bool noBody)
         {
             if (noBody)
             {
                 return Ok(from l in db.Layouts
+                          where l.SiteId == siteId
                           orderby l.Name
                           select new
                           {
@@ -38,7 +39,12 @@ namespace com.vorwardit.wordsworthcms.API
             }
             else
             {
-                return Ok(await db.Layouts.OrderBy(l => l.Name).ToListAsync());
+                return Ok(
+                    await (from l in db.Layouts
+                           where l.SiteId == siteId
+                           orderby l.Name
+                           select l).ToListAsync()
+                    );
             }
         }
 
@@ -58,6 +64,7 @@ namespace com.vorwardit.wordsworthcms.API
             }
             layout.Name = model.Name;
             layout.Body = model.Body;
+            layout.SiteId = model.SiteId;
             await db.SaveChangesAsync();
             DbPathProviderSingleton.Instance.InvalidateCache();
             return Ok();

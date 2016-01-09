@@ -12,10 +12,6 @@ namespace com.vorwardit.wordsworthcms.Models
     {
         public Guid PageId { get; set; }
 
-        public Guid SiteId { get; set; }
-        [ForeignKey("SiteId")]
-        public Site Site { get; set; }
-
         public Guid PageLayoutId { get; set; }
         [ForeignKey("PageLayoutId")]
         public PageLayout PageLayout { get; set; }
