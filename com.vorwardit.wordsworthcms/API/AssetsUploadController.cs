@@ -24,7 +24,7 @@ namespace com.vorwardit.wordsworthcms.API
         {
             if (model.File != null)
             {
-                await storage.SaveFile(model.SiteId.ToString(), model.File.FileName, model.File.InputStream);
+                await storage.SaveFile(model.SiteId.ToString(), model.File.FileName, model.File.InputStream, model.File.ContentType);
             }
             return Json("Saved", JsonRequestBehavior.AllowGet);
         }

@@ -212,6 +212,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AssetsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -1345,6 +1346,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\AssetsUpload\" />
+    <Folder Include="Views\Assets\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Page\" />
   </ItemGroup>

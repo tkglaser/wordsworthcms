@@ -32,19 +32,24 @@ namespace com.vorwardit.wordsworthcms.Engine
             }
         }
 
-        public async Task SaveFile(string directory, string name, Stream data)
+        public async Task SaveFile(string directory, string name, Stream data, string contentType)
         {
             var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
+            blockBlob.Properties.ContentType = contentType;
             await blockBlob.UploadFromStreamAsync(data);
+            await blockBlob.SetPropertiesAsync();
         }
 
-        public async Task GetFile(string directory, string name, Stream data)
+        public async Task<string> GetFile(string directory, string name, Stream data)
         {
+            string contentType = "";
             var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             if (blockBlob.Exists())
             {
+                contentType = blockBlob.Properties.ContentType;
                 await blockBlob.DownloadToStreamAsync(data);
             }
+            return contentType;
         }
 
         public async Task DeleteFile(string directory, string name)

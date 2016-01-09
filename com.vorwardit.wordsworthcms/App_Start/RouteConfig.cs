@@ -50,6 +50,12 @@ namespace com.vorwardit.wordsworthcms
             );
 
             routes.MapRoute(
+                name: "Assets",
+                url: "assets/{name}",
+                defaults: new { controller = "Assets", action = "Index" }
+            );
+
+            routes.MapRoute(
                 name: "CmsContent",
                 url: "{*pathinfo}",
                 defaults: new { controller = "Page", action = "Index" }
