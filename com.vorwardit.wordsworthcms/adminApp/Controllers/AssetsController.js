@@ -5,9 +5,9 @@
         .module('app')
         .controller('AssetsController', AssetsController);
 
-    AssetsController.$inject = ['$location', '$rootScope', 'AssetsFactory', 'SitesFactory'];
+    AssetsController.$inject = ['$location', 'AssetsFactory', 'SitesFactory'];
 
-    function AssetsController($location, $rootScope, AssetsFactory, SitesFactory) {
+    function AssetsController($location, AssetsFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'AssetsController';
@@ -22,15 +22,7 @@
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
-                if (typeof $rootScope.selectedSiteId === 'undefined') {
-                    vm.site = data[0];
-                } else {
-                    angular.forEach(data, function (site) {
-                        if ($rootScope.selectedSiteId == site.siteId) {
-                            vm.site = site;
-                        };
-                    });
-                }
+                vm.site = SitesFactory.getSelectedSite(data);
                 AssetsFactory.getData(vm.site.siteId).success(function (data) {
                     vm.assets = data;
                 });
@@ -38,7 +30,7 @@
         }
 
         vm.siteChanged = function () {
-            $rootScope.selectedSiteId = vm.site.siteId;
+            SitesFactory.setSelectedSite(vm.site);
             AssetsFactory.getData(vm.site.siteId).success(function (data) {
                 vm.assets = data;
             });

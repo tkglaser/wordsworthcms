@@ -5,9 +5,9 @@
         .module('app')
         .controller('PageLayoutsController', PageLayoutsController);
 
-    PageLayoutsController.$inject = ['$location', '$rootScope', 'LayoutsFactory', 'PageLayoutsFactory', 'SitesFactory'];
+    PageLayoutsController.$inject = ['$location', 'LayoutsFactory', 'PageLayoutsFactory', 'SitesFactory'];
 
-    function PageLayoutsController($location, $rootScope, LayoutsFactory, PageLayoutsFactory, SitesFactory) {
+    function PageLayoutsController($location, LayoutsFactory, PageLayoutsFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PageLayoutsController';
@@ -25,15 +25,7 @@
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
-                if (typeof $rootScope.selectedSiteId === 'undefined') {
-                    vm.site = data[0];
-                } else {
-                    angular.forEach(data, function (site) {
-                        if ($rootScope.selectedSiteId == site.siteId) {
-                            vm.site = site;
-                        };
-                    });
-                }
+                vm.site = SitesFactory.getSelectedSite(data);
                 PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
                     vm.pagelayouts = data;
                 });
@@ -44,7 +36,7 @@
         };
 
         vm.siteChanged = function () {
-            $rootScope.selectedSiteId = vm.site.siteId;
+            SitesFactory.setSelectedSite(vm.site);
             PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
                 vm.pagelayouts = data;
             });

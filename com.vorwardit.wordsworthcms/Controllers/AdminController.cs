@@ -7,11 +7,12 @@ using System.Web.Mvc;
 namespace com.vorwardit.wordsworthcms.Controllers
 {
     [Authorize]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         // GET: Admin
         public ActionResult Index()
         {
+            ViewBag.DefaultSiteId = CurrentSite?.SiteId;
             return View();
         }
     }

@@ -5,9 +5,9 @@
         .module('app')
         .controller('LayoutsController', LayoutsController);
 
-    LayoutsController.$inject = ['$location', '$rootScope', 'LayoutsFactory', 'SitesFactory'];
+    LayoutsController.$inject = ['$location', 'LayoutsFactory', 'SitesFactory'];
 
-    function LayoutsController($location, $rootScope, LayoutsFactory, SitesFactory) {
+    function LayoutsController($location, LayoutsFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'LayoutsController';
@@ -25,15 +25,7 @@
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
-                if (typeof $rootScope.selectedSiteId === 'undefined') {
-                    vm.site = data[0];
-                } else {
-                    angular.forEach(data, function (site) {
-                        if ($rootScope.selectedSiteId == site.siteId) {
-                            vm.site = site;
-                        };
-                    });
-                }
+                vm.site = SitesFactory.getSelectedSite(data);
                 LayoutsFactory.getData(vm.site.siteId).success(function (data) {
                     vm.layouts = data;
                 });
@@ -41,7 +33,7 @@
         };
 
         vm.siteChanged = function () {
-            $rootScope.selectedSiteId = vm.site.siteId;
+            SitesFactory.setSelectedSite(vm.site);
             LayoutsFactory.getData(vm.site.siteId).success(function (data) {
                 vm.layouts = data;
             });

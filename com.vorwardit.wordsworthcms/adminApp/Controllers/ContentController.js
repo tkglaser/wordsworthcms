@@ -5,9 +5,9 @@
         .module('app')
         .controller('ContentController', ContentController);
 
-    ContentController.$inject = ['$location', '$rootScope', 'ContentFactory', 'SitesFactory'];
+    ContentController.$inject = ['$location', 'ContentFactory', 'SitesFactory'];
 
-    function ContentController($location, $rootScope, ContentFactory, SitesFactory) {
+    function ContentController($location, ContentFactory, SitesFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'ContentController';
@@ -25,15 +25,7 @@
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
-                if (typeof $rootScope.selectedSiteId === 'undefined') {
-                    vm.site = data[0];
-                } else {
-                    angular.forEach(data, function (site) {
-                        if ($rootScope.selectedSiteId == site.siteId) {
-                            vm.site = site;
-                        };
-                    });
-                };
+                vm.site = SitesFactory.getSelectedSite(data);
                 ContentFactory.getData(vm.site.siteId).success(function (data) {
                     vm.contents = data;
                 });
@@ -41,7 +33,7 @@
         };
 
         vm.siteChanged = function () {
-            $rootScope.selectedSiteId = vm.site.siteId;
+            SitesFactory.setSelectedSite(vm.site);
             ContentFactory.getData(vm.site.siteId).success(function (data) {
                 vm.contents = data;
             });
