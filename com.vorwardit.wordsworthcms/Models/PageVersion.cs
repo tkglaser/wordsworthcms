@@ -71,7 +71,8 @@ namespace com.vorwardit.wordsworthcms.Models
 				result = new PageModule<Dictionary<string, string>>
 				{
 					Position = position,
-					Type = "content"
+					Type = "content",
+                    Data = new Dictionary<string, string>()
 				};
 				md.Add(result);
 				ModuleData = md;
@@ -88,11 +89,17 @@ namespace com.vorwardit.wordsworthcms.Models
 				result = new PageModule<Dictionary<string, string>>
 				{
 					Position = position,
-					Type = "content"
-				};
+					Type = "content",
+                    Data = new Dictionary<string, string>()
+                };
 				md.Add(result);
 				ModuleData = md;
 			}
+
+            if (result.Data == null)
+            {
+                result.Data = new Dictionary<string, string>();
+            }
 
 			var typedResult = Activator.CreateInstance<PageModule<T>>();
 			typedResult.Position = position;

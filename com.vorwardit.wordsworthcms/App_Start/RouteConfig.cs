@@ -37,11 +37,17 @@ namespace com.vorwardit.wordsworthcms
 				defaults: new { controller = "Page", action = "Edit" }
 			);
 
-			routes.MapRoute(
-				name: "Module",
-				url: "module/{action}",
-				defaults: new { controller = "Module" }
-			);
+            routes.MapRoute(
+                name: "Module",
+                url: "module/{action}",
+                defaults: new { controller = "Module" }
+            );
+
+            routes.MapRoute(
+                name: "Mailer",
+                url: "mailer/{action}",
+                defaults: new { controller = "Mailer" }
+            );
 
             routes.MapRoute(
                 name: "AssetsUpload",

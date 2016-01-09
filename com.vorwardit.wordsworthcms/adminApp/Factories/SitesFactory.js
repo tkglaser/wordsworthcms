@@ -26,6 +26,7 @@
             if (typeof $rootScope.selectedSiteId === 'undefined') {
                 $rootScope.selectedSiteId = adminAppGlobalSettings.defaultSiteId;
                 if ($rootScope.selectedSiteId == '') {
+                    $rootScope.selectedSiteId = sites[0].siteId;
                     return sites[0];
                 }
             }
