@@ -107,13 +107,14 @@ namespace com.vorwardit.wordsworthcms.Engine
             return base.GetFile(virtualPath);
         }
 
-        public void InvalidateCache()
+        public void InvalidateCache(Guid pageId)
         {
-            var separatearray = dependencyCache.ToArray();
-            foreach(var dependency in separatearray)
+            var cacheEntry = dependencyCache.FirstOrDefault(c => c.PageId == pageId);
+            if (cacheEntry != null)
             {
-                dependency.Invalidate();
+                cacheEntry.Invalidate();
             }
+
             db = new ApplicationDbContext();
         }
 
@@ -121,7 +122,8 @@ namespace com.vorwardit.wordsworthcms.Engine
         {
             if (IsDbDirectory(virtualPath))
             {
-                var dbc = new DbCacheDependency((dependency) => 
+                var pageId = GetViewGuid(virtualPath).Value;
+                var dbc = new DbCacheDependency(pageId, (dependency) => 
                 {
                     dependencyCache.Remove(dependency);
                 });

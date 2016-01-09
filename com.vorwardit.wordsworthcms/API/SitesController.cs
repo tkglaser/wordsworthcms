@@ -40,7 +40,6 @@ namespace com.vorwardit.wordsworthcms.API
             site.Name = model.Name;
             site.Bindings = model.Bindings;
             await db.SaveChangesAsync();
-            DbPathProviderSingleton.Instance.InvalidateCache();
             return Ok();
         }
 

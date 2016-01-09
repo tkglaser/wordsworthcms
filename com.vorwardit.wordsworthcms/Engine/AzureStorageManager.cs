@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web;
 using Microsoft.WindowsAzure;
@@ -9,6 +8,7 @@ using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
 using System.IO;
+using System.Web.Configuration;
 
 namespace com.vorwardit.wordsworthcms.Engine
 {
@@ -18,9 +18,10 @@ namespace com.vorwardit.wordsworthcms.Engine
 
         public AzureStorageManager()
         {
-            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureStorageConnectionString"].ConnectionString);
+            var storageAccount = CloudStorageAccount.Parse(WebConfigurationManager.ConnectionStrings["AzureStorageConnectionString"].ConnectionString);
             var blobClient = storageAccount.CreateCloudBlobClient();
-            mContainer = blobClient.GetContainerReference("jollycmsassets");
+            var folder = WebConfigurationManager.AppSettings["AzureStorageFolder"] ?? "wordsworthcms";
+            mContainer = blobClient.GetContainerReference(folder);
         }
 
         public IEnumerable<Uri> ListFiles(string directory)

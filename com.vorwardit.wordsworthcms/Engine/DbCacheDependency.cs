@@ -10,9 +10,12 @@ namespace com.vorwardit.wordsworthcms.Engine
     {
         private Action<DbCacheDependency> notifyDisposed;
 
-        public DbCacheDependency(Action<DbCacheDependency> notifyDisposed)
+        public Guid PageId { get; }
+
+        public DbCacheDependency(Guid pageId, Action<DbCacheDependency> notifyDisposed)
         {
             this.notifyDisposed = notifyDisposed;
+            this.PageId = pageId;
         }
         public void Invalidate()
         {

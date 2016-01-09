@@ -88,7 +88,6 @@ namespace com.vorwardit.wordsworthcms.API
             version.Title = model.Title;
 
             await db.SaveChangesAsync();
-            DbPathProviderSingleton.Instance.InvalidateCache();
             return Ok();
         }
     }

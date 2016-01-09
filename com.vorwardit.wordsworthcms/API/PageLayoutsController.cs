@@ -65,7 +65,7 @@ namespace com.vorwardit.wordsworthcms.API
             pageLayout.Name = model.Name;
             pageLayout.Body = model.Body;
             await db.SaveChangesAsync();
-            DbPathProviderSingleton.Instance.InvalidateCache();
+            DbPathProviderSingleton.Instance.InvalidateCache(pageLayout.PageLayoutId);
             return Ok();
         }
 
