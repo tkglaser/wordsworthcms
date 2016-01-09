@@ -7,17 +7,32 @@
 </section>
 <!-- Main content -->
 <section class="content">
-    <div class="alert alert-info"><i class="fa fa-info-circle"></i> Um eine 404 Fehlerseite zu erzeugen, eine Page mit der URL <strong>/errors/404</strong> anlegen!</div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="box">
+                <div class="box-header">Aktionen</div>
+                <div class="box-body">
+                    <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neue Page</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> Um eine 404 Fehlerseite zu erzeugen, eine Page mit der URL <strong>/errors/404</strong> anlegen!</div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">Site</div>
+                <div class="box-body">
+                    <select class="form-control"
+                            ng-model="ctrl.site"
+                            ng-options="site.name for site in ctrl.sites track by site.siteId"
+                            ng-change="ctrl.siteChanged()"></select>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Default box -->
     <div class="box">
-        <div class="box-header with-border">
-            <!--<h3 class="box-title">Pages</h3>-->
-            <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neue Page</button>
-            <select class="form-control"
-                    ng-model="ctrl.site"
-                    ng-options="site.name for site in ctrl.sites track by site.siteId"
-                    ng-change="ctrl.siteChanged()"></select>
-        </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
                 <th>Name</th>
@@ -29,7 +44,7 @@
                 <td>{{page.name}}</td>
                 <td>{{page.pageLayout.name}}</td>
                 <td>
-                    <p ng-repeat="url in page.urls"><a ng-href="{{url.url}}">{{url.url}}</a></p>
+                    <div ng-repeat="url in page.urls"><a ng-href="{{url.url}}">{{url.url}}</a></div>
                 </td>
                 <td>
                     <div class="btn-group">

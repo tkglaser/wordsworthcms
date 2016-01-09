@@ -7,15 +7,29 @@
 </section>
 <!-- Main content -->
 <section class="content">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">Aktionen</div>
+                <div class="box-body">
+                    <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neuer Content</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">Site</div>
+                <div class="box-body">
+                    <select class="form-control"
+                            ng-model="ctrl.site"
+                            ng-options="site.name for site in ctrl.sites track by site.siteId"
+                            ng-change="ctrl.siteChanged()"></select>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Default box -->
     <div class="box">
-        <div class="box-header with-border">
-            <button class="btn btn-success btn-sm" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neuer Content</button>
-            <select class="form-control"
-                    ng-model="ctrl.site"
-                    ng-options="site.name for site in ctrl.sites track by site.siteId"
-                    ng-change="ctrl.siteChanged()"></select>
-        </div>
         <table class="table table-bordered table-hover table-striped">
             <tr>
                 <th>Url</th>
