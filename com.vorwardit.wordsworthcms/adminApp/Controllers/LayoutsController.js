@@ -22,6 +22,22 @@
 
         activate();
 
+        var mixedMode = {
+            name: "htmlmixed",
+            scriptTypes: [{
+                matches: /\/x-handlebars-template|\/x-mustache/i,
+                mode: null
+            },
+                          {
+                              matches: /(text|application)\/(x-)?vb(a|script)/i,
+                              mode: "vbscript"
+                          }]
+        };
+        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditor"), {
+            mode: mixedMode,
+            selectionPointer: true
+        });
+
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
@@ -45,6 +61,10 @@
             vm.layout = {};
             vm.layout.name = '';
             vm.layout.body = '';
+            vm.editor.setValue('');
+            setTimeout(function () {
+                vm.editor.refresh();
+            }, 200);
             $('#editModal').modal();
         };
 
@@ -55,6 +75,10 @@
             vm.layout.layoutId = layout.layoutId;
             vm.layout.name = layout.name;
             vm.layout.body = layout.body;
+            vm.editor.setValue(layout.body);
+            setTimeout(function () {
+                vm.editor.refresh();
+            }, 200);
             $('#editModal').modal();
         };
 
@@ -78,7 +102,7 @@
             var data = {
                 LayoutId: vm.layout.layoutId,
                 Name: vm.layout.name,
-                Body: vm.layout.body,
+                Body: vm.editor.getValue(),
                 SiteId: vm.site.siteId
             }
             LayoutsFactory.update(data).then(function () {

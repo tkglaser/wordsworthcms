@@ -1,0 +1,3 @@
+﻿https://github.com/codemirror/CodeMirror/releases
+CodeMirror-5.5.0
+2015-007-25

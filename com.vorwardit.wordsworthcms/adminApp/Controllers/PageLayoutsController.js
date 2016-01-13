@@ -22,6 +22,22 @@
 
         activate();
 
+        var mixedMode = {
+            name: "htmlmixed",
+            scriptTypes: [{
+                matches: /\/x-handlebars-template|\/x-mustache/i,
+                mode: null
+            },
+                          {
+                              matches: /(text|application)\/(x-)?vb(a|script)/i,
+                              mode: "vbscript"
+                          }]
+        };
+        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditor"), {
+            mode: mixedMode,
+            selectionPointer: true
+        });
+
         function activate() {
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
@@ -51,6 +67,10 @@
             vm.pagelayout = {};
             vm.pagelayout.name = '';
             vm.pagelayout.body = '';
+            vm.editor.setValue('');
+            setTimeout(function () {
+                vm.editor.refresh();
+            }, 200);
             $('#editModal').modal();
         };
 
@@ -61,6 +81,10 @@
             vm.pagelayout.pageLayoutId = pagelayout.pageLayoutId;
             vm.pagelayout.name = pagelayout.name;
             vm.pagelayout.body = pagelayout.body;
+            vm.editor.setValue(pagelayout.body);
+            setTimeout(function () {
+                vm.editor.refresh();
+            }, 200);
             vm.pagelayout.layoutId = pagelayout.layoutId;
             $('#editModal').modal();
         };
@@ -86,7 +110,7 @@
                 PageLayoutId: vm.pagelayout.pageLayoutId,
                 LayoutId: vm.pagelayout.layoutId,
                 Name: vm.pagelayout.name,
-                Body: vm.pagelayout.body
+                Body: vm.editor.getValue()
             }
             PageLayoutsFactory.update(data).then(function () {
                 $('#editModal').modal("hide");

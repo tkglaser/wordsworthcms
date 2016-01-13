@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<title></title>
+	<link href="~/Content/codemirror5/lib/codemirror.min.css" rel="stylesheet" />
+	<link href="~/Content/codemirror5/ans-codemirror.min.css" rel="stylesheet" />
+
+</head>
+<body>
+	@RenderBody()
+
+<pre class="code-html"><h1>Text</h1>
+<p>Text</p></pre>
+
+	<textarea id="Test" class="form-control form-codemirror">Test</textarea>
+
+	<script src="~/Scripts/jquery.min.js"></script>
+
+	<script src="~/Content/codemirror5/lib/codemirror.min.js"></script>
+	<script src="~/Content/codemirror5/mode/xml/xml.js"></script>
+	<script src="~/Content/codemirror5/mode/javascript/javascript.js"></script>
+	<script src="~/Content/codemirror5/mode/css/css.js"></script>
+	<script src="~/Content/codemirror5/mode/htmlmixed/htmlmixed.js"></script>
+	<script src="~/Content/codemirror5/addon/edit/closetag.js"></script>
+	<script src="~/Content/codemirror5/addon/display/fullscreen.js"></script>
+	<script src="~/Content/codemirror5/ans-codemirror.min.js"></script>
+</body>
+</html>
