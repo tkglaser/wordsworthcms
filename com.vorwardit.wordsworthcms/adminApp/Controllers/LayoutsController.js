@@ -33,7 +33,7 @@
                               mode: "vbscript"
                           }]
         };
-        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditor"), {
+        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
             mode: mixedMode,
             selectionPointer: true
         });
