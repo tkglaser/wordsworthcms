@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using com.vorwardit.wordsworthcms.Models;
+using System.Web.Configuration;
 
 namespace com.vorwardit.wordsworthcms.Controllers
 {
@@ -57,7 +58,8 @@ namespace com.vorwardit.wordsworthcms.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+			ViewBag.ApplicationNameLong = WebConfigurationManager.AppSettings["ApplicationNameLong"];
+			ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
