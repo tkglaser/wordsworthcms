@@ -59,6 +59,13 @@
     }
 </style>
 <script>
+    if(!window.jQuery)
+    {
+       var script = document.createElement('script');
+       script.type = "text/javascript";
+       script.src = "//code.jquery.com/jquery-2.2.0.min.js";
+       document.getElementsByTagName('head')[0].appendChild(script);
+    }
     $(document).ready(function(){
         var pageVersionId = '@ViewBag.PageVersionId';
         var siteData = {}
