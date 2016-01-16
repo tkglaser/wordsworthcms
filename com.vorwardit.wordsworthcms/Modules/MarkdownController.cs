@@ -19,7 +19,7 @@ namespace com.vorwardit.wordsworthcms.Modules
     }
 
     [Module("Markdown")]
-    public class MarkdownController : Controller
+    public class MarkdownController : Controller, IModule
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
