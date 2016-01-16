@@ -22,7 +22,8 @@ namespace com.vorwardit.wordsworthcms
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-			ModuleFinder.Init();
+            AutoMapperConfig.ConfigureMappings();
+            ModuleFinder.Init();
         }
     }
 }

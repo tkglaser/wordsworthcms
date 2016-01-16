@@ -8,6 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using com.vorwardit.wordsworthcms.ViewModels;
 
 namespace com.vorwardit.wordsworthcms.API
 {
@@ -20,11 +23,11 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok(await db.Sites.ToListAsync());
+            return Ok((await db.Sites.ToListAsync()).Select(s => Mapper.Map<SiteViewModel>(s)));
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Site model)
+        public async Task<IHttpActionResult> Post(SiteViewModel model)
         {
             Site site;
             if (model.SiteId == Guid.Empty)
