@@ -28,10 +28,10 @@
                 matches: /\/x-handlebars-template|\/x-mustache/i,
                 mode: null
             },
-                          {
-                              matches: /(text|application)\/(x-)?vb(a|script)/i,
-                              mode: "vbscript"
-                          }]
+            {
+                matches: /(text|application)\/(x-)?vb(a|script)/i,
+                mode: "vbscript"
+            }]
         };
         vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorPageLayout"), {
             mode: mixedMode,

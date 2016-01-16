@@ -28,14 +28,22 @@
                 matches: /\/x-handlebars-template|\/x-mustache/i,
                 mode: null
             },
-                          {
-                              matches: /(text|application)\/(x-)?vb(a|script)/i,
-                              mode: "vbscript"
-                          }]
+            {
+                matches: /(text|application)\/(x-)?vb(a|script)/i,
+                mode: "vbscript"
+            }]
         };
         vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
             mode: mixedMode,
-            selectionPointer: true
+            selectionPointer: true,
+            extraKeys: {
+                "F11": function (cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function (cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                }
+            }
         });
 
         function activate() {

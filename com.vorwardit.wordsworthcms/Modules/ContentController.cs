@@ -1,5 +1,6 @@
 ﻿using com.vorwardit.wordsworthcms.Models;
 using com.vorwardit.wordsworthcms.Modules.Core;
+using MarkdownSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -17,7 +18,7 @@ namespace com.vorwardit.wordsworthcms.Modules
 		public string Content { get; set; }
 	}
 
-	[Module("HTML Content")]
+	[Module("HTML Raw")]
 	public class ContentController : Controller, IModule
 	{
 		public ApplicationDbContext db = new ApplicationDbContext();
@@ -25,7 +26,7 @@ namespace com.vorwardit.wordsworthcms.Modules
 		// GET: TopBanner
 		public ActionResult Index(Guid pageVersionId, string position)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
+            var pageVersion = db.PageVersions.Find(pageVersionId);
 			var md = pageVersion.GetModule<ContentModel>(position);
 			return Content(md.Data.Content, "text/html");
 		}
