@@ -71,7 +71,7 @@ namespace com.vorwardit.wordsworthcms.Models
 				result = new PageModule<Dictionary<string, string>>
 				{
 					Position = position,
-					Type = "content",
+					Type = "markdown",
                     Data = new Dictionary<string, string>()
 				};
 				md.Add(result);
@@ -89,7 +89,7 @@ namespace com.vorwardit.wordsworthcms.Models
 				result = new PageModule<Dictionary<string, string>>
 				{
 					Position = position,
-					Type = "content",
+					Type = "markdown",
                     Data = new Dictionary<string, string>()
                 };
 				md.Add(result);

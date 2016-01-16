@@ -47,13 +47,10 @@
 	    top:1px;
     }
     [data-module] {
-        /*position:relative;
-        height:50px;*/
         border:1px solid #a0a0a0
     }
     [data-editor] {
         z-index:10000;
-        /*position:absolute;*/
         background:rgba(255,255,255,0.7);
         width:100%;
     }
@@ -121,6 +118,24 @@ function payLoad() {
             var editor = module.find($('[data-editor]'));
             var content = module.find($('[data-content]'));
 
+            content.html('');
+            editor.load('/module/editmodulesettings?pageVersionId=' + pageVersionId + '&position=' + position);
+        });
+
+        $(document).on('click', '.cmsTypeCancelButton', function () {
+            var module = $(this).closest('[data-module]');
+            var position = module.attr('data-position');
+            var editor = module.find($('[data-editor]'));
+            var content = module.find($('[data-content]'));
+            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
+            content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
+        });
+
+        $(document).on('click', '.cmsTypeChangeModuleTypeButton', function () {
+            var module = $(this).closest('[data-module]');
+            var position = module.attr('data-position');
+            var editor = module.find($('[data-editor]'));
+            var content = module.find($('[data-content]'));
             editor.load('/module/editmoduletype?pageVersionId=' + pageVersionId + '&position=' + position);
         });
 
