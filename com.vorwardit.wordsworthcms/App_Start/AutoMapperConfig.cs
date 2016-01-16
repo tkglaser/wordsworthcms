@@ -13,6 +13,8 @@ namespace com.vorwardit.wordsworthcms
         public static void ConfigureMappings()
         {
             Mapper.CreateMap<Site, SiteViewModel>();
+            Mapper.CreateMap<Layout, LayoutViewModel>();
+            Mapper.CreateMap<PageLayout, PageLayoutViewModel>();
             Mapper.AssertConfigurationIsValid();
         }
     }

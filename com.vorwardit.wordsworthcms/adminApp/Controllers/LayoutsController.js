@@ -42,7 +42,7 @@
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
                 vm.site = SitesFactory.getSelectedSite(data);
-                LayoutsFactory.getData(vm.site.siteId).success(function (data) {
+                LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.layouts = data;
                 });
             });
@@ -50,7 +50,7 @@
 
         vm.siteChanged = function () {
             SitesFactory.setSelectedSite(vm.site);
-            LayoutsFactory.getData(vm.site.siteId).success(function (data) {
+            LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.layouts = data;
             });
         };
@@ -69,17 +69,16 @@
         };
 
         vm.edit = function (layout) {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingEdit;
-            vm.layout = {};
-            vm.layout.layoutId = layout.layoutId;
-            vm.layout.name = layout.name;
-            vm.layout.body = layout.body;
-            vm.editor.setValue(layout.body);
-            setTimeout(function () {
-                vm.editor.refresh();
-            }, 200);
-            $('#editModal').modal();
+            LayoutsFactory.getData(layout.layoutId).success(function (data) {
+                $('#saveError').hide();
+                vm.modalHeading = vm.modalHeadingEdit;
+                vm.layout = data;
+                vm.editor.setValue(vm.layout.body);
+                setTimeout(function () {
+                    vm.editor.refresh();
+                }, 200);
+                $('#editModal').modal();
+            });
         };
 
         vm.delete = function (layout) {

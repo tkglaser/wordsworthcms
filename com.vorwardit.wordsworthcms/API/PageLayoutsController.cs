@@ -1,5 +1,7 @@
-﻿using com.vorwardit.wordsworthcms.Engine;
+﻿using AutoMapper;
+using com.vorwardit.wordsworthcms.Engine;
 using com.vorwardit.wordsworthcms.Models;
+using com.vorwardit.wordsworthcms.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,37 +20,27 @@ namespace com.vorwardit.wordsworthcms.API
         public ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId)
+        public async Task<IHttpActionResult> GetBySiteId(Guid siteId)
         {
-            return await Get(siteId, false);
+            return Ok(await (from l in db.PageLayouts
+                             where l.Layout.SiteId == siteId
+                             orderby l.Name
+                             select new
+                             {
+                                 l.PageLayoutId,
+                                 l.LayoutId,
+                                 l.Name
+                             }).ToListAsync());
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId, bool noBody)
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            if (noBody)
-            {
-                return Ok(from l in db.PageLayouts
-                          where l.Layout.SiteId == siteId
-                          orderby l.Name
-                          select new
-                          {
-                              l.PageLayoutId,
-                              l.LayoutId,
-                              l.Name
-                          });
-            }
-            else
-            {
-                return Ok(await (from l in db.PageLayouts
-                                 where l.Layout.SiteId == siteId
-                                 orderby l.Name
-                                 select l).ToListAsync());
-            }
+            return Ok(Mapper.Map<PageLayoutViewModel>(await db.PageLayouts.SingleAsync(pl => pl.PageLayoutId == id)));
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(PageLayout model)
+        public async Task<IHttpActionResult> Post(PageLayoutViewModel model)
         {
             PageLayout pageLayout;
             if (model.PageLayoutId == Guid.Empty)

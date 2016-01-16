@@ -9,6 +9,7 @@
 
     function LayoutsFactory($http) {
         var service = {
+            getBySiteId: getBySiteId,
             getData: getData,
             update: update,
             remove: remove
@@ -16,13 +17,12 @@
 
         return service;
 
-        function getData(siteId, noBody) {
-            if (noBody == true) {
-                return $http.get('/api/layouts?noBody=true&siteId=' + siteId);
-            }
-            else {
-                return $http.get('/api/layouts?siteId=' + siteId);
-            }
+        function getBySiteId(siteId) {
+            return $http.get('/api/layouts?siteId=' + siteId);
+        }
+
+        function getData(layoutId) {
+            return $http.get('/api/layouts/' + layoutId);
         }
 
         function update(data) {

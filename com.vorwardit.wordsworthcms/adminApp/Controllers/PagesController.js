@@ -33,7 +33,7 @@
                 PagesFactory.getData(vm.site.siteId).success(function (data) {
                     vm.pages = data;
                 });
-                PageLayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+                PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.pageLayouts = data;
                 });
             });
@@ -44,7 +44,7 @@
             PagesFactory.getData(vm.site.siteId).success(function (data) {
                 vm.pages = data;
             });
-            PageLayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+            PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.pageLayouts = data;
             });
         };

@@ -1,5 +1,7 @@
-﻿using com.vorwardit.wordsworthcms.Engine;
+﻿using AutoMapper;
+using com.vorwardit.wordsworthcms.Engine;
 using com.vorwardit.wordsworthcms.Models;
+using com.vorwardit.wordsworthcms.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,38 +20,30 @@ namespace com.vorwardit.wordsworthcms.API
         public ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId)
+        public async Task<IHttpActionResult> GetBySiteId(Guid siteId)
         {
-            return await Get(siteId, false);
+            return Ok(
+                await (from l in db.Layouts
+                       where l.SiteId == siteId
+                       orderby l.Name
+                       select new
+                       {
+                           l.LayoutId,
+                           l.Name,
+                           l.SiteId
+                       }).ToListAsync()
+                );
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId, bool noBody)
+        public async Task<IHttpActionResult> Get(Guid id)
         {
-            if (noBody)
-            {
-                return Ok(from l in db.Layouts
-                          where l.SiteId == siteId
-                          orderby l.Name
-                          select new
-                          {
-                              l.LayoutId,
-                              l.Name
-                          });
-            }
-            else
-            {
-                return Ok(
-                    await (from l in db.Layouts
-                           where l.SiteId == siteId
-                           orderby l.Name
-                           select l).ToListAsync()
-                    );
-            }
+            return Ok(
+                Mapper.Map<LayoutViewModel>(await db.Layouts.SingleAsync(l => l.LayoutId == id)));
         }
 
         [HttpPost]
-        public async Task<IHttpActionResult> Post(Layout model)
+        public async Task<IHttpActionResult> Post(LayoutViewModel model)
         {
             Layout layout;
             if (model.LayoutId == Guid.Empty)

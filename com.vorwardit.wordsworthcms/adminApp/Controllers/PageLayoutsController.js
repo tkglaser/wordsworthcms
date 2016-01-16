@@ -42,10 +42,10 @@
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
                 vm.site = SitesFactory.getSelectedSite(data);
-                PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
+                PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.pagelayouts = data;
                 });
-                LayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+                LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.layouts = data;
                 });
             });
@@ -53,10 +53,10 @@
 
         vm.siteChanged = function () {
             SitesFactory.setSelectedSite(vm.site);
-            PageLayoutsFactory.getData(vm.site.siteId).success(function (data) {
+            PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.pagelayouts = data;
             });
-            LayoutsFactory.getData(vm.site.siteId, true).success(function (data) {
+            LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.layouts = data;
             });
         };
@@ -75,18 +75,16 @@
         };
 
         vm.edit = function (pagelayout) {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingEdit;
-            vm.pagelayout = {};
-            vm.pagelayout.pageLayoutId = pagelayout.pageLayoutId;
-            vm.pagelayout.name = pagelayout.name;
-            vm.pagelayout.body = pagelayout.body;
-            vm.editor.setValue(pagelayout.body);
-            setTimeout(function () {
-                vm.editor.refresh();
-            }, 200);
-            vm.pagelayout.layoutId = pagelayout.layoutId;
-            $('#editModal').modal();
+            PageLayoutsFactory.getData(pagelayout.pageLayoutId).success(function (data) {
+                vm.pagelayout = data;
+                $('#saveError').hide();
+                vm.modalHeading = vm.modalHeadingEdit;
+                vm.editor.setValue(vm.pagelayout.body);
+                setTimeout(function () {
+                    vm.editor.refresh();
+                }, 200);
+                $('#editModal').modal();
+            });
         };
 
         vm.delete = function (pagelayout) {
