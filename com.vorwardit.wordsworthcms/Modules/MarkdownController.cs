@@ -28,14 +28,14 @@ namespace com.vorwardit.wordsworthcms.Modules
         {
             Markdown mark = new Markdown();
             var pageVersion = db.PageVersions.Find(pageVersionId);
-            var md = pageVersion.GetModule<ContentModel>(position);
+            var md = pageVersion.GetModule<MarkdownModel>(position);
             return Content(mark.Transform(md.Data.Content), "text/html");
         }
 
         public ActionResult Edit(Guid pageVersionId, string position)
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
-            var md = pageVersion.GetModule<ContentModel>(position);
+            var md = pageVersion.GetModule<MarkdownModel>(position);
             return PartialView("~/Views/Markdown/Edit.cshtml", md.Data);
         }
 
@@ -43,7 +43,7 @@ namespace com.vorwardit.wordsworthcms.Modules
         public ActionResult Save(Guid pageVersionId, string position, NameValueCollection form)
         {
             var pageVersion = db.PageVersions.Find(pageVersionId);
-            var md = pageVersion.GetModule<ContentModel>(position);
+            var md = pageVersion.GetModule<MarkdownModel>(position);
             md.Data.Content = form["Content"];
             pageVersion.SetModule(position, md);
             db.SaveChanges();
