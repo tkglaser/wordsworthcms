@@ -23,6 +23,7 @@ namespace com.vorwardit.wordsworthcms
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.ConfigureMappings();
+            UnityConfig.RegisterComponents();
             ModuleFinder.Init();
         }
     }
