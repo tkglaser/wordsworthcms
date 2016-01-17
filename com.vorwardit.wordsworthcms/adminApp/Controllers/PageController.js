@@ -88,6 +88,14 @@
             });
         }
 
+        vm.newVersion = function () {
+            PageFactory.createNewVersion(vm.page.pageId).success(function () {
+                PageFactory.getVersions(vm.page.pageId).success(function (data) {
+                    vm.pageversions = data;
+                });
+            });
+        }
+
         vm.publish = function (versionId) {
             PageFactory.publish(versionId).then(function () {
                 PageFactory.getVersions(vm.page.pageId).success(function (data) {

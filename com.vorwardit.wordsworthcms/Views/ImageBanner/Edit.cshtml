@@ -1,40 +1,29 @@
 ﻿@model com.vorwardit.wordsworthcms.Modules.ImageBannerModel
 
+<div style="height:100px">&nbsp;</div>
+<h4>Banner mit Schrift</h4>
+<hr />
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "", style="width:100%" } })
+    @Html.ValidationMessageFor(model => model.Image, "", new { @class = "" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Heading, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Heading, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Heading, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.LabelFor(model => model.Heading, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.Heading, new { htmlAttributes = new { @class = "", style = "width:100%" } })
+    @Html.ValidationMessageFor(model => model.Heading, "", new { @class = "" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SubHeading, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SubHeading, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SubHeading, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    @Html.LabelFor(model => model.SubHeading, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.SubHeading, new { htmlAttributes = new { @class = "", style = "width:100%" } })
+    @Html.ValidationMessageFor(model => model.SubHeading, "", new { @class = "" })
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <button type="button" class="cmsTypeSaveSettingsButton btn btn-default">Speichern</button>
-            </div>
-        </div>
-    </div>
 }
+<br />
+<button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
+<button type="button" class="cmsTypeCancelButton">Abbrechen</button>
+<button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
+
 

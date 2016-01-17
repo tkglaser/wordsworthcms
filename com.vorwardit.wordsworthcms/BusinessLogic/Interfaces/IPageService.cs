@@ -17,6 +17,7 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Interfaces
         Task<Page> GetAsync(Guid id);
         Task<Page> GetOrCreateAsync(Guid id);
         Task<IList<Page>> GetBySiteIdAsync(Guid siteId);
+        Task CreateNewVersionAsync(Guid pageId);
 
         Task Publish(Guid pageVersionId);
 

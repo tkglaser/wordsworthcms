@@ -209,5 +209,39 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
             }
             await db.SaveChangesAsync();
         }
+
+        public async Task CreateNewVersionAsync(Guid pageId)
+        {
+            PageVersion newVersion;
+            var currentVersion = await (from v in db.PageVersions
+                                        where v.PageId == pageId
+                                        orderby v.RevisionNumber descending
+                                        select v).FirstOrDefaultAsync();
+            if (currentVersion == null)
+            {
+                newVersion = new PageVersion
+                {
+                    PageVersionId = Guid.NewGuid(),
+                    PageId = pageId,
+                    RevisionNumber = 1,
+                    Status = PageVersionStatus.Draft
+                };
+            }
+            else
+            {
+                newVersion = new PageVersion
+                {
+                    PageVersionId = Guid.NewGuid(),
+                    PageId = pageId,
+                    RevisionNumber = currentVersion.RevisionNumber + 1,
+                    Status = PageVersionStatus.Draft,
+                    Body = currentVersion.Body,
+                    Title = currentVersion.Title,
+                    MetaDescription = currentVersion.MetaDescription
+                };
+            }
+            db.PageVersions.Add(newVersion);
+            await db.SaveChangesAsync();
+        }
     }
 }

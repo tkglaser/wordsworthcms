@@ -14,6 +14,7 @@
             getVersions: getVersions,
             update: update,
             publish: publish,
+            createNewVersion: createNewVersion,
             updateVersion: updateVersion,
             remove: remove,
         };
@@ -42,6 +43,10 @@
 
         function publish(versionId) {
             return $http.post('/api/pageversion/publish?versionId=' + versionId);
+        }
+
+        function createNewVersion(pageId) {
+            return $http.post('/api/pageversion/newversion?pageId=' + pageId);
         }
 
         function remove(id) {

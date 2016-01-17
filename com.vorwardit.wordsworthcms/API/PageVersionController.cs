@@ -30,6 +30,14 @@ namespace com.vorwardit.wordsworthcms.API
         }
 
         [HttpPost]
+        [Route("newversion")]
+        public async Task<IHttpActionResult> PostNewVersion(Guid pageId)
+        {
+            await pageService.CreateNewVersionAsync(pageId);
+            return Ok();
+        }
+
+        [HttpPost]
         [Route("publish")]
         public async Task<IHttpActionResult> Post(Guid versionId)
         {
