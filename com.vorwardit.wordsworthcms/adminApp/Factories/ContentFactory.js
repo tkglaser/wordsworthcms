@@ -9,6 +9,7 @@
 
     function ContentFactory($http) {
         var service = {
+            getBySiteId: getBySiteId,
             getData: getData,
             update: update,
             remove: remove
@@ -16,13 +17,12 @@
 
         return service;
 
-        function getData(siteId, noBody) {
-            if (noBody == true) {
-                return $http.get('/api/content?noBody=true&siteId=' + siteId);
-            }
-            else {
-                return $http.get('/api/content?siteId=' + siteId);
-            }
+        function getBySiteId(siteId) {
+            return $http.get('/api/content?siteId=' + siteId);
+        }
+
+        function getData(contentId) {
+            return $http.get('/api/content/' + contentId);
         }
 
         function update(data) {

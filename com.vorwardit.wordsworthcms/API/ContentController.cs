@@ -1,4 +1,5 @@
-﻿using com.vorwardit.wordsworthcms.Models;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using com.vorwardit.wordsworthcms.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -14,65 +15,47 @@ namespace com.vorwardit.wordsworthcms.API
     [RoutePrefix("api/content")]
     public class ContentController : ApiController
     {
-        public ApplicationDbContext db = new ApplicationDbContext();
+        IContentService contentService;
 
-        [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId)
+        public ContentController(IContentService contentService)
         {
-            return await Get(siteId, false);
+            this.contentService = contentService;
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId, bool noBody)
+        public async Task<IHttpActionResult> GetBySiteId(Guid siteId)
         {
-            if (noBody)
-            {
-                return Ok(from c in db.Contents
-                          where c.SiteId == siteId
-                          select new
-                          {
-                              c.ContentId,
-                              c.SiteId,
-                              c.Url
-                          });
-            }
-            else
-            {
-                return Ok(await (from s in db.Contents.Include("Site")
-                                 where s.SiteId == siteId
-                                 select s).ToListAsync());
-            }
+            var contents = await contentService.GetBySiteIdAsync(siteId);
+            return Ok(from c in contents
+                      select new
+                      {
+                          c.ContentId,
+                          c.SiteId,
+                          c.Url
+                      });
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> Get(long id)
+        {
+            return Ok(await contentService.GetAsync(id));
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Post(Content model)
         {
-            Content content;
-            if (model.ContentId == -1)
-            {
-                content = new Content();
-                db.Contents.Add(content);
-            }
-            else
-            {
-                content = await db.Contents.FindAsync(model.ContentId);
-            }
+            Content content = await contentService.GetOrCreateAsync(model.ContentId);
             content.Body = model.Body;
             content.SiteId = model.SiteId;
             content.Url = model.Url;
-            await db.SaveChangesAsync();
+            await contentService.UpdateAsync(content);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(long id)
         {
-            var content = await db.Contents.FindAsync(id);
-            if (content != null)
-            {
-                db.Contents.Remove(content);
-                await db.SaveChangesAsync();
-            }
+            await contentService.DeleteAsync(id);
             return Ok();
         }
     }

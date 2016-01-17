@@ -15,6 +15,10 @@ namespace com.vorwardit.wordsworthcms
             Mapper.CreateMap<Site, SiteViewModel>();
             Mapper.CreateMap<Layout, LayoutViewModel>();
             Mapper.CreateMap<PageLayout, PageLayoutViewModel>();
+            Mapper.CreateMap<Page, PageViewModel>()
+                .ForMember(dest => dest.Urls, opts => opts.MapFrom(
+                    src => (from u in src.Urls
+                            select new UrlViewModel { Url = u.Url }).ToArray()));
             Mapper.AssertConfigurationIsValid();
         }
     }

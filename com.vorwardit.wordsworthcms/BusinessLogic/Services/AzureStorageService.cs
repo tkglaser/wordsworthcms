@@ -9,14 +9,15 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
 using System.IO;
 using System.Web.Configuration;
+using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 
-namespace com.vorwardit.wordsworthcms.Engine
+namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
 {
-    public class AzureStorageManager
+    public class AzureStorageService : IAzureStorageService
     {
         CloudBlobContainer mContainer;
 
-        public AzureStorageManager()
+        public AzureStorageService()
         {
             var storageAccount = CloudStorageAccount.Parse(WebConfigurationManager.ConnectionStrings["AzureStorageConnectionString"].ConnectionString);
             var blobClient = storageAccount.CreateCloudBlobClient();
@@ -33,7 +34,7 @@ namespace com.vorwardit.wordsworthcms.Engine
             }
         }
 
-        public async Task SaveFile(string directory, string name, Stream data, string contentType)
+        public async Task SaveFileAsync(string directory, string name, Stream data, string contentType)
         {
             var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             blockBlob.Properties.ContentType = contentType;
@@ -41,7 +42,7 @@ namespace com.vorwardit.wordsworthcms.Engine
             await blockBlob.SetPropertiesAsync();
         }
 
-        public async Task<string> GetFile(string directory, string name, Stream data)
+        public async Task<string> GetFileAsync(string directory, string name, Stream data)
         {
             string contentType = "";
             var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
@@ -53,7 +54,7 @@ namespace com.vorwardit.wordsworthcms.Engine
             return contentType;
         }
 
-        public async Task DeleteFile(string directory, string name)
+        public async Task DeleteFileAsync(string directory, string name)
         {
             var blockBlob = mContainer.GetBlockBlobReference(directory + "/" + name);
             await blockBlob.DeleteIfExistsAsync();

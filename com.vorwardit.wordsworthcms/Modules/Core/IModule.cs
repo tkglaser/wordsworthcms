@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,8 +12,8 @@ namespace com.vorwardit.wordsworthcms.Modules.Core
     {
 		ActionResult Index(Guid pageVersionId, string position);
 
-		ActionResult Edit(Guid pageVersionId, string position);
+        Task<ActionResult> Edit(Guid pageVersionId, string position);
 
-		ActionResult Save(Guid pageVersionId, string position, NameValueCollection form);
+        Task<ActionResult> Save(Guid pageVersionId, string position, NameValueCollection form);
 	}
 }

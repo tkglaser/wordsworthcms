@@ -1,4 +1,5 @@
-﻿using com.vorwardit.wordsworthcms.Engine;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using com.vorwardit.wordsworthcms.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,17 @@ namespace com.vorwardit.wordsworthcms.API
     [RoutePrefix("api/assets")]
     public class AssetsController : ApiController
     {
-        AzureStorageManager storage = new AzureStorageManager();
+        IAzureStorageService storageService;
+
+        public AssetsController(IAzureStorageService storageService)
+        {
+            this.storageService = storageService;
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid siteId)
         {
-            var result = from f in storage.ListFiles(siteId.ToString())
+            var result = from f in storageService.ListFiles(siteId.ToString())
                          select new
                          {
                              name = System.IO.Path.GetFileName(f.LocalPath),
@@ -30,7 +36,7 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid siteId, string name)
         {
-            await storage.DeleteFile(siteId.ToString(), name);
+            await storageService.DeleteFileAsync(siteId.ToString(), name);
             return Ok();
         }
     }

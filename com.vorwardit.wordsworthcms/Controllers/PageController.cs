@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,71 +9,63 @@ using System.Web.Mvc;
 
 namespace com.vorwardit.wordsworthcms.Controllers
 {
-    public class PageController : BaseController
+    public class PageController : Controller
     {
+        ISiteService siteService;
+        IPageService pageService;
+        IContentService contentService;
+
+        public PageController(ISiteService siteService, IPageService pageService, IContentService contentService)
+        {
+            this.siteService = siteService;
+            this.pageService = pageService;
+            this.contentService = contentService;
+        }
+
         // GET: Page
         public async Task<ActionResult> Index(string pathinfo)
         {
-			if (CurrentSite == null)
+            var currentSite = await siteService.GetByHostnameAsync(Request.Url.DnsSafeHost);
+
+            if (currentSite == null)
 			{
-				return await NotFound();
+				return HttpNotFound();
 			}
 
-			var path = "/" + pathinfo;
+            var pageVersion = await pageService.GetLatestPublishedVersionAsync(currentSite.SiteId, pathinfo);
 
-            var page = await (from url in db.PageUrls
-                              where url.Url == path
-                              where url.Page.PageLayout.Layout.SiteId == CurrentSite.SiteId
-                              select url.Page).FirstOrDefaultAsync();
-            if (page == null)
+            if (pageVersion == null)
             {
-                return await getContent(path);
+                return await getContent(pathinfo);
             }
-            var pageversion = (from pv in page.Versions
-                               where pv.Status == Models.PageVersionStatus.Published
-                               orderby pv.RevisionNumber descending
-                               select pv).FirstOrDefault();
-            if (pageversion == null)
-            {
-                return await NotFound();
-            }
-            return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
+
+            return View($"/db/{pageVersion.PageVersionId.ToString()}.cshtml");
         }
 
 		[NonAction]
 		public async Task<ActionResult> NotFound()
 		{
-			if (CurrentSite == null)
-			{
-				return HttpNotFound();
-			}
+            var currentSite = await siteService.GetByHostnameAsync(Request.Url.DnsSafeHost);
 
-			var path = "/errors/404";
+            if (currentSite == null)
+            {
+                return HttpNotFound();
+            }
 
-			var page = await (from url in db.PageUrls
-							  where url.Url == path
-							  where url.Page.PageLayout.Layout.SiteId == CurrentSite.SiteId
-							  select url.Page).FirstOrDefaultAsync();
-			if (page == null)
-			{
-				return HttpNotFound();
-			}
-			var pageversion = (from pv in page.Versions
-							   where pv.Status == Models.PageVersionStatus.Published
-							   orderby pv.RevisionNumber descending
-							   select pv).FirstOrDefault();
-			if (pageversion == null)
-			{
-				return HttpNotFound();
-			}
+            var pageVersion = await pageService.GetErrorPageAsync(currentSite.SiteId, 404);
+
+            if (pageVersion == null)
+            {
+                return HttpNotFound();
+            }
 
 			Response.StatusCode = 404;
-			return View($"/db/{pageversion.PageVersionId.ToString()}.cshtml");
+			return View($"/db/{pageVersion.PageVersionId.ToString()}.cshtml");
 		}
 
 		public async Task<ActionResult> Preview(Guid id)
         {
-            var pageversion = await db.PageVersions.FindAsync(id);
+            var pageversion = await pageService.GetPageVersionAsync(id);
             if (pageversion == null)
             {
                 return HttpNotFound();
@@ -82,7 +75,7 @@ namespace com.vorwardit.wordsworthcms.Controllers
 
         public async Task<ActionResult> Edit(Guid id)
         {
-            var pageversion = await db.PageVersions.FindAsync(id);
+            var pageversion = await pageService.GetPageVersionAsync(id);
             if (pageversion == null)
             {
                 return HttpNotFound();
@@ -93,10 +86,8 @@ namespace com.vorwardit.wordsworthcms.Controllers
         [NonAction]
         public async Task<ActionResult> getContent(string path)
         {
-			var content = await (from c in db.Contents
-								 where c.Url == path
-								 where c.SiteId == CurrentSite.SiteId
-								 select c).FirstOrDefaultAsync();
+            var currentSite = await siteService.GetByHostnameAsync(Request.Url.DnsSafeHost);
+            var content = await contentService.GetAsync(currentSite.SiteId, path);
             if (content == null)
             {
 				return await NotFound();

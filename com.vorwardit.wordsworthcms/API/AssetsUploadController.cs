@@ -1,4 +1,5 @@
-﻿using com.vorwardit.wordsworthcms.Engine;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using com.vorwardit.wordsworthcms.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,19 @@ namespace com.vorwardit.wordsworthcms.API
     [Authorize]
     public class AssetsUploadController : Controller
     {
-        AzureStorageManager storage = new AzureStorageManager();
+        IAzureStorageService storageService;
+
+        public AssetsUploadController(IAzureStorageService storageService)
+        {
+            this.storageService = storageService;
+        }
 
         [HttpPost]
         public async Task<ActionResult> SaveAsset(AssetUploadModel model)
         {
             if (model.File != null)
             {
-                await storage.SaveFile(model.SiteId.ToString(), model.File.FileName, model.File.InputStream, model.File.ContentType);
+                await storageService.SaveFileAsync(model.SiteId.ToString(), model.File.FileName, model.File.InputStream, model.File.ContentType);
             }
             return Json("Saved", JsonRequestBehavior.AllowGet);
         }

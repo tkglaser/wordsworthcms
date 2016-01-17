@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 using com.vorwardit.wordsworthcms.Engine;
 using com.vorwardit.wordsworthcms.Models;
 using com.vorwardit.wordsworthcms.ViewModels;
@@ -17,62 +18,48 @@ namespace com.vorwardit.wordsworthcms.API
     [RoutePrefix("api/layouts")]
     public class LayoutsController : ApiController
     {
-        public ApplicationDbContext db = new ApplicationDbContext();
+        ILayoutService layoutService;
+
+        public LayoutsController(ILayoutService layoutService)
+        {
+            this.layoutService = layoutService;
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetBySiteId(Guid siteId)
         {
+            var layouts = await layoutService.GetBySiteIdAsync(siteId);
             return Ok(
-                await (from l in db.Layouts
-                       where l.SiteId == siteId
-                       orderby l.Name
-                       select new
-                       {
-                           l.LayoutId,
-                           l.Name,
-                           l.SiteId
-                       }).ToListAsync()
-                );
+                from l in layouts
+                select new
+                {
+                    l.LayoutId,
+                    l.Name,
+                    l.SiteId
+                });
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            return Ok(
-                Mapper.Map<LayoutViewModel>(await db.Layouts.SingleAsync(l => l.LayoutId == id)));
+            return Ok(Mapper.Map<LayoutViewModel>(await layoutService.GetAsync(id)));
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Post(LayoutViewModel model)
         {
-            Layout layout;
-            if (model.LayoutId == Guid.Empty)
-            {
-                layout = new Layout();
-                layout.LayoutId = Guid.NewGuid();
-                db.Layouts.Add(layout);
-            }
-            else
-            {
-                layout = await db.Layouts.FindAsync(model.LayoutId);
-            }
+            Layout layout = await layoutService.GetOrCreateAsync(model.LayoutId);
             layout.Name = model.Name;
             layout.Body = model.Body;
             layout.SiteId = model.SiteId;
-            await db.SaveChangesAsync();
-            DbPathProviderSingleton.Instance.InvalidateCache(layout.LayoutId);
+            await layoutService.UpdateAsync(layout);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            var layout = await db.Layouts.FindAsync(id);
-            if (layout != null)
-            {
-                db.Layouts.Remove(layout);
-                await db.SaveChangesAsync();
-            }
+            await layoutService.DeleteAsync(id);
             return Ok();
         }
     }

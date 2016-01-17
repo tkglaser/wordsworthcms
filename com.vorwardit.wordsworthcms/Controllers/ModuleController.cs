@@ -1,19 +1,28 @@
-﻿using com.vorwardit.wordsworthcms.Modules;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using com.vorwardit.wordsworthcms.Modules;
 using com.vorwardit.wordsworthcms.Modules.Core;
 using com.vorwardit.wordsworthcms.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace com.vorwardit.wordsworthcms.Controllers
 {
-    public class ModuleController : BaseController
+    public class ModuleController : Controller
     {
+        private IPageService pageService;
+
+        public ModuleController(IPageService pageService)
+        {
+            this.pageService = pageService;
+        }
+
         public ActionResult RenderModule(Guid pageVersionId, string position)
         {
-            var pageVersion = db.PageVersions.Find(pageVersionId);
+            var pageVersion = pageService.GetPageVersion(pageVersionId);
             var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
             if (moduledata != null)
             {
@@ -31,16 +40,16 @@ namespace com.vorwardit.wordsworthcms.Controllers
         }
 
 		[AcceptVerbs(HttpVerbs.Get)]
-		public ActionResult GetModuleData(Guid pageVersionId, string position)
+		public async Task<ActionResult> GetModuleData(Guid pageVersionId, string position)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
-			return Content(pageVersion.Body, "application/json");
+            var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
+            return Content(pageVersion.Body, "application/json");
 		}
 
-		public ActionResult EditModuleType(Guid pageVersionId, string position)
+		public async Task<ActionResult> EditModuleType(Guid pageVersionId, string position)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var model = new EditModuleModel
+            var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
+            var model = new EditModuleModel
 			{
 				Modules = ModuleFinder.GetAllModules(),
 				selectedModule = pageVersion.GetModule(position).Type
@@ -49,32 +58,32 @@ namespace com.vorwardit.wordsworthcms.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult EditModuleType(Guid pageVersionId, string position, EditModuleModel model)
+		public async Task<ActionResult> EditModuleType(Guid pageVersionId, string position, EditModuleModel model)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
+            var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
+            var md = pageVersion.GetModule(position);
 			md.Type = model.selectedModule;
 			pageVersion.SetModule(position, md);
-			db.SaveChanges();
+            await pageService.UpdateAsync(pageVersion);
 			return Content("ok");
 		}
 
-		public ActionResult EditModuleSettings(Guid pageVersionId, string position)
+		public async Task<ActionResult> EditModuleSettings(Guid pageVersionId, string position)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			db.SaveChanges(); // in case the json was newly created
-			return ModuleFinder.Find(md.Type)?.Edit(pageVersionId, position);
+            var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
+            var md = pageVersion.GetModule(position);
+            await pageService.UpdateAsync(pageVersion);
+            return await ModuleFinder.Find(md.Type)?.Edit(pageVersionId, position);
 		}
 
 		[HttpPost]
 		[ValidateInput(false)]
-		public ActionResult EditModuleSettings(Guid pageVersionId, string position, object model)
+		public async Task<ActionResult> EditModuleSettings(Guid pageVersionId, string position, object model)
 		{
-			var pageVersion = db.PageVersions.Find(pageVersionId);
-			var md = pageVersion.GetModule(position);
-			db.SaveChanges(); // in case the json was newly created
-			return ModuleFinder.Find(md.Type)?.Save(pageVersionId, position, Request.Form);
+            var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
+            var md = pageVersion.GetModule(position);
+            await pageService.UpdateAsync(pageVersion);
+            return await ModuleFinder.Find(md.Type)?.Save(pageVersionId, position, Request.Form);
 		}
 	}
 }

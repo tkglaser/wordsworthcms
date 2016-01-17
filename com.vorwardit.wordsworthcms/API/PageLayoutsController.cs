@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 using com.vorwardit.wordsworthcms.Engine;
 using com.vorwardit.wordsworthcms.Models;
 using com.vorwardit.wordsworthcms.ViewModels;
@@ -17,59 +18,47 @@ namespace com.vorwardit.wordsworthcms.API
     [RoutePrefix("api/layouts")]
     public class PageLayoutsController : ApiController
     {
-        public ApplicationDbContext db = new ApplicationDbContext();
+        IPageLayoutService pageLayoutService;
+
+        public PageLayoutsController(IPageLayoutService pageLayoutService)
+        {
+            this.pageLayoutService = pageLayoutService;
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> GetBySiteId(Guid siteId)
         {
-            return Ok(await (from l in db.PageLayouts
-                             where l.Layout.SiteId == siteId
-                             orderby l.Name
-                             select new
-                             {
-                                 l.PageLayoutId,
-                                 l.LayoutId,
-                                 l.Name
-                             }).ToListAsync());
+            var pageLayouts = await pageLayoutService.GetBySiteIdAsync(siteId);
+            return Ok(from l in pageLayouts
+                      select new
+                      {
+                          l.PageLayoutId,
+                          l.LayoutId,
+                          l.Name
+                      });
         }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get(Guid id)
         {
-            return Ok(Mapper.Map<PageLayoutViewModel>(await db.PageLayouts.SingleAsync(pl => pl.PageLayoutId == id)));
+            return Ok(Mapper.Map<PageLayoutViewModel>(await pageLayoutService.GetAsync(id)));
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Post(PageLayoutViewModel model)
         {
-            PageLayout pageLayout;
-            if (model.PageLayoutId == Guid.Empty)
-            {
-                pageLayout = new PageLayout();
-                pageLayout.PageLayoutId = Guid.NewGuid();
-                db.PageLayouts.Add(pageLayout);
-            }
-            else
-            {
-                pageLayout = await db.PageLayouts.FindAsync(model.PageLayoutId);
-            }
+            PageLayout pageLayout = await pageLayoutService.GetOrCreateAsync(model.PageLayoutId);
             pageLayout.LayoutId = model.LayoutId;
             pageLayout.Name = model.Name;
             pageLayout.Body = model.Body;
-            await db.SaveChangesAsync();
-            DbPathProviderSingleton.Instance.InvalidateCache(pageLayout.PageLayoutId);
+            await pageLayoutService.UpdateAsync(pageLayout);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            var pageLayout = await db.PageLayouts.FindAsync(id);
-            if (pageLayout != null)
-            {
-                db.PageLayouts.Remove(pageLayout);
-                await db.SaveChangesAsync();
-            }
+            await pageLayoutService.DeleteAsync(id);
             return Ok();
         }
     }

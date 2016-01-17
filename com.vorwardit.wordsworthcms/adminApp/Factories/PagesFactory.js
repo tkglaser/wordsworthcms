@@ -9,6 +9,7 @@
 
     function PagesFactory($http) {
         var service = {
+            getBySiteId: getBySiteId,
             getData: getData,
             getVersions: getVersions,
             update: update,
@@ -19,8 +20,12 @@
 
         return service;
 
-        function getData(siteId) {
+        function getBySiteId(siteId) {
             return $http.get('/api/pages?siteId=' + siteId);
+        }
+
+        function getData(pageId) {
+            return $http.get('/api/pages/' + pageId);
         }
 
         function getVersions(id) {

@@ -26,7 +26,7 @@
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
                 vm.site = SitesFactory.getSelectedSite(data);
-                ContentFactory.getData(vm.site.siteId).success(function (data) {
+                ContentFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.contents = data;
                 });
             });
@@ -34,7 +34,7 @@
 
         vm.siteChanged = function () {
             SitesFactory.setSelectedSite(vm.site);
-            ContentFactory.getData(vm.site.siteId).success(function (data) {
+            ContentFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.contents = data;
             });
         };
@@ -50,13 +50,12 @@
         };
 
         vm.edit = function (content) {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingEdit;
-            vm.content = {};
-            vm.content.contentId = content.contentId;
-            vm.content.url = content.url;
-            vm.content.body = content.body;
-            $('#editModal').modal();
+            ContentFactory.getData(content.contentId).success(function (data) {
+                $('#saveError').hide();
+                vm.modalHeading = vm.modalHeadingEdit;
+                vm.content = data;
+                $('#editModal').modal();
+            });
         };
 
         vm.delete = function (content) {

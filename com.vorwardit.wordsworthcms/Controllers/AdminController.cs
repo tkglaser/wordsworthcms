@@ -1,6 +1,8 @@
-﻿using System;
+﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -8,14 +10,21 @@ using System.Web.Mvc;
 namespace com.vorwardit.wordsworthcms.Controllers
 {
     [Authorize]
-    public class AdminController : BaseController
+    public class AdminController : Controller
     {
+        ISiteService siteService;
+
+        public AdminController(ISiteService siteService)
+        {
+            this.siteService = siteService;
+        }
+
         // GET: Admin
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
 			ViewBag.ApplicationNameLong = WebConfigurationManager.AppSettings["ApplicationNameLong"];
 			ViewBag.ApplicationNameShort = WebConfigurationManager.AppSettings["ApplicationNameShort"];
-			ViewBag.DefaultSiteId = CurrentSite?.SiteId;
+			ViewBag.DefaultSiteId = (await siteService.GetByHostnameAsync(Request.Url.DnsSafeHost))?.SiteId;
             return View();
         }
     }

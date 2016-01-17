@@ -30,7 +30,7 @@
             SitesFactory.getData().success(function (data) {
                 vm.sites = data;
                 vm.site = SitesFactory.getSelectedSite(data);
-                PagesFactory.getData(vm.site.siteId).success(function (data) {
+                PagesFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.pages = data;
                 });
                 PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
@@ -41,7 +41,7 @@
 
         vm.siteChanged = function () {
             SitesFactory.setSelectedSite(vm.site);
-            PagesFactory.getData(vm.site.siteId).success(function (data) {
+            PagesFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.pages = data;
             });
             PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
@@ -59,14 +59,12 @@
         };
 
         vm.edit = function (page) {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingEdit;
-            vm.page = {};
-            vm.page.pageId = page.pageId;
-            vm.page.name = page.name;
-            vm.page.pageLayoutId = page.pageLayoutId;
-            vm.page.urls = angular.copy(page.urls);
-            $('#editModal').modal();
+            PagesFactory.getData(page.pageId).success(function (data) {
+                $('#saveError').hide();
+                vm.modalHeading = vm.modalHeadingEdit;
+                vm.page = data;
+                $('#editModal').modal();
+            });
         };
 
         vm.editContent = function (page) {

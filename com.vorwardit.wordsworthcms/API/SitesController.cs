@@ -11,6 +11,7 @@ using System.Web.Http;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using com.vorwardit.wordsworthcms.ViewModels;
+using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 
 namespace com.vorwardit.wordsworthcms.API
 {
@@ -18,43 +19,34 @@ namespace com.vorwardit.wordsworthcms.API
     [RoutePrefix("api/sites")]
     public class SitesController : ApiController
     {
-        public ApplicationDbContext db = new ApplicationDbContext();
+        ISiteService siteService;
+
+        public SitesController(ISiteService siteService)
+        {
+            this.siteService = siteService;
+        }
 
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            return Ok((await db.Sites.ToListAsync()).Select(s => Mapper.Map<SiteViewModel>(s)));
+            var sites = await siteService.GetAllAsync();
+            return Ok(sites.Select(s => Mapper.Map<SiteViewModel>(s)));
         }
 
         [HttpPost]
         public async Task<IHttpActionResult> Post(SiteViewModel model)
         {
-            Site site;
-            if (model.SiteId == Guid.Empty)
-            {
-                site = new Site();
-                site.SiteId = Guid.NewGuid();
-                db.Sites.Add(site);
-            }
-            else
-            {
-                site = await db.Sites.FindAsync(model.SiteId);
-            }
+            Site site = await siteService.GetOrCreateAsync(model.SiteId);
             site.Name = model.Name;
             site.Bindings = model.Bindings;
-            await db.SaveChangesAsync();
+            await siteService.UpdateAsync(site);
             return Ok();
         }
 
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            var site = await db.Sites.FindAsync(id);
-            if (site != null)
-            {
-                db.Sites.Remove(site);
-                await db.SaveChangesAsync();
-            }
+            await siteService.DeleteAsync(id);
             return Ok();
         }
     }
