@@ -3,20 +3,20 @@
 
     angular
         .module('app')
-        .controller('PageLayoutsController', PageLayoutsController);
+        .controller('LayoutController', LayoutController);
 
-    PageLayoutsController.$inject = ['$location', 'LayoutsFactory', 'PageLayoutsFactory', 'SitesFactory'];
+    LayoutController.$inject = ['$location', 'LayoutFactory', 'SiteFactory'];
 
-    function PageLayoutsController($location, LayoutsFactory, PageLayoutsFactory, SitesFactory) {
+    function LayoutController($location, LayoutFactory, SiteFactory) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = 'PageLayoutsController';
+        vm.title = 'LayoutController';
         vm.modalHeadingNew = 'Neues Layout anlegen';
         vm.modalHeadingEdit = 'Layout bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
-        vm.pagelayouts = [];
-        vm.pagelayout = {};
         vm.layouts = [];
+        vm.layout = {};
+
         vm.sites = [];
         vm.site = {};
 
@@ -33,30 +33,32 @@
                 mode: "vbscript"
             }]
         };
-        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorPageLayout"), {
+        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
             mode: mixedMode,
-            selectionPointer: true
+            selectionPointer: true,
+            extraKeys: {
+                "F11": function (cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function (cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                }
+            }
         });
 
         function activate() {
-            SitesFactory.getData().success(function (data) {
+            SiteFactory.getData().success(function (data) {
                 vm.sites = data;
-                vm.site = SitesFactory.getSelectedSite(data);
-                PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                    vm.pagelayouts = data;
-                });
-                LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
+                vm.site = SiteFactory.getSelectedSite(data);
+                LayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.layouts = data;
                 });
             });
         };
 
         vm.siteChanged = function () {
-            SitesFactory.setSelectedSite(vm.site);
-            PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                vm.pagelayouts = data;
-            });
-            LayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
+            SiteFactory.setSelectedSite(vm.site);
+            LayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.layouts = data;
             });
         };
@@ -64,9 +66,9 @@
         vm.create = function () {
             $('#saveError').hide();
             vm.modalHeading = vm.modalHeadingNew;
-            vm.pagelayout = {};
-            vm.pagelayout.name = '';
-            vm.pagelayout.body = '';
+            vm.layout = {};
+            vm.layout.name = '';
+            vm.layout.body = '';
             vm.editor.setValue('');
             setTimeout(function () {
                 vm.editor.refresh();
@@ -74,12 +76,12 @@
             $('#editModal').modal();
         };
 
-        vm.edit = function (pagelayout) {
-            PageLayoutsFactory.getData(pagelayout.pageLayoutId).success(function (data) {
-                vm.pagelayout = data;
+        vm.edit = function (layout) {
+            LayoutFactory.getData(layout.layoutId).success(function (data) {
                 $('#saveError').hide();
                 vm.modalHeading = vm.modalHeadingEdit;
-                vm.editor.setValue(vm.pagelayout.body);
+                vm.layout = data;
+                vm.editor.setValue(vm.layout.body);
                 setTimeout(function () {
                     vm.editor.refresh();
                 }, 200);
@@ -87,14 +89,14 @@
             });
         };
 
-        vm.delete = function (pagelayout) {
+        vm.delete = function (layout) {
             $('#deleteError').hide();
-            vm.pagelayout = pagelayout;
+            vm.layout = layout;
             $('#deleteModal').modal();
         }
 
         vm.deleteConfirmed = function () {
-            PageLayoutsFactory.remove(vm.pagelayout.pageLayoutId).then(function () {
+            LayoutFactory.remove(vm.layout.layoutId).then(function () {
                 $('#deleteModal').modal('hide');
                 activate();
             },
@@ -105,12 +107,12 @@
 
         vm.save = function () {
             var data = {
-                PageLayoutId: vm.pagelayout.pageLayoutId,
-                LayoutId: vm.pagelayout.layoutId,
-                Name: vm.pagelayout.name,
-                Body: vm.editor.getValue()
+                LayoutId: vm.layout.layoutId,
+                Name: vm.layout.name,
+                Body: vm.editor.getValue(),
+                SiteId: vm.site.siteId
             }
-            PageLayoutsFactory.update(data).then(function () {
+            LayoutFactory.update(data).then(function () {
                 $('#editModal').modal("hide");
                 activate();
             },

@@ -3,14 +3,14 @@
 
     angular
         .module('app')
-        .controller('SitesController', SitesController);
+        .controller('SiteController', SiteController);
 
-    SitesController.$inject = ['$location', 'SitesFactory'];
+    SiteController.$inject = ['$location', 'SiteFactory'];
 
-    function SitesController($location, SitesFactory) {
+    function SiteController($location, SiteFactory) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = 'SitesController';
+        vm.title = 'SiteController';
         vm.modalHeadingNew = 'Neue Site anlegen';
         vm.modalHeadingEdit = 'Site bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
@@ -20,7 +20,7 @@
         activate();
 
         function activate() {
-            SitesFactory.getData().success(function (data) {
+            SiteFactory.getData().success(function (data) {
                 vm.sites = data;
             });
         };
@@ -54,7 +54,7 @@
         }
 
         vm.deleteConfirmed = function () {
-            SitesFactory.remove(vm.site.siteId).then(function () {
+            SiteFactory.remove(vm.site.siteId).then(function () {
                 $('#deleteSiteModal').modal('hide');
                 activate();
             },
@@ -81,7 +81,7 @@
             angular.forEach(vm.site.bindings, function (binding) {
                 newSite.Bindings.push(binding.value);
             });
-            SitesFactory.update(newSite).then(function () {
+            SiteFactory.update(newSite).then(function () {
                 $('#editSiteModal').modal("hide");
                 activate();
             },

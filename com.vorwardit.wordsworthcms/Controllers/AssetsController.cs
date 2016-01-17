@@ -9,12 +9,12 @@ using System.Web.Mvc;
 
 namespace com.vorwardit.wordsworthcms.Controllers
 {
-    public class AssetsController : Controller
+    public class AssetController : Controller
     {
         ISiteService siteService;
         IAzureStorageService storage;
 
-        public AssetsController(IAzureStorageService storage, ISiteService siteService)
+        public AssetController(IAzureStorageService storage, ISiteService siteService)
         {
             this.storage = storage;
             this.siteService = siteService;

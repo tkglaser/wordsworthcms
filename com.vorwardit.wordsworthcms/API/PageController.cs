@@ -15,12 +15,12 @@ using System.Web.Http;
 namespace com.vorwardit.wordsworthcms.API
 {
     [Authorize]
-    [RoutePrefix("api/pages")]
-    public class PagesController : ApiController
+    [RoutePrefix("api/page")]
+    public class PageController : ApiController
     {
         IPageService pageService;
 
-        public PagesController(IPageService pageService)
+        public PageController(IPageService pageService)
         {
             this.pageService = pageService;
         }

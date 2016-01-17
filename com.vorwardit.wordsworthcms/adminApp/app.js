@@ -19,23 +19,23 @@
             })
             .when('/sites', {
                 templateUrl: 'adminApp/Views/Sites.html',
-                controller: 'SitesController as ctrl'
+                controller: 'SiteController as ctrl'
             })
             .when('/layouts', {
                 templateUrl: 'adminApp/Views/Layouts.html',
-                controller: 'LayoutsController as ctrl'
+                controller: 'LayoutController as ctrl'
             })
             .when('/pagelayouts', {
                 templateUrl: 'adminApp/Views/PageLayouts.html',
-                controller: 'PageLayoutsController as ctrl'
+                controller: 'PageLayoutController as ctrl'
             })
             .when('/pages', {
                 templateUrl: 'adminApp/Views/Pages.html',
-                controller: 'PagesController as ctrl'
+                controller: 'PageController as ctrl'
             })
             .when('/assets', {
                 templateUrl: 'adminApp/Views/Assets.html',
-                controller: 'AssetsController as ctrl'
+                controller: 'AssetController as ctrl'
             })
             .when('/content', {
                 templateUrl: 'adminApp/Views/Content.html',

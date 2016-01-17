@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .factory('PagesFactory', PagesFactory);
+        .factory('PageFactory', PageFactory);
 
-    PagesFactory.$inject = ['$http'];
+    PageFactory.$inject = ['$http'];
 
-    function PagesFactory($http) {
+    function PageFactory($http) {
         var service = {
             getBySiteId: getBySiteId,
             getData: getData,
@@ -21,31 +21,31 @@
         return service;
 
         function getBySiteId(siteId) {
-            return $http.get('/api/pages?siteId=' + siteId);
+            return $http.get('/api/page?siteId=' + siteId);
         }
 
         function getData(pageId) {
-            return $http.get('/api/pages/' + pageId);
+            return $http.get('/api/page/' + pageId);
         }
 
         function getVersions(id) {
-            return $http.get('/api/pageversions?pageId=' + id);
+            return $http.get('/api/pageversion?pageId=' + id);
         }
 
         function update(data) {
-            return $http.post('/api/pages', data);
+            return $http.post('/api/page', data);
         }
 
         function updateVersion(data) {
-            return $http.post('/api/pageversions', data);
+            return $http.post('/api/pageversion', data);
         }
 
         function publish(versionId) {
-            return $http.post('/api/pageversions/publish?versionId=' + versionId);
+            return $http.post('/api/pageversion/publish?versionId=' + versionId);
         }
 
         function remove(id) {
-            return $http.delete('/api/pages/' + id);
+            return $http.delete('/api/page/' + id);
         }
     }
 })();

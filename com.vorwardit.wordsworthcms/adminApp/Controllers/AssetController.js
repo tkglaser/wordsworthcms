@@ -3,14 +3,14 @@
 
     angular
         .module('app')
-        .controller('AssetsController', AssetsController);
+        .controller('AssetController', AssetController);
 
-    AssetsController.$inject = ['$location', 'AssetsFactory', 'SitesFactory'];
+    AssetController.$inject = ['$location', 'AssetFactory', 'SiteFactory'];
 
-    function AssetsController($location, AssetsFactory, SitesFactory) {
+    function AssetController($location, AssetFactory, SiteFactory) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = 'AssetsController';
+        vm.title = 'AssetController';
         vm.assets = [];
         vm.asset = {};
 
@@ -20,18 +20,18 @@
         activate();
 
         function activate() {
-            SitesFactory.getData().success(function (data) {
+            SiteFactory.getData().success(function (data) {
                 vm.sites = data;
-                vm.site = SitesFactory.getSelectedSite(data);
-                AssetsFactory.getData(vm.site.siteId).success(function (data) {
+                vm.site = SiteFactory.getSelectedSite(data);
+                AssetFactory.getData(vm.site.siteId).success(function (data) {
                     vm.assets = data;
                 });
             });
         }
 
         vm.siteChanged = function () {
-            SitesFactory.setSelectedSite(vm.site);
-            AssetsFactory.getData(vm.site.siteId).success(function (data) {
+            SiteFactory.setSelectedSite(vm.site);
+            AssetFactory.getData(vm.site.siteId).success(function (data) {
                 vm.assets = data;
             });
         };
@@ -48,7 +48,7 @@
         }
 
         vm.deleteConfirmed = function () {
-            AssetsFactory.remove(vm.site.siteId, vm.asset.name).then(function () {
+            AssetFactory.remove(vm.site.siteId, vm.asset.name).then(function () {
                 $('#deleteModal').modal('hide');
                 activate();
             },
@@ -59,7 +59,7 @@
 
         vm.save = function () {
             vm.asset.siteId = vm.site.siteId;
-            AssetsFactory.upload(vm.asset).then(function () {
+            AssetFactory.upload(vm.asset).then(function () {
                 $('#editModal').modal("hide");
                 activate();
             },

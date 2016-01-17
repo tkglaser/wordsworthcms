@@ -3,14 +3,14 @@
 
     angular
         .module('app')
-        .controller('PagesController', PagesController);
+        .controller('PageController', PageController);
 
-    PagesController.$inject = ['$location', 'PagesFactory', 'SitesFactory', 'PageLayoutsFactory'];
+    PageController.$inject = ['$location', 'PageFactory', 'SiteFactory', 'PageLayoutFactory'];
 
-    function PagesController($location, PagesFactory, SitesFactory, PageLayoutsFactory) {
+    function PageController($location, PageFactory, SiteFactory, PageLayoutFactory) {
         /* jshint validthis:true */
         var vm = this;
-        vm.title = 'PagesController';
+        vm.title = 'PageController';
         vm.modalHeadingNew = 'Neue Page anlegen';
         vm.modalHeadingEdit = 'Page bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
@@ -27,24 +27,24 @@
         activate();
 
         function activate() {
-            SitesFactory.getData().success(function (data) {
+            SiteFactory.getData().success(function (data) {
                 vm.sites = data;
-                vm.site = SitesFactory.getSelectedSite(data);
-                PagesFactory.getBySiteId(vm.site.siteId).success(function (data) {
+                vm.site = SiteFactory.getSelectedSite(data);
+                PageFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.pages = data;
                 });
-                PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
+                PageLayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
                     vm.pageLayouts = data;
                 });
             });
         };
 
         vm.siteChanged = function () {
-            SitesFactory.setSelectedSite(vm.site);
-            PagesFactory.getBySiteId(vm.site.siteId).success(function (data) {
+            SiteFactory.setSelectedSite(vm.site);
+            PageFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.pages = data;
             });
-            PageLayoutsFactory.getBySiteId(vm.site.siteId).success(function (data) {
+            PageLayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
                 vm.pageLayouts = data;
             });
         };
@@ -59,7 +59,7 @@
         };
 
         vm.edit = function (page) {
-            PagesFactory.getData(page.pageId).success(function (data) {
+            PageFactory.getData(page.pageId).success(function (data) {
                 $('#saveError').hide();
                 vm.modalHeading = vm.modalHeadingEdit;
                 vm.page = data;
@@ -69,7 +69,7 @@
 
         vm.editContent = function (page) {
             $('#saveContentError').hide();
-            PagesFactory.getVersions(page.pageId).success(function (data) {
+            PageFactory.getVersions(page.pageId).success(function (data) {
                 if (data.length > 0) {
                     vm.pageversion = data[0];
                 } else {
@@ -82,15 +82,15 @@
         vm.showVersions = function (page) {
             $('#publishError').hide();
             vm.page = page;
-            PagesFactory.getVersions(page.pageId).success(function (data) {
+            PageFactory.getVersions(page.pageId).success(function (data) {
                 vm.pageversions = data;
                 $('#publishModal').modal();
             });
         }
 
         vm.publish = function (versionId) {
-            PagesFactory.publish(versionId).then(function () {
-                PagesFactory.getVersions(vm.page.pageId).success(function (data) {
+            PageFactory.publish(versionId).then(function () {
+                PageFactory.getVersions(vm.page.pageId).success(function (data) {
                     vm.pageversions = data;
                 });
             },
@@ -115,7 +115,7 @@
         }
 
         vm.deleteConfirmed = function () {
-            PagesFactory.remove(vm.page.pageId).then(function () {
+            PageFactory.remove(vm.page.pageId).then(function () {
                 $('#deleteModal').modal('hide');
                 activate();
             },
@@ -131,7 +131,7 @@
                 PageLayoutId: vm.page.pageLayoutId,
                 Urls: vm.page.urls
             }
-            PagesFactory.update(data).then(function () {
+            PageFactory.update(data).then(function () {
                 $('#editModal').modal("hide");
                 activate();
             },
@@ -146,7 +146,7 @@
                 Title: vm.pageversion.title,
                 MetaDescription: vm.pageversion.metaDescription
             }
-            PagesFactory.updateVersion(data).then(function () {
+            PageFactory.updateVersion(data).then(function () {
                 $('#editContentModal').modal("hide");
                 activate();
             },

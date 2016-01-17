@@ -15,12 +15,12 @@ using System.Web.Http;
 namespace com.vorwardit.wordsworthcms.API
 {
     [Authorize]
-    [RoutePrefix("api/layouts")]
-    public class LayoutsController : ApiController
+    [RoutePrefix("api/layout")]
+    public class LayoutController : ApiController
     {
         ILayoutService layoutService;
 
-        public LayoutsController(ILayoutService layoutService)
+        public LayoutController(ILayoutService layoutService)
         {
             this.layoutService = layoutService;
         }

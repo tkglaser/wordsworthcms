@@ -11,12 +11,12 @@ using System.Web.Http;
 namespace com.vorwardit.wordsworthcms.API
 {
     [Authorize]
-    [RoutePrefix("api/assets")]
-    public class AssetsController : ApiController
+    [RoutePrefix("api/asset")]
+    public class AssetController : ApiController
     {
         IAzureStorageService storageService;
 
-        public AssetsController(IAzureStorageService storageService)
+        public AssetController(IAzureStorageService storageService)
         {
             this.storageService = storageService;
         }

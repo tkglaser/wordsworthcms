@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .factory('AssetsFactory', AssetsFactory);
+        .factory('AssetFactory', AssetFactory);
 
-    AssetsFactory.$inject = ['$http', '$q'];
+    AssetFactory.$inject = ['$http', '$q'];
 
-    function AssetsFactory($http, $q) {
+    function AssetFactory($http, $q) {
         var service = {
             getData: getData,
             upload: upload,
@@ -17,7 +17,7 @@
         return service;
 
         function getData(siteId) {
-            return $http.get('/api/assets?siteId=' + siteId);
+            return $http.get('/api/asset?siteId=' + siteId);
         }
 
         function getModelAsFormData(data) {
@@ -31,7 +31,7 @@
         function upload(data) {
             var deferred = $q.defer();
             $http({
-                url: '/AssetsUpload/SaveAsset',
+                url: '/AssetUpload/SaveAsset',
                 method: 'POST',
                 data: getModelAsFormData(data),
                 transformRequest: angular.identity,
@@ -45,7 +45,7 @@
         }
 
         function remove(siteId, name) {
-            return $http.delete('/api/assets?name=' + name + "&siteId=" + siteId);
+            return $http.delete('/api/asset?name=' + name + "&siteId=" + siteId);
         }
     }
 })();

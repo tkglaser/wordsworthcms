@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .factory('LayoutsFactory', LayoutsFactory);
+        .factory('LayoutFactory', LayoutFactory);
 
-    LayoutsFactory.$inject = ['$http'];
+    LayoutFactory.$inject = ['$http'];
 
-    function LayoutsFactory($http) {
+    function LayoutFactory($http) {
         var service = {
             getBySiteId: getBySiteId,
             getData: getData,
@@ -18,19 +18,19 @@
         return service;
 
         function getBySiteId(siteId) {
-            return $http.get('/api/layouts?siteId=' + siteId);
+            return $http.get('/api/layout?siteId=' + siteId);
         }
 
         function getData(layoutId) {
-            return $http.get('/api/layouts/' + layoutId);
+            return $http.get('/api/layout/' + layoutId);
         }
 
         function update(data) {
-            return $http.post('/api/layouts', data);
+            return $http.post('/api/layout', data);
         }
 
         function remove(id) {
-            return $http.delete('/api/layouts/' + id);
+            return $http.delete('/api/layout/' + id);
         }
     }
 })();

@@ -16,12 +16,12 @@ using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 namespace com.vorwardit.wordsworthcms.API
 {
     [Authorize]
-    [RoutePrefix("api/sites")]
-    public class SitesController : ApiController
+    [RoutePrefix("api/site")]
+    public class SiteController : ApiController
     {
         ISiteService siteService;
 
-        public SitesController(ISiteService siteService)
+        public SiteController(ISiteService siteService)
         {
             this.siteService = siteService;
         }

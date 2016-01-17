@@ -16,11 +16,11 @@ namespace com.vorwardit.wordsworthcms.API
     }
 
     [Authorize]
-    public class AssetsUploadController : Controller
+    public class AssetUploadController : Controller
     {
         IAzureStorageService storageService;
 
-        public AssetsUploadController(IAzureStorageService storageService)
+        public AssetUploadController(IAzureStorageService storageService)
         {
             this.storageService = storageService;
         }

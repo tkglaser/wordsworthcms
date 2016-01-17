@@ -58,7 +58,7 @@ namespace com.vorwardit.wordsworthcms
             routes.MapRoute(
                 name: "Assets",
                 url: "assets/{name}",
-                defaults: new { controller = "Assets", action = "Index" }
+                defaults: new { controller = "Asset", action = "Index" }
             );
 
             routes.MapRoute(

@@ -13,12 +13,12 @@ using System.Web.Http;
 namespace com.vorwardit.wordsworthcms.API
 {
     [Authorize]
-    [RoutePrefix("api/pageversions")]
-    public class PageVersionsController : ApiController
+    [RoutePrefix("api/pageversion")]
+    public class PageVersionController : ApiController
     {
         IPageService pageService;
 
-        public PageVersionsController(IPageService pageService)
+        public PageVersionController(IPageService pageService)
         {
             this.pageService = pageService;
         }

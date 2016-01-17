@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .factory('SitesFactory', SitesFactory);
+        .factory('SiteFactory', SiteFactory);
 
-    SitesFactory.$inject = ['$http', '$rootScope'];
+    SiteFactory.$inject = ['$http', '$rootScope'];
 
-    function SitesFactory($http, $rootScope) {
+    function SiteFactory($http, $rootScope) {
         var service = {
             getData: getData,
             getSelectedSite: getSelectedSite,
@@ -19,7 +19,7 @@
         return service;
 
         function getData() {
-            return $http.get('/api/sites');
+            return $http.get('/api/site');
         }
 
         function getSelectedSite(sites) {
@@ -43,11 +43,11 @@
         }
 
         function update(data) {
-            return $http.post('/api/sites', data);
+            return $http.post('/api/site', data);
         }
 
         function remove(id) {
-            return $http.delete('/api/sites/' + id);
+            return $http.delete('/api/site/' + id);
         }
     }
 })();
