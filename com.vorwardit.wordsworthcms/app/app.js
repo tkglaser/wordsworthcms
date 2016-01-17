@@ -100,5 +100,5 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 }]);
 
 //app.constant('apiEndPoint', 'http://api.paulfaehrtbus.com/api/'); // LIVE
-app.constant('apiEndPoint', 'http://beta-paulfaehrtbus-api.azurewebsites.net/api/'); // BETA
-app.constant('clientId', '48264997-05be-4141-b112-bbe5ba58a3bb'); // PAUL
+app.constant('apiEndPoint', PFBConfig.apiEndpoint);// 'http://beta-paulfaehrtbus-api.azurewebsites.net/api/'); // BETA
+app.constant('clientId', PFBConfig.clientId);// '48264997-05be-4141-b112-bbe5ba58a3bb'); // PAUL

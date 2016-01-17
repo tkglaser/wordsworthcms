@@ -7,7 +7,7 @@
 {
     @Html.AntiForgeryToken()
     
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "" })
     @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "" })
     @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "", style="width:100%" } })
     @Html.ValidationMessageFor(model => model.Image, "", new { @class = "" })
@@ -20,10 +20,10 @@
     @Html.EditorFor(model => model.SubHeading, new { htmlAttributes = new { @class = "", style = "width:100%" } })
     @Html.ValidationMessageFor(model => model.SubHeading, "", new { @class = "" })
 
+    <br />
+    <button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
+    <button type="button" class="cmsTypeCancelButton">Abbrechen</button>
+    <button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
 }
-<br />
-<button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
-<button type="button" class="cmsTypeCancelButton">Abbrechen</button>
-<button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
 
 

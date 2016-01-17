@@ -323,6 +323,7 @@
     <Compile Include="Modules\ImageController.cs" />
     <Compile Include="Modules\ImageBannerController.cs" />
     <Compile Include="Modules\MarkdownController.cs" />
+    <Compile Include="Modules\PFBController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\EditModuleModel.cs" />
@@ -1887,6 +1888,8 @@
     <Content Include="Views\Image\Index.cshtml" />
     <Content Include="Views\Image\Edit.cshtml" />
     <Content Include="Views\Markdown\Edit.cshtml" />
+    <Content Include="Views\PFB\Index.cshtml" />
+    <Content Include="Views\PFB\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

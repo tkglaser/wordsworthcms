@@ -175,6 +175,7 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
         {
             if (page.PageId == Guid.Empty)
             {
+                page.PageId = Guid.Empty;
                 db.Pages.Add(page);
             }
             await db.SaveChangesAsync();

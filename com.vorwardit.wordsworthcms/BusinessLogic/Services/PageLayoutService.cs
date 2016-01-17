@@ -46,6 +46,7 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
         {
             if (layout.PageLayoutId == Guid.Empty)
             {
+                layout.PageLayoutId = Guid.NewGuid();
                 db.PageLayouts.Add(layout);
             }
             await db.SaveChangesAsync();

@@ -47,6 +47,7 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
         {
             if (site.SiteId == Guid.Empty)
             {
+                site.SiteId = Guid.NewGuid();
                 db.Sites.Add(site);
             }
             await db.SaveChangesAsync();
