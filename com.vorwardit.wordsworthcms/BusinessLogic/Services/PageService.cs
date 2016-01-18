@@ -46,11 +46,11 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
             if (!path.StartsWith("/"))
             {
                 path = "/" + path;
-            }
+			}
             var page = await (from url in db.PageUrls
-                              where url.Url == path
                               where url.Page.PageLayout.Layout.SiteId == siteId
-                              select url.Page).FirstOrDefaultAsync();
+							  where url.Url == path || (url.Url.EndsWith("*") && path.StartsWith(url.Url.Replace("*", "")))
+							  select url.Page).FirstOrDefaultAsync();
             if (page == null)
             {
                 return null;
