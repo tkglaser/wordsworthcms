@@ -157,6 +157,7 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
                 page = new Page();
                 page.PageId = Guid.NewGuid();
                 page.Urls = new HashSet<PageUrl>();
+				db.Pages.Add(page);
             }
             page.PageLayoutId = pageLayoutId;
             page.Name = name;
