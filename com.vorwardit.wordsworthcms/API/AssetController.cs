@@ -22,14 +22,14 @@ namespace com.vorwardit.wordsworthcms.API
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> Get(Guid siteId)
+        public IHttpActionResult Get(Guid siteId)
         {
-            var result = from f in storageService.ListFiles(siteId.ToString())
-                         select new
-                         {
-                             name = System.IO.Path.GetFileName(f.LocalPath),
-                             uri = f
-                         };
+			var result = from f in storageService.ListFiles(siteId.ToString())
+						 select new
+						 {
+							 name = System.IO.Path.GetFileName(f.LocalPath),
+							 uri = f
+						 };
             return Ok(result);
         }
 
