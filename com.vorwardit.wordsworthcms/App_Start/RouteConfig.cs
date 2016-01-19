@@ -50,9 +50,9 @@ namespace com.vorwardit.wordsworthcms
             );
 
             routes.MapRoute(
-                name: "AssetsUpload",
-                url: "AssetsUpload/{action}",
-                defaults: new { controller = "AssetsUpload" }
+                name: "AssetUpload",
+                url: "AssetUpload/{action}",
+                defaults: new { controller = "AssetUpload" }
             );
 
             routes.MapRoute(
