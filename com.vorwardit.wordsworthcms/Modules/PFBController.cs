@@ -37,7 +37,7 @@ namespace com.vorwardit.wordsworthcms.Modules
         {
             var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
             var md = pageVersion.GetModule<PFBModel>(position);
-            return PartialView("~/Views/ImageBanner/Edit.cshtml", md.Data);
+            return PartialView("~/Views/PFB/Edit.cshtml", md.Data);
         }
 
         public async Task<ActionResult> Save(Guid pageVersionId, string position, NameValueCollection form)

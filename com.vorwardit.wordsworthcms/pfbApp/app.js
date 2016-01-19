@@ -4,31 +4,31 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
     $routeProvider
         .when('/', {
             reloadOnSearch: false,
-            templateUrl: 'app/Views/Landing.html',
+            templateUrl: 'pfbApp/Views/Landing.html',
             controller: 'LandingController'
         })
         .when('/von-:startSearch', {
             reloadOnSearch: false,
-            templateUrl: 'app/Views/Landing.html',
+            templateUrl: 'pfbApp/Views/Landing.html',
             controller: 'LandingController'
         })
         .when('/nach-:targetSearch', {
             reloadOnSearch: false,
-            templateUrl: 'app/Views/Landing.html',
+            templateUrl: 'pfbApp/Views/Landing.html',
             controller: 'LandingController'
         })
         .when('/von-:startSearch/nach-:targetSearch', {
             reloadOnSearch: false,
-            templateUrl: 'app/Views/Landing.html',
+            templateUrl: 'pfbApp/Views/Landing.html',
             controller: 'LandingController'
         })
         .when('/request', {
             reloadOnSearch: false,
-            templateUrl: 'app/Views/Request.html',
+            templateUrl: 'pfbApp/Views/Request.html',
             controller: 'RequestController'
         })
         .when('/order/:requestId/:offerId', {
-            templateUrl: 'app/Views/Order.html',
+            templateUrl: 'pfbApp/Views/Order.html',
             controller: 'OrderController',
             resolve: {
                 offer: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -40,7 +40,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/orderconfirm/:requestId/:offerId/:paymode', {
-            templateUrl: 'app/Views/OrderConfirm.html',
+            templateUrl: 'pfbApp/Views/OrderConfirm.html',
             controller: 'OrderConfirmController',
             resolve: {
                 offer: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -52,7 +52,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/booking/:requestId', {
-            templateUrl: 'app/Views/Booking.html',
+            templateUrl: 'pfbApp/Views/Booking.html',
             controller: 'BookingController',
             resolve: {
                 request: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -61,7 +61,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/cannotQuote/:requestId', {
-            templateUrl: 'app/Views/CannotQuote.html',
+            templateUrl: 'pfbApp/Views/CannotQuote.html',
             controller: 'CannotQuoteController',
             resolve: {
                 request: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -70,7 +70,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/offerExpired/:requestId', {
-            templateUrl: 'app/Views/OfferExpired.html',
+            templateUrl: 'pfbApp/Views/OfferExpired.html',
             controller: 'OfferExpiredController',
             resolve: {
                 request: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -79,7 +79,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/specialRequest/:requestId', {
-            templateUrl: 'app/Views/SpecialRequest.html',
+            templateUrl: 'pfbApp/Views/SpecialRequest.html',
             controller: 'SpecialRequestController',
             resolve: {
                 request: ['requestFactory', '$route', function (requestFactory, $route) {
@@ -88,7 +88,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             }
         })
         .when('/payment/:result/:requestId/:paymentId/:offerId', {
-            templateUrl: 'app/Views/Processing.html',
+            templateUrl: 'pfbApp/Views/Processing.html',
             controller: 'PaymentController'
         })
         .otherwise({

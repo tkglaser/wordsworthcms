@@ -26,6 +26,13 @@ namespace com.vorwardit.wordsworthcms
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/pfbapp").Include(
+                "~/pfbApp/app.js",
+                "~/pfbApp/Controllers/*.js",
+                "~/pfbApp/Directives/*.js",
+                "~/pfbApp/Factories/*.js"
+                ));
         }
     }
 }

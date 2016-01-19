@@ -59,6 +59,7 @@ namespace com.vorwardit.wordsworthcms.Engine
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
                     content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
                     content += "@using System.Web.Mvc.Html;";
+                    content += "@using System.Web.Optimization;";
                     content += $"@{{Layout=\"/db/{pageVersion.Page.PageLayoutId}.cshtml\";" +
                         $"ViewBag.PageVersionId=\"{pageVersion.PageVersionId}\";" +
                         $"ViewBag.Title=\"{pageVersion.Title}\";" +
@@ -84,6 +85,8 @@ namespace com.vorwardit.wordsworthcms.Engine
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
                     content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
+                    content += "@using System.Web.Mvc.Html;";
+                    content += "@using System.Web.Optimization;";
                     content += $"@{{Layout=\"/db/{pageLayout.LayoutId}.cshtml\";}}";
 					content += pageLayout.Body;
 					content += "@RenderBody()";
@@ -99,6 +102,8 @@ namespace com.vorwardit.wordsworthcms.Engine
                 {
                     var content = "@inherits System.Web.Mvc.WebViewPage" + Environment.NewLine;
                     content += "@using com.vorwardit.wordsworthcms.Modules.Core;";
+                    content += "@using System.Web.Mvc.Html;";
+                    content += "@using System.Web.Optimization;";
                     content += layout.Body;
 
                     return new DbVirtualFile(virtualPath, content);
