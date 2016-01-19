@@ -38,7 +38,7 @@
             </tr>
             <tr ng-repeat="asset in ctrl.assets">
                 <td style="text-align:center">
-                    <img ng-if="!asset.uri.endsWith('.pdf')" ng-src="{{asset.uri}}" style="max-height:50px;max-width:150px" />
+                    <img ng-if="asset.uri.endsWith('.jpg') || asset.uri.endsWith('.png')" ng-src="{{asset.uri}}" style="max-height:50px;max-width:150px" />
                 </td>
                 <td>
                     <a href="/assets/{{asset.name}}" target="_blank">/assets/{{asset.name}}</a>
