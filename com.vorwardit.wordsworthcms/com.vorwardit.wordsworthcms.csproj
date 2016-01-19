@@ -306,6 +306,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DataContextConfiguration.cs" />
     <Compile Include="Models\Content.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Layout.cs" />

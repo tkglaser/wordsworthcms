@@ -18,7 +18,8 @@ namespace com.vorwardit.wordsworthcms.Models
         }
     }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	[DbConfigurationType(typeof(DataContextConfiguration))]
+	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
