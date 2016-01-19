@@ -24,14 +24,14 @@
             scope.$watch(scope.isLoading, function (v) {
                 if (v) {
                     scope.timer = $timeout(function () {
-                        element.fadeIn(50);
+                        element.fadeIn(100);
                         scope.timer = null;
                     }, 100);
                 } else {
                     if (scope.timer != null) {
                         $timeout.cancel(scope.timer);
                     }
-                    element.fadeOut(50);
+                    element.fadeOut(100);
                 }
             });
         }
