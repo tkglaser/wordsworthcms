@@ -26,7 +26,7 @@
                     scope.timer = $timeout(function () {
                         element.fadeIn(100);
                         scope.timer = null;
-                    }, 100);
+                    }, 300);
                 } else {
                     if (scope.timer != null) {
                         $timeout.cancel(scope.timer);
