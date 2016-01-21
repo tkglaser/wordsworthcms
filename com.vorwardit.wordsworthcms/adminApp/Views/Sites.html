@@ -8,7 +8,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-body">
                     <button class="btn btn-app" ng-click="ctrl.newSite()"><i class="fa fa-plus"></i> Neue Site</button>
@@ -75,10 +75,8 @@
                     </div>
                 </form>
 
-                <div class="alert alert-danger alert-dismissible" style="display:none" id="saveError">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
-                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                <div class="callout callout-danger" style="display:none" id="saveError">
+                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
                 </div>
             </div>
             <div class="modal-footer">
@@ -100,11 +98,8 @@
             </div>
             <div class="modal-body">
                 <p class="text-danger">Soll die Site <strong>{{ctrl.site.name}}</strong> wirklich gel&ouml;scht werden?</p>
-
-                <div class="alert alert-danger alert-dismissible" style="display:none" id="deleteError">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                    <h4><i class="icon fa fa-ban"></i> Fehler!</h4>
-                    Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                <div class="callout callout-danger" style="display:none" id="deleteError">
+                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
                 </div>
             </div>
             <div class="modal-footer">
