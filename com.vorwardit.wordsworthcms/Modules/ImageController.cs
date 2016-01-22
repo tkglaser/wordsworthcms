@@ -27,7 +27,7 @@ namespace com.vorwardit.wordsworthcms.Modules
         }
 
         // GET: TopBanner
-        public ActionResult Index(Guid pageVersionId, string position)
+        public ActionResult Index(Guid pageVersionId, string position, bool editorPreview)
         {
             var pageVersion = pageService.GetPageVersion(pageVersionId);
             var md = pageVersion.GetModule<ImageModel>(position);

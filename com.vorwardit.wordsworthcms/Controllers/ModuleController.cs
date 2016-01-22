@@ -26,7 +26,8 @@ namespace com.vorwardit.wordsworthcms.Controllers
             var moduledata = pageVersion.ModuleData.FirstOrDefault(md => md.Position == position);
             if (moduledata != null)
             {
-				return ModuleFinder.Find(moduledata.Type)?.Index(pageVersionId, position);
+				var isEditor = Request.IsAjaxRequest();
+				return ModuleFinder.Find(moduledata.Type)?.Index(pageVersionId, position, isEditor);
             }
 
             return Content("");

@@ -26,12 +26,19 @@ namespace com.vorwardit.wordsworthcms.Modules
             this.pageService = pageService;
         }
 
-        public ActionResult Index(Guid pageVersionId, string position)
+        public ActionResult Index(Guid pageVersionId, string position, bool editorPreview)
         {
-            var pageVersion = pageService.GetPageVersion(pageVersionId);
-            var md = pageVersion.GetModule<PFBModel>(position);
-            return PartialView("~/Views/PFB/Index.cshtml", md.Data);
-        }
+			var pageVersion = pageService.GetPageVersion(pageVersionId);
+			var md = pageVersion.GetModule<PFBModel>(position);
+			if (editorPreview)
+			{
+				return PartialView("~/Views/PFB/Placeholder.cshtml", md.Data);
+			}
+			else
+			{
+				return PartialView("~/Views/PFB/Index.cshtml", md.Data);
+			}
+		}
 
         public async Task<ActionResult> Edit(Guid pageVersionId, string position)
         {

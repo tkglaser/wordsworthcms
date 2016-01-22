@@ -10,7 +10,7 @@ namespace com.vorwardit.wordsworthcms.Modules.Core
 {
     public interface IModule
     {
-		ActionResult Index(Guid pageVersionId, string position);
+		ActionResult Index(Guid pageVersionId, string position, bool editorPreview);
 
         Task<ActionResult> Edit(Guid pageVersionId, string position);
 

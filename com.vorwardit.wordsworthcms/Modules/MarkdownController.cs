@@ -31,7 +31,7 @@ namespace com.vorwardit.wordsworthcms.Modules
         }
 
         // GET: TopBanner
-        public ActionResult Index(Guid pageVersionId, string position)
+        public ActionResult Index(Guid pageVersionId, string position, bool editorPreview)
         {
             Markdown mark = new Markdown();
             var pageVersion = pageService.GetPageVersion(pageVersionId);
