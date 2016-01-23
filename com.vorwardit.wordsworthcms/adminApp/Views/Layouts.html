@@ -2,7 +2,7 @@
 <section class="content-header">
     <h1>
         Layouts
-        <small>Alle Layouts des CMS</small>
+        <small>Ein Layout ist das Grundger&uuml;st eines Auftritts. Hier wird das Rahmen-HTML definiert</small>
     </h1>
 </section>
 <!-- Main content -->
@@ -70,6 +70,7 @@
                         <label class="col-sm-1 control-label">HTML</label>
                         <div class="col-sm-11">
                             <textarea rows="20" type="text" class="form-control" id="htmlEditorLayouts" ng-model="ctrl.layout.body" />
+                            <p class="help-block"><i class="fa fa-lightbulb-o"></i> Der Platzhalter f&uuml;r den Seiteninhalt ist <strong>@RenderBody()</strong></p>
                         </div>
                     </div>
                 </form>

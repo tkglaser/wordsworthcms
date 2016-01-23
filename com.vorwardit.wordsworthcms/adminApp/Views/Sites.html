@@ -1,18 +1,36 @@
 ﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Sites
-        <small>Alle Sites des CMS</small>
+        Webauftritte
+        <small>Es k&ouml;nnen beliebig viele Webauftritte auf verschiedenen Dom&auml;nen verwaltet werden</small>
     </h1>
 </section>
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.newSite()"><i class="fa fa-plus"></i> Neue Site</button>
+                    <button class="btn btn-app" ng-click="ctrl.newSite()"><i class="fa fa-plus"></i> Neuer Webauftritt</button>
                 </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="callout callout-info">
+                <i class="fa fa-lightbulb-o"></i>
+                Folgende DNS Eintr&auml;ge m&uuml;ssen auf der Zieldom&auml;ne vorgenommen werden:
+                <table class="table table-condensed">
+                    <tr>
+                        <td>A</td>
+                        <td></td>
+                        <td>104.40.147.216</td>
+                    </tr>
+                    <tr>
+                        <td>CNAME</td>
+                        <td>*</td>
+                        <td>com-paulfaehrtbus-cms.azurewebsites.net</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

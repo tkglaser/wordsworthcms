@@ -11,8 +11,8 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PageController';
-        vm.modalHeadingNew = 'Neue Page anlegen';
-        vm.modalHeadingEdit = 'Page bearbeiten';
+        vm.modalHeadingNew = 'Neue Seite anlegen';
+        vm.modalHeadingEdit = 'Seite bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
         vm.pages = [];
         vm.page = {};

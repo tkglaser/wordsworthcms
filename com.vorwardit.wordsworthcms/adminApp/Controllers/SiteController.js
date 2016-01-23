@@ -11,8 +11,8 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'SiteController';
-        vm.modalHeadingNew = 'Neue Site anlegen';
-        vm.modalHeadingEdit = 'Site bearbeiten';
+        vm.modalHeadingNew = 'Neuen Auftritt anlegen';
+        vm.modalHeadingEdit = 'Auftritt bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
         vm.sites = [];
         vm.site = {};

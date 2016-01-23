@@ -11,8 +11,8 @@
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'PageLayoutController';
-        vm.modalHeadingNew = 'Neues Layout anlegen';
-        vm.modalHeadingEdit = 'Layout bearbeiten';
+        vm.modalHeadingNew = 'Neues Seitenlayout anlegen';
+        vm.modalHeadingEdit = 'Seitenlayout bearbeiten';
         vm.modalHeading = vm.modalHeadingEdit;
         vm.pagelayouts = [];
         vm.pagelayout = {};

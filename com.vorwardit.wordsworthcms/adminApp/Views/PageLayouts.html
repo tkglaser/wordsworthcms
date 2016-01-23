@@ -1,8 +1,8 @@
 ﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Page Layouts
-        <small>Alle Seitenlayouts des CMS</small>
+        Seitenlayouts
+        <small>Das Seitenlayout definiert, wie die Contentbausteine innerhalb eines Layouts angeordnet sind</small>
     </h1>
 </section>
 <!-- Main content -->
@@ -77,6 +77,10 @@
                         <label class="col-sm-1 control-label">HTML</label>
                         <div class="col-sm-11">
                             <textarea id="htmlEditorPageLayout" rows="19" type="text" class="form-control" ng-model="ctrl.pagelayout.body" />
+                            <p class="help-block">
+                                <i class="fa fa-lightbulb-o"></i> Mit <strong>@Html.Module("position1")</strong> werden Platzhalter f&uuml;r Contentbausteine angelegt.
+                                Der Name "position1" ist beliebig, muss jedoch pro Layout eindeutig sein.
+                            </p>
                         </div>
                     </div>
                 </form>
