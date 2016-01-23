@@ -32,6 +32,10 @@ namespace com.vorwardit.wordsworthcms.Controllers
             Stream result = new MemoryStream();
             string contentType = await storage.GetFileAsync(currentSite.SiteId.ToString(), name, result);
             result.Seek(0, SeekOrigin.Begin);
+            if (string.IsNullOrEmpty(contentType))
+            {
+                return HttpNotFound();
+            }
             return File(result, contentType);
         }
     }

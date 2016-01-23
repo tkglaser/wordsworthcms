@@ -58,7 +58,7 @@ app.factory('utilFactory', ['$timeout', '$log', '$q', function ($timeout, $log, 
 
     f.getPlaceCountry = function (place) {
         for (var i = 0; i < place.address_components.length; i++) {
-            for (j = 0; j < place.address_components[i].types.length; j++) {
+            for (var j = 0; j < place.address_components[i].types.length; j++) {
                 if (place.address_components[i].types[j] == 'country') {
                     return place.address_components[i].short_name;
                 }
