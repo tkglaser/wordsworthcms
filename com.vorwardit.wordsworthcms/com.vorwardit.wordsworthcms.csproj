@@ -372,7 +372,6 @@
     <Content Include="pfbApp\Controllers\PaymentController.js" />
     <Content Include="pfbApp\Controllers\RequestController.js" />
     <Content Include="pfbApp\Controllers\SpecialRequestController.js" />
-    <Content Include="pfbApp\Directives\BgSlider.js" />
     <Content Include="pfbApp\Directives\DateField.js" />
     <Content Include="pfbApp\Directives\HeaderHider.js" />
     <Content Include="pfbApp\Directives\ViewportHeight.js" />

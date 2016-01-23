@@ -212,7 +212,6 @@
 /// <reference path="../pfbapp/controllers/paymentcontroller.js" />
 /// <reference path="../pfbapp/controllers/requestcontroller.js" />
 /// <reference path="../pfbapp/controllers/specialrequestcontroller.js" />
-/// <reference path="../pfbapp/directives/bgslider.js" />
 /// <reference path="../pfbapp/directives/datefield.js" />
 /// <reference path="../pfbapp/directives/headerhider.js" />
 /// <reference path="../pfbapp/directives/viewportheight.js" />
