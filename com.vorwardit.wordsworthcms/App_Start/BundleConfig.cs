@@ -27,6 +27,14 @@ namespace com.vorwardit.wordsworthcms
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-animate.js",
+                "~/Scripts/angular-route.js",
+                "~/Scripts/i18n/angular-locale_de-de.js",
+                "~/Scripts/angular-ui/ui-bootstrap-tpls.js",
+                "~/Scripts/angular-ui-date.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/pfbapp").Include(
                 "~/pfbApp/app.js",
                 "~/pfbApp/Controllers/*.js",
