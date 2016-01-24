@@ -29,6 +29,7 @@ namespace com.vorwardit.wordsworthcms
             container.RegisterType<IContentService, ContentService>();
             container.RegisterType<ILayoutService, LayoutService>();
             container.RegisterType<IPageLayoutService, PageLayoutService>();
+            container.RegisterType<IUserService, UserService>();
         }
 
         public static void RegisterComponents()

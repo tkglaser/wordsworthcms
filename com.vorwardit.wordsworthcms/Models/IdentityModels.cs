@@ -3,9 +3,18 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace com.vorwardit.wordsworthcms.Models
 {
+    public enum PermissionType
+    {
+        Admin = 0,
+        Designer = 1,
+        ContentEditor = 2
+    }
+
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
@@ -16,9 +25,15 @@ namespace com.vorwardit.wordsworthcms.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public PermissionType Type { get; set; }
+
+        [ForeignKey("Site")]
+        public Guid? SiteId { get; set; }
+        public Site Site { get; set; }
     }
 
-	[DbConfigurationType(typeof(DataContextConfiguration))]
+    [DbConfigurationType(typeof(DataContextConfiguration))]
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -38,6 +53,5 @@ namespace com.vorwardit.wordsworthcms.Models
         public DbSet<PageUrl> PageUrls { get; set; }
         public DbSet<PageVersion> PageVersions { get; set; }
         public DbSet<Content> Contents { get; set; }
-        public DbSet<Permission> Permissions { get; set; }
     }
 }

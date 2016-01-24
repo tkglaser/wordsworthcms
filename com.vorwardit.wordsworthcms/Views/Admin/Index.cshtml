@@ -37,7 +37,10 @@
         table tr td:last-child {
                 text-align: right;
         }
-    </style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+        }
+        </style>
 </head>
 <body class="hold-transition skin-green sidebar-mini">
     <!-- Site wrapper -->
@@ -93,40 +96,15 @@
 
         <!-- =============================================== -->
         <!-- Left side column. contains the sidebar -->
-        <aside class="main-sidebar">
+        <aside class="main-sidebar ng-cloak">
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu">
+                <ul class="sidebar-menu" ng-controller="MenuController as ctrl">
                     <li class="header">MAIN NAVIGATION</li>
-                    <li active-link="/sites">
-                        <a href="#/sites">
-                            <i class="fa fa-home"></i> <span>Webauftritte</span>
-                        </a>
-                    </li>
-                    <li active-link="/layouts">
-                        <a href="#/layouts">
-                            <i class="fa fa-anchor"></i> <span>Layouts</span>
-                        </a>
-                    </li>
-                    <li active-link="/assets">
-                        <a href="#/assets">
-                            <i class="fa fa-file"></i> <span>Assets</span>
-                        </a>
-                    </li>
-                    <li active-link="/content">
-                        <a href="#/content">
-                            <i class="fa fa-clipboard"></i> <span>Content</span>
-                        </a>
-                    </li>
-                    <li active-link="/pagelayouts">
-                        <a href="#/pagelayouts">
-                            <i class="fa fa-book"></i> <span>Seitenlayouts</span>
-                        </a>
-                    </li>
-                    <li active-link="/pages">
-                        <a href="#/pages">
-                            <i class="fa fa-file"></i> <span>Seiten</span>
+                    <li ng-repeat="item in ctrl.menuItems" active-link="{{item.link}}">
+                        <a ng-href="#{{item.link}}">
+                            <i class="fa" ng-class="item.icon"></i> <span>{{item.name}}</span>
                         </a>
                     </li>
                 </ul>
@@ -187,5 +165,6 @@
     <script src="~/adminApp/Controllers/PageController.js"></script>
     <script src="~/adminApp/Controllers/AssetController.js"></script>
     <script src="~/adminApp/Controllers/ContentController.js"></script>
+    <script src="~/adminApp/Controllers/MenuController.js"></script>
 </body>
 </html>
