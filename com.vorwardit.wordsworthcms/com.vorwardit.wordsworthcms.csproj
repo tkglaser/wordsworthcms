@@ -304,6 +304,18 @@
     <Compile Include="Migrations\201601082232598_MigLayoutSiteId.Designer.cs">
       <DependentUpon>201601082232598_MigLayoutSiteId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201601240920522_MigPermissions.cs" />
+    <Compile Include="Migrations\201601240920522_MigPermissions.Designer.cs">
+      <DependentUpon>201601240920522_MigPermissions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601240927367_MigFkSite.cs" />
+    <Compile Include="Migrations\201601240927367_MigFkSite.Designer.cs">
+      <DependentUpon>201601240927367_MigFkSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601240930524_MigFkSite2.cs" />
+    <Compile Include="Migrations\201601240930524_MigFkSite2.Designer.cs">
+      <DependentUpon>201601240930524_MigFkSite2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataContextConfiguration.cs" />
@@ -315,6 +327,7 @@
     <Compile Include="Models\PageLayout.cs" />
     <Compile Include="Models\PageUrl.cs" />
     <Compile Include="Models\PageVersion.cs" />
+    <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="Modules\ContentController.cs" />
     <Compile Include="Modules\Core\ModuleFinder.cs" />
@@ -1932,6 +1945,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201601082232598_MigLayoutSiteId.resx">
       <DependentUpon>201601082232598_MigLayoutSiteId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601240920522_MigPermissions.resx">
+      <DependentUpon>201601240920522_MigPermissions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601240927367_MigFkSite.resx">
+      <DependentUpon>201601240927367_MigFkSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601240930524_MigFkSite2.resx">
+      <DependentUpon>201601240930524_MigFkSite2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

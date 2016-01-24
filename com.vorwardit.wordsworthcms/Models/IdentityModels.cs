@@ -38,5 +38,6 @@ namespace com.vorwardit.wordsworthcms.Models
         public DbSet<PageUrl> PageUrls { get; set; }
         public DbSet<PageVersion> PageVersions { get; set; }
         public DbSet<Content> Contents { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
     }
 }
