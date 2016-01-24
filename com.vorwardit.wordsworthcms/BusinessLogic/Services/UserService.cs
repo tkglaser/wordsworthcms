@@ -46,7 +46,13 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
 
         public async Task CreateUser(string userName, string password, PermissionType type, Guid? siteId)
         {
-            var user = new ApplicationUser { UserName = userName, Email = userName };
+            var user = new ApplicationUser
+            {
+                UserName = userName,
+                Email = userName,
+                Type = type,
+                SiteId = siteId
+            };
             var result = await userManager.CreateAsync(user, password);
             if (result.Succeeded)
             {

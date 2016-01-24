@@ -1,0 +1,119 @@
+﻿ <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Nutzerverwaltung
+        <small>Hier k&ouml;nnen Nutzer angelegt/bearbeitet/gel&ouml;scht werden</small>
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-info">
+                <div class="box-body">
+                    <button class="btn btn-app" ng-click="ctrl.newUser()"><i class="fa fa-plus"></i> Neuer Nutzer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Default box -->
+    <div class="box box-primary">
+        <div class="overlay" data-loading>
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
+        <table class="table table-hover table-striped table-condensed">
+            <tr>
+                <th>Name</th>
+                <th>Typ</th>
+                <th>Seite</th>
+                <th></th>
+            </tr>
+            <tr ng-repeat="user in ctrl.users">
+                <td>{{user.userName}}</td>
+                <td>{{ctrl.displayUserType(user.type)}}</td>
+                <td>{{user.siteName}}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-xs" ng-click="ctrl.editUser(user)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                        <button class="btn btn-danger btn-xs" ng-click="ctrl.deleteUser(user)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div><!-- /.box -->
+</section><!-- /.content -->
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{ctrl.modalHeading}}</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="ctrl.user.userName" />
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="ctrl.showPasswordBox">
+                        <label class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="ctrl.user.password" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Nutzerrolle</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-model="ctrl.user.type">
+                                <option ng-repeat="type in ctrl.userTypes" value="{{type.id}}">{{type.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Auftritt</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" ng-model="ctrl.user.siteId">
+                                <option value="">* (Alle Seiten)</option>
+                                <option ng-repeat="site in ctrl.sites" value="{{site.siteId}}">{{site.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="callout callout-danger" style="display:none" id="saveError">
+                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Nutzer L&ouml;schen?</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Soll der Nutzer <strong>{{ctrl.user.userName}}</strong> wirklich gel&ouml;scht werden?</p>
+                <div class="callout callout-danger" style="display:none" id="deleteError">
+                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+            </div>
+        </div>
+    </div>
+</div>

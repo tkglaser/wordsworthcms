@@ -346,6 +346,7 @@
     <Compile Include="Modules\PFBController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CreateUserViewModel.cs" />
     <Compile Include="ViewModels\EditModuleModel.cs" />
     <Compile Include="ViewModels\LayoutViewModel.cs" />
     <Compile Include="ViewModels\PageLayoutViewModel.cs" />
@@ -362,6 +363,7 @@
     <Content Include="adminApp\Controllers\MenuController.js" />
     <Content Include="adminApp\Controllers\PageLayoutController.js" />
     <Content Include="adminApp\Controllers\PageController.js" />
+    <Content Include="adminApp\Controllers\UserController.js" />
     <Content Include="adminApp\Controllers\WelcomeController.js" />
     <Content Include="adminApp\Controllers\SiteController.js" />
     <Content Include="adminApp\Directives\ActiveLinkDirective.js" />
@@ -372,7 +374,7 @@
     <Content Include="adminApp\Factories\LayoutFactory.js" />
     <Content Include="adminApp\Factories\PageLayoutFactory.js" />
     <Content Include="adminApp\Factories\PageFactory.js" />
-    <Content Include="adminApp\Factories\PermissionFactory.js" />
+    <Content Include="adminApp\Factories\UserFactory.js" />
     <Content Include="adminApp\Factories\SiteFactory.js" />
     <Content Include="adminApp\Views\Assets.html" />
     <Content Include="adminApp\Views\Content.html" />
@@ -380,6 +382,7 @@
     <Content Include="adminApp\Views\PageLayouts.html" />
     <Content Include="adminApp\Views\Pages.html" />
     <Content Include="adminApp\Views\Sites.html" />
+    <Content Include="adminApp\Views\Users.html" />
     <Content Include="adminApp\Views\Welcome.html" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />

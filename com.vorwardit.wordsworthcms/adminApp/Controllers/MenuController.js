@@ -5,47 +5,62 @@
         .module('app')
         .controller('MenuController', MenuController);
 
-    MenuController.$inject = ['$location', 'PermissionFactory']; 
+    MenuController.$inject = ['$location', 'UserFactory']; 
 
-    function MenuController($location, PermissionFactory) {
+    function MenuController($location, UserFactory) {
         /* jshint validthis:true */
         var vm = this;
         vm.title = 'MenuController';
-        vm.menuItems = [
-            {
-                link: '/sites',
-                icon: 'fa-home',
-                name: 'Webauftritte'
-            },
-            {
-                link: '/layouts',
-                icon: 'fa-anchor',
-                name: 'Layouts'
-            },
-            {
-                link: '/assets',
-                icon: 'fa-file',
-                name: 'Assets'
-            },
-            {
-                link: '/content',
-                icon: 'fa-clipboard',
-                name: 'Content'
-            },
-            {
-                link: '/pagelayouts',
-                icon: 'fa-book',
-                name: 'Seitenlayouts'
-            },
-            {
-                link: '/pages',
-                icon: 'fa-file',
-                name: 'Seiten'
-            },
-        ];
+        vm.menuItems = [];
 
         activate();
 
-        function activate() { }
+        function activate() {
+            UserFactory.getUser().success(function (user) {
+                if (user.type == 0) {
+                    vm.menuItems.push({
+                        link: '/sites',
+                        icon: 'fa-home',
+                        name: 'Webauftritte'
+                    });
+                }
+                if (user.type <= 1) {
+                    vm.menuItems.push({
+                        link: '/layouts',
+                        icon: 'fa-anchor',
+                        name: 'Layouts'
+                    });
+                    vm.menuItems.push({
+                        link: '/assets',
+                        icon: 'fa-file',
+                        name: 'Assets'
+                    });
+                    vm.menuItems.push({
+                        link: '/content',
+                        icon: 'fa-clipboard',
+                        name: 'Content'
+                    });
+                    vm.menuItems.push({
+                        link: '/pagelayouts',
+                        icon: 'fa-book',
+                        name: 'Seitenlayouts'
+                    });
+                }
+                if (user.type <= 2) {
+                    vm.menuItems.push({
+                        link: '/pages',
+                        icon: 'fa-file',
+                        name: 'Seiten'
+                    });
+                }
+                if (user.type == 0) {
+                    vm.menuItems.push({
+                        link: '/users',
+                        icon: 'fa-users',
+                        name: 'Nutzerverwaltung'
+                    });
+                }
+            })
+        }
     }
 })();

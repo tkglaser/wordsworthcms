@@ -33,6 +33,7 @@ namespace com.vorwardit.wordsworthcms.API
             {
                 UserId = user.Id,
                 UserName = user.UserName,
+                Type = user.Type,
                 SiteId = user.SiteId,
                 SiteName = "*"
             };
@@ -65,6 +66,7 @@ namespace com.vorwardit.wordsworthcms.API
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
+                    Type = user.Type,
                     SiteId = user.SiteId,
                     SiteName = "*"
                 };
@@ -93,8 +95,9 @@ namespace com.vorwardit.wordsworthcms.API
             return Ok();
         }
 
+        [HttpPost]
         [Route("create")]
-        public async Task<IHttpActionResult> PostCreate(UserViewModel model, string password)
+        public async Task<IHttpActionResult> PostCreate(CreateUserViewModel model)
         {
             var currentUser = await userService.GetUserAsync(User.Identity.GetUserId());
             if (currentUser.Type != PermissionType.Admin)
@@ -102,7 +105,7 @@ namespace com.vorwardit.wordsworthcms.API
                 return BadRequest("User is not authorised to perform this action");
             }
 
-            await userService.CreateUser(model.UserId, password, model.Type, model.SiteId);
+            await userService.CreateUser(model.UserName, model.Password, model.Type, model.SiteId);
 
             return Ok();
         }
