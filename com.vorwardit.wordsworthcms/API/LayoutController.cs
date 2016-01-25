@@ -3,6 +3,7 @@ using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 using com.vorwardit.wordsworthcms.Engine;
 using com.vorwardit.wordsworthcms.Models;
 using com.vorwardit.wordsworthcms.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,10 +20,12 @@ namespace com.vorwardit.wordsworthcms.API
     public class LayoutController : ApiController
     {
         ILayoutService layoutService;
+		IUserService userService;
 
-        public LayoutController(ILayoutService layoutService)
+		public LayoutController(ILayoutService layoutService, IUserService userService)
         {
             this.layoutService = layoutService;
+			this.userService = userService;
         }
 
         [HttpGet]
@@ -48,7 +51,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpPost]
         public async Task<IHttpActionResult> Post(LayoutViewModel model)
         {
-            Layout layout = await layoutService.GetOrCreateAsync(model.LayoutId);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Designer, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			Layout layout = await layoutService.GetOrCreateAsync(model.LayoutId);
             layout.Name = model.Name;
             layout.Body = model.Body;
             layout.SiteId = model.SiteId;
@@ -59,7 +68,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await layoutService.DeleteAsync(id);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Designer, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			await layoutService.DeleteAsync(id);
             return Ok();
         }
     }

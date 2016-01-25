@@ -30,11 +30,15 @@
                         icon: 'fa-anchor',
                         name: 'Layouts'
                     });
-                    vm.menuItems.push({
-                        link: '/assets',
-                        icon: 'fa-file',
-                        name: 'Assets'
-                    });
+				};
+                if (user.type <= 2) {
+					vm.menuItems.push({
+						link: '/assets',
+						icon: 'fa-file',
+						name: 'Assets'
+					});
+				}
+                if (user.type <= 1) {
                     vm.menuItems.push({
                         link: '/content',
                         icon: 'fa-clipboard',

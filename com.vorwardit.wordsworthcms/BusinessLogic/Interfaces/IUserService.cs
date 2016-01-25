@@ -11,8 +11,8 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Interfaces
     {
         Task<ApplicationUser> GetUserAsync(string userId);
         Task<IList<ApplicationUser>> GetUsersAsync();
-
-        Task CreateUser(string userName, string password, PermissionType type, Guid? siteId);
+		Task<bool> HasPermission(string userId, PermissionType type, Guid? siteId);
+		Task CreateUser(string userName, string password, PermissionType type, Guid? siteId);
         Task UpdateAsync(string userId, PermissionType type, Guid? siteId);
         Task DeleteUser(string userId);
     }

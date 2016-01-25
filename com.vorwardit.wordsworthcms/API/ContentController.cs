@@ -1,5 +1,6 @@
 ﻿using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 using com.vorwardit.wordsworthcms.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,10 +17,12 @@ namespace com.vorwardit.wordsworthcms.API
     public class ContentController : ApiController
     {
         IContentService contentService;
+		IUserService userService;
 
-        public ContentController(IContentService contentService)
+		public ContentController(IContentService contentService, IUserService userService)
         {
             this.contentService = contentService;
+			this.userService = userService;
         }
 
         [HttpGet]
@@ -44,7 +47,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpPost]
         public async Task<IHttpActionResult> Post(Content model)
         {
-            Content content = await contentService.GetOrCreateAsync(model.ContentId);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Designer, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			Content content = await contentService.GetOrCreateAsync(model.ContentId);
             content.Body = model.Body;
             content.SiteId = model.SiteId;
             content.Url = model.Url;
@@ -55,7 +64,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(long id)
         {
-            await contentService.DeleteAsync(id);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Designer, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			await contentService.DeleteAsync(id);
             return Ok();
         }
     }

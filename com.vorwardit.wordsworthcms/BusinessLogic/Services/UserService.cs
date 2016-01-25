@@ -30,7 +30,33 @@ namespace com.vorwardit.wordsworthcms.BusinessLogic.Services
             return await db.Users.ToListAsync();
         }
 
-        public async Task UpdateAsync(string userId, PermissionType type, Guid? siteId)
+		public async Task<bool> HasPermission(string userId, PermissionType type, Guid? siteId)
+		{
+			var dbUser = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+			if (dbUser == null)
+			{
+				return false;
+			}
+
+			if (dbUser.SiteId.HasValue && dbUser.SiteId.Value != siteId)
+			{
+				return false;
+			}
+
+			if (dbUser.Type == PermissionType.Designer && type == PermissionType.Admin)
+			{
+				return false;
+			}
+
+			if (dbUser.Type == PermissionType.ContentEditor && type != PermissionType.ContentEditor)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public async Task UpdateAsync(string userId, PermissionType type, Guid? siteId)
         {
             var dbUser = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if (dbUser == null)

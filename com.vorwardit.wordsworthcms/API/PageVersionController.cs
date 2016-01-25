@@ -17,10 +17,12 @@ namespace com.vorwardit.wordsworthcms.API
     public class PageVersionController : ApiController
     {
         IPageService pageService;
+		IUserService userService;
 
-        public PageVersionController(IPageService pageService)
+		public PageVersionController(IPageService pageService, IUserService userService)
         {
             this.pageService = pageService;
+			this.userService = userService;
         }
 
         [HttpGet]

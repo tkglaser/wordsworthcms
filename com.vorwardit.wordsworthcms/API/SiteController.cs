@@ -12,6 +12,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using com.vorwardit.wordsworthcms.ViewModels;
 using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
+using Microsoft.AspNet.Identity;
 
 namespace com.vorwardit.wordsworthcms.API
 {
@@ -20,10 +21,12 @@ namespace com.vorwardit.wordsworthcms.API
     public class SiteController : ApiController
     {
         ISiteService siteService;
+		IUserService userService;
 
-        public SiteController(ISiteService siteService)
+		public SiteController(ISiteService siteService, IUserService userService)
         {
             this.siteService = siteService;
+			this.userService = userService;
         }
 
         [HttpGet]
@@ -36,7 +39,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpPost]
         public async Task<IHttpActionResult> Post(SiteViewModel model)
         {
-            Site site = await siteService.GetOrCreateAsync(model.SiteId);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			Site site = await siteService.GetOrCreateAsync(model.SiteId);
             site.Name = model.Name;
             site.Bindings = model.Bindings;
             await siteService.UpdateAsync(site);
@@ -46,7 +55,13 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpDelete]
         public async Task<IHttpActionResult> Delete(Guid id)
         {
-            await siteService.DeleteAsync(id);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			await siteService.DeleteAsync(id);
             return Ok();
         }
     }

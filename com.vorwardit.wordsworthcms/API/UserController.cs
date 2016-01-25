@@ -19,9 +19,9 @@ namespace com.vorwardit.wordsworthcms.API
         IUserService userService;
         ISiteService siteService;
 
-        public UserController(IUserService permissionService, ISiteService siteService)
+        public UserController(IUserService userService, ISiteService siteService)
         {
-            this.userService = permissionService;
+            this.userService = userService;
             this.siteService = siteService;
         }
 
@@ -50,8 +50,8 @@ namespace com.vorwardit.wordsworthcms.API
         [Route("all")]
         public async Task<IHttpActionResult> GetAll()
         {
-            var currentUser = await userService.GetUserAsync(User.Identity.GetUserId());
-            if (currentUser.Type != PermissionType.Admin)
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+            if (!allowed)
             {
                 return BadRequest("User is not authorised to perform this action");
             }
@@ -84,8 +84,8 @@ namespace com.vorwardit.wordsworthcms.API
 
         public async Task<IHttpActionResult> Post(UserViewModel model)
         {
-            var currentUser = await userService.GetUserAsync(User.Identity.GetUserId());
-            if (currentUser.Type != PermissionType.Admin)
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+            if (!allowed)
             {
                 return BadRequest("User is not authorised to perform this action");
             }
@@ -99,8 +99,8 @@ namespace com.vorwardit.wordsworthcms.API
         [Route("create")]
         public async Task<IHttpActionResult> PostCreate(CreateUserViewModel model)
         {
-            var currentUser = await userService.GetUserAsync(User.Identity.GetUserId());
-            if (currentUser.Type != PermissionType.Admin)
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+			if (!allowed)
             {
                 return BadRequest("User is not authorised to perform this action");
             }
@@ -112,7 +112,13 @@ namespace com.vorwardit.wordsworthcms.API
 
         public async Task<IHttpActionResult> Delete(string id)
         {
-            await userService.DeleteUser(id);
+			var allowed = await userService.HasPermission(User.Identity.GetUserId(), PermissionType.Admin, null);
+			if (!allowed)
+			{
+				return BadRequest("User is not authorised to perform this action");
+			}
+
+			await userService.DeleteUser(id);
             return Ok();
         }
     }
