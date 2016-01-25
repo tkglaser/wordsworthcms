@@ -32,8 +32,18 @@ namespace com.vorwardit.wordsworthcms.API
         [HttpGet]
         public async Task<IHttpActionResult> Get()
         {
-            var sites = await siteService.GetAllAsync();
-            return Ok(sites.Select(s => Mapper.Map<SiteViewModel>(s)));
+			var user = await userService.GetUserAsync(User.Identity.GetUserId());
+			IList<Site> sites;
+			if (user.SiteId.HasValue)
+			{
+				sites = new List<Site>();
+				sites.Add(await siteService.GetAsync(user.SiteId.Value));
+			}
+			else
+			{
+				sites = await siteService.GetAllAsync();
+			}
+			return Ok(sites.Select(s => Mapper.Map<SiteViewModel>(s)));
         }
 
         [HttpPost]
