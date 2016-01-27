@@ -101,9 +101,9 @@
             <section class="sidebar">
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" ng-controller="MenuController as ctrl">
-                    <li class="header">HAUPTMEN&Uuml;</li>
-                    <li ng-repeat="item in ctrl.menuItems" active-link="{{item.link}}">
-                        <a ng-href="#{{item.link}}">
+                    <li ng-class="{header:item.isHeader}" ng-repeat="item in ctrl.menuItems" active-link="{{item.link}}">
+                        <span ng-if="item.isHeader">{{item.name}}</span>
+                        <a ng-if="!item.isHeader" ng-href="#{{item.link}}">
                             <i class="fa" ng-class="item.icon"></i> <span>{{item.name}}</span>
                         </a>
                     </li>
