@@ -2,4 +2,5 @@
 com.vorwardit.wordsworthcms/bin/
 packages/
 com.vorwardit.wordsworthcms/obj/
+com.vorwardit.wordsworthcms/node_modules/
 *.user

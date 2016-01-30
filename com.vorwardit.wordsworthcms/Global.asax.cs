@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace com.vorwardit.wordsworthcms
@@ -21,7 +20,6 @@ namespace com.vorwardit.wordsworthcms
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.ConfigureMappings();
             UnityConfig.RegisterComponents();
             ModuleFinder.Init();
