@@ -5,7 +5,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
         .when('/', {
             reloadOnSearch: false,
             templateUrl: 'lib/pfb-wizard/Views/Landing.html',
-            controller: 'LandingController'
+            controller: 'LandingController as ctrl'
         })
         .when('/von-:startSearch', {
             reloadOnSearch: false,

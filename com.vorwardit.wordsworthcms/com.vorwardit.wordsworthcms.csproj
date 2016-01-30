@@ -424,6 +424,7 @@
     <Content Include="lib\ans-codemirror\ans-codemirror.min.css" />
     <Content Include="lib\ans-codemirror\ans-codemirror.min.js" />
     <Content Include="lib\pfb-wizard\app.min.js" />
+    <Content Include="lib\pfb-wizard\Controllers\LandingController.js" />
     <Content Include="lib\vendor\angular-animate\angular-animate.js" />
     <Content Include="lib\vendor\angular-animate\angular-animate.min.js" />
     <Content Include="lib\vendor\angular-animate\index.js" />
@@ -4145,7 +4146,7 @@
     <Content Include="lib\pfb-wizard\app.js" />
     <Content Include="lib\pfb-wizard\Controllers\BookingController.js" />
     <Content Include="lib\pfb-wizard\Controllers\CannotQuoteController.js" />
-    <Content Include="lib\pfb-wizard\Controllers\LandingController.js" />
+    <None Include="lib\pfb-wizard\Controllers\LandingController-old.jsx" />
     <Content Include="lib\pfb-wizard\Controllers\OfferExpiredController.js" />
     <Content Include="lib\pfb-wizard\Controllers\OrderConfirmController.js" />
     <Content Include="lib\pfb-wizard\Controllers\OrderController.js" />
@@ -4153,7 +4154,6 @@
     <Content Include="lib\pfb-wizard\Controllers\RequestController.js" />
     <Content Include="lib\pfb-wizard\Controllers\SpecialRequestController.js" />
     <Content Include="lib\pfb-wizard\Directives\DateField.js" />
-    <Content Include="lib\pfb-wizard\Directives\HeaderHider.js" />
     <Content Include="lib\pfb-wizard\Directives\ViewportHeight.js" />
     <Content Include="lib\pfb-wizard\Factories\AnalyticsFactory.js" />
     <Content Include="lib\pfb-wizard\Factories\BookingFactory.js" />
