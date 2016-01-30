@@ -3998,7 +3998,6 @@
     <Content Include="lib\vendor\jquery-ui\composer.json" />
     <Content Include="lib\vendor\jquery-ui\package.json" />
     <Content Include="lib\vendor\jquery-ui\README.md" />
-    <Content Include="lib\vendor\jquery-ui\ui\.DS_Store" />
     <Content Include="lib\vendor\jquery-ui\ui\.jshintrc" />
     <Content Include="lib\vendor\angular-ui-date\.bower.json" />
     <Content Include="lib\vendor\angular-ui-date\bower.json" />
