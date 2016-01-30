@@ -1,4 +1,4 @@
-﻿var app = angular.module('RequestApp', ['ngAnimate', 'ngRoute', 'ui.bootstrap', 'ui.date']);
+﻿var app = angular.module('RequestApp', ['ngAnimate', 'ngRoute', 'ngMaterial', 'ui.bootstrap', 'ui.date']);
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider

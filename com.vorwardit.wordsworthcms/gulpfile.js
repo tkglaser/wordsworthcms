@@ -1,4 +1,4 @@
-﻿/// <binding Clean='clean' ProjectOpened='watch' />
+﻿/// <binding BeforeBuild='default' ProjectOpened='default' />
 "use strict";
 
 var gulp = require('gulp');
@@ -11,10 +11,6 @@ var rimraf = require("rimraf");
  
 var outputLocation = 'lib';
  
-gulp.task('clean', function () {
-    del.sync([outputLocation + '/**']);
-});
-
 gulp.task('min:js:admin', function () {
     return gulp.src(['lib/admin/**/*.js', '!lib/admin/**/*.min.js'], { base: "." })
     .pipe(concat('lib/admin/app.min.js'))
@@ -35,4 +31,4 @@ gulp.task('watch', function () {
     gulp.watch('lib/**/*', ['min:js']);
 });
 
-gulp.task('default', ['clean', 'min:js', 'watch'], function(){});
+gulp.task('default', ['min:js'], function(){});

@@ -125,6 +125,17 @@ function ($routeParams, $scope, $location, $timeout, $q, $log, $window, gacFacto
             });
     }
 
+    $scope.query = function (searchText) {
+        if (searchText != '') {
+            return gacFactory.autocomplete(searchText)
+                .then(function (response) {
+                    return response.data.predictions;
+                });
+        } else {
+            return [];
+        }
+    }
+
     $scope.onStartNameEdit = function () {
         $scope.startIsValid = false;
         $scope.gacValidationMessage = '';
