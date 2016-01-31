@@ -1,57 +1,71 @@
-﻿<style>
-    @media (min-width: 960px){
-        .landing-fix {
-            max-height:100px;
-            overflow:hidden;
-        }
-    }
-</style>
-<div class="ng-cloak landingform-container" ng-style="style()" viewport-height>
-    <div layout="row">
-        <div flex="100" flex-lg="80" flex-offset-lg="10">
+﻿<div class="ng-cloak landingform-container" ng-style="style()" viewport-height>
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1">
             <div class="text-on-image">
                 <h1 class="text-center">Reisebus mieten leicht gemacht</h1>
                 <h2 class="text-center">Über PAUL fährt Bus können Sie schnell und bequem einen Bus für Ihre Reise buchen.</h2>
             </div>
-            <md-content flex layout-padding class="landing-fix">
-                <form name="Request">
-                    <div layout-gt-sm="row" layout-align="space-between">
-                        <md-autocomplete flex-gt-sm="33" required
-                                         md-input-name="StartNameField"
-                                         md-search-text="StartName"
-                                         md-items="item in ctrl.query(StartName)"
-                                         md-item-text="item.description"
-                                         md-floating-label="Abfahrtsort (z.B. Berlin)">
-                            <md-item-template>
-                                <span md-highlight-text="searchText" ng-click="ctrl.setStartPlace(item)">{{item.description}}</span>
-                            </md-item-template>
-                        </md-autocomplete>
-                        <md-autocomplete flex-gt-sm="33" required
-                                         md-input-name="TargetNameField"
-                                         md-search-text="TargetName"
-                                         md-items="item in ctrl.query(TargetName)"
-                                         md-item-text="item.description"
-                                         md-floating-label="Zielort (z.B. Hamburg)">
-                            <md-item-template>
-                                <span md-highlight-text="searchText" ng-click="ctrl.setTargetPlace(item)">{{item.description}}</span>
-                            </md-item-template>
-
-                        </md-autocomplete>
-                        <div flex-gt-sm="34">
-                            <div layout="column">
-                                <md-button flex class="md-primary md-raised" type="button" ng-click="ctrl.submitMap()" ng-disabled="ctrl.mapLoading">
-                                    <span ng-show="ctrl.mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
-                                    <span ng-hide="ctrl.mapLoading">Angebot kalkulieren</span>
-                                </md-button>
-                                <div flex class="lead-out">Keine Angst. Das Angebot ist unverbindlich.</div>
+            <form name="Request">
+                <div class="panel panel-default">
+                    <!--<div class="panel-heading"><p class="panel-title text-center">Geben sie Ihren Abfahrtsort und Zielort ein</p></div>-->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group-lg has-feedback"
+                                     ng-class="startErrorClass()">
+                                    <input class="form-control input-lg"
+                                           type="text"
+                                           id="StartName"
+                                           name="StartName"
+                                           ng-model="StartName"
+                                           ng-keyup="onStartNameEdit()"
+                                           placeholder="Abfahrtsort (z.B. Berlin)"
+                                           required
+                                           autocomplete="off" />
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="startErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="startErrorClass() == 'has-error'"></span>
+                                </div>
+                                <div class="list-group" ng-show="startPredictions.length > 0">
+                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in startPredictions" ng-click="setStartPlace(prediction)">
+                                        {{prediction.description}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group-lg has-feedback"
+                                     ng-class="targetErrorClass()">
+                                    <input class="form-control input-lg"
+                                           type="text"
+                                           id="TargetName"
+                                           name="TargetName"
+                                           ng-model="TargetName"
+                                           ng-keyup="onTargetNameEdit()"
+                                           placeholder="Zielort (z.B. Hamburg)"
+                                           required
+                                           autocomplete="off" />
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="targetErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="targetErrorClass() == 'has-error'"></span>
+                                </div>
+                                <div class="list-group" ng-show="targetPredictions.length > 0">
+                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in targetPredictions" ng-click="setTargetPlace(prediction)">
+                                        {{prediction.description}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="submitMap()" ng-disabled="mapLoading">
+                                    <span ng-show="mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                    <span ng-hide="mapLoading">Angebot kalkulieren</span>
+                                </button>
+                                <small class="lead-out">Keine Angst. Das Angebot ist unverbindlich.</small>
                             </div>
                         </div>
+                        <div ng-if="gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{gacValidationMessage}}</div>
                     </div>
-                    <div ng-if="ctrl.gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{ctrl.gacValidationMessage}}</div>
-                </form>
-            </md-content>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="text-center"><span id="downArrow" ng-click="ctrl.onDownArrowClick()" class="fa fa-chevron-down fa-5x" style="color:#fff;text-shadow: 0 0 5px #000;cursor:pointer"></span></div>
+<div class="text-center"><span id="downArrow" ng-click="onDownArrowClick()" class="fa fa-chevron-down fa-5x" style="color:#fff;text-shadow: 0 0 5px #000;cursor:pointer"></span></div>
 <!-- /.row -->

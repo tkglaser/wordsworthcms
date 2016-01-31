@@ -1,218 +1,249 @@
-﻿(function () {
-    'use strict';
+﻿'use strict';
 
-    angular
-        .module('RequestApp')
-        .controller('LandingController', LandingController);
+app.controller('LandingController', [
+    '$routeParams', '$scope', '$location', '$timeout', '$q', '$log', '$window',
+    'gacFactory', 'requestFactory', 'utilFactory', 'analyticsFactory',
+function ($routeParams, $scope, $location, $timeout, $q, $log, $window, gacFactory, requestFactory, util, analytics) {
+    $scope.requestId = '';
+    $scope.startIsValid = false;
+    $scope.targetIsValid = false;
+    $scope.StartLatLng = null;
+    $scope.TargetLatLng = null;
+    $scope.StartCountry = '';
+    $scope.TargetCountry = '';
+    $scope.mapSubmitted = false;
+    $scope.mapLoading = false;
+    $scope.startAutocomplete = null;
+    $scope.targetAutocomplete = null;
+    $scope.startPredictions = [];
+    $scope.targetPredictions = [];
+    $scope.gacValidationMessage = '';
+    $scope.ValueTrack = {};
 
-    LandingController.$inject = ['$routeParams', '$location', '$timeout', '$q', '$log', '$window', 'gacFactory', 'requestFactory', 'utilFactory', 'analyticsFactory'];
+    var valuetrack = $location.search();
+    if (valuetrack.hasOwnProperty('k')) {
+        $scope.ValueTrack.KeyWord = valuetrack.k;
+    }
+    if (valuetrack.hasOwnProperty('d')) {
+        $scope.ValueTrack.Device = valuetrack.d;
+    }
+    if (valuetrack.hasOwnProperty('m')) {
+        $scope.ValueTrack.MatchType = valuetrack.m;
+    }
 
-    function LandingController($routeParams, $location, $timeout, $q, $log, $window, gacFactory, requestFactory, util, analytics) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'LandingController';
-        vm.requestId = '';
-        vm.startIsValid = false;
-        vm.targetIsValid = false;
-        vm.StartLatLng = null;
-        vm.TargetLatLng = null;
-        vm.StartCountry = '';
-        vm.TargetCountry = '';
-        vm.mapSubmitted = false;
-        vm.mapLoading = false;
-        vm.startAutocomplete = null;
-        vm.targetAutocomplete = null;
-        vm.startPredictions = [];
-        vm.targetPredictions = [];
-        vm.gacValidationMessage = '';
-        vm.ValueTrack = {};
+    $location.search('k', null);
+    $location.search('d', null);
+    $location.search('m', null);
 
-        activate();
+    if ($routeParams.startSearch != '') {
+        gacFactory.autocomplete($routeParams.startSearch)
+            .success(function (data, status, headers, config) {
+                if (data.status == "OK") {
+                    $scope.setStartPlace(data.predictions[0]);
+                }
+            });
+    }
 
-        function activate() {
-            var valuetrack = $location.search();
-            if (valuetrack.hasOwnProperty('k')) {
-                vm.ValueTrack.KeyWord = valuetrack.k;
-            }
-            if (valuetrack.hasOwnProperty('d')) {
-                vm.ValueTrack.Device = valuetrack.d;
-            }
-            if (valuetrack.hasOwnProperty('m')) {
-                vm.ValueTrack.MatchType = valuetrack.m;
-            }
+    if ($routeParams.targetSearch != '') {
+        gacFactory.autocomplete($routeParams.targetSearch)
+            .success(function (data, status, headers, config) {
+                if (data.status == "OK") {
+                    $scope.setTargetPlace(data.predictions[0]);
+                }
+            });
+    }
 
-            $location.search('k', null);
-            $location.search('d', null);
-            $location.search('m', null);
+    $scope.$on('$viewContentLoaded', function (event) {
+        analytics.pageView();
+    });
 
-            if ($routeParams.startSearch != '') {
-                gacFactory.autocomplete($routeParams.startSearch)
-                    .success(function (data, status, headers, config) {
-                        if (data.status == "OK") {
-                            vm.setStartPlace(data.predictions[0]);
-                        }
-                    });
-            }
+    $("body,html").scrollTop(0);
 
-            if ($routeParams.targetSearch != '') {
-                gacFactory.autocomplete($routeParams.targetSearch)
-                    .success(function (data, status, headers, config) {
-                        if (data.status == "OK") {
-                            vm.setTargetPlace(data.predictions[0]);
-                        }
-                    });
-            }
-            
-            $("body,html").scrollTop(0);
+    $scope.startErrorClass = function () {
+        if (!$scope.Request.StartName.$dirty && !$scope.mapSubmitted) {
+            return '';
+        }
+        if ($scope.startIsValid) {
+            return 'has-success';
+        } else {
+            return 'has-error'
+        }
+    };
+
+    $scope.targetErrorClass = function () {
+        if (!$scope.Request.TargetName.$dirty && !$scope.mapSubmitted) {
+            return '';
+        }
+        if ($scope.targetIsValid) {
+            return 'has-success';
+        } else {
+            return 'has-error'
+        }
+    };
+
+    $scope.submitMap = function () {
+        $scope.mapSubmitted = true;
+    };
+
+    $scope.redirectIfReady = function (postBack) {
+        if ($scope.StartLatLng == null || $scope.TargetLatLng == null) {
+            $scope.distance = 0;
+            $scope.duration = 0;
+            return;
         }
 
-        vm.redirectIfReady = function (postBack) {
-            if (vm.StartLatLng == null || vm.TargetLatLng == null) {
-                vm.distance = 0;
-                vm.duration = 0;
-                return;
-            }
+        analytics.buttonClick('landing');
 
-            analytics.buttonClick('landing');
+        $scope.mapLoading = true;
 
-            vm.mapLoading = true;
-
-            requestFactory.create()
-                .success(function (data) {
-                    vm.requestId = data;
-                })
-                .then(function () {
-                    var newData = $.extend({}, vm.ValueTrack, {
-                        RequestId: vm.requestId,
-                        StartName: vm.StartName,
-                        StartCountry: vm.StartCountry,
-                        StartLat: vm.StartLat,
-                        StartLon: vm.StartLon,
-                        TargetName: vm.TargetName,
-                        TargetCountry: vm.TargetCountry,
-                        TargetLat: vm.TargetLat,
-                        TargetLon: vm.TargetLon
-                    });
-                    return requestFactory.update(newData);
-                })
-                .then(function (data) {
-                    if (data.data.status == 'CannotQuote') {
-                        $location.path('/cannotQuote/' + vm.requestId);
-                    } else {
-                        $location.path('/request');
-                        $location.search('r', vm.requestId);
-                        $location.search('s', 'd');
-                    }
+        requestFactory.create()
+            .success(function (data) {
+                $scope.requestId = data;
+            })
+            .then(function () {
+                var newData = $.extend({}, $scope.ValueTrack, {
+                    RequestId: $scope.requestId,
+                    StartName: $scope.StartName,
+                    StartCountry: $scope.StartCountry,
+                    StartLat: $scope.StartLat,
+                    StartLon: $scope.StartLon,
+                    TargetName: $scope.TargetName,
+                    TargetCountry: $scope.TargetCountry,
+                    TargetLat: $scope.TargetLat,
+                    TargetLon: $scope.TargetLon
                 });
-        }
-
-        vm.query = function (searchText) {
-            if (searchText != '') {
-                return gacFactory.autocomplete(searchText)
-                    .then(function (response) {
-                        return response.data.predictions;
-                    });
-            } else {
-                return [];
-            }
-        }
-
-        //vm.$on('$viewContentLoaded', function (event) {
-        //    analytics.pageView();
-        //});
-        
-        vm.submitMap = function () {
-            vm.mapSubmitted = true;
-        };
-
-        vm.isCountry = function (place) {
-            for (var typeId = 0; typeId < place.types.length; ++typeId) {
-                if (place.types[typeId] === 'country') {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        vm.setStartPlace = function (place) {
-            gacFactory.details(place.place_id)
-            .success(function (data) {
-                if (data.status == "OK") {
-                    var place = data.result;
-                    if (vm.isCountry(place)) {
-                        vm.gacValidationMessage = 'Ein Land kann nicht als Abfahrtsort gewählt werden!';
-                        return;
-                    }
-                    if (place.geometry) {
-                        vm.gacValidationMessage = '';
-                        vm.StartLat = place.geometry.location.lat;
-                        vm.StartLon = place.geometry.location.lng;
-                        if (place.formatted_address === 'Deutschland') {
-                            vm.StartName = place.name + ', ' + place.formatted_address;
-                        } else {
-                            vm.StartName = place.formatted_address;
-                        }
-                        vm.startIsValid = true;
-                        vm.startPredictions = [];
-                        vm.StartLatLng = place.geometry.location;
-                        vm.StartCountry = util.getPlaceCountry(place);
-                        vm.redirectIfReady();
-                    }
-                }
+                return requestFactory.update(newData);
             })
-        }
-
-        vm.setTargetPlace = function (place) {
-            gacFactory.details(place.place_id)
-            .success(function (data) {
-                if (data.status == "OK") {
-                    var place = data.result;
-                    if (vm.isCountry(place)) {
-                        vm.gacValidationMessage = 'Ein Land kann nicht als Ziel gewählt werden!';
-                        return;
-                    }
-                    if (place.geometry) {
-                        vm.gacValidationMessage = '';
-                        vm.TargetLat = place.geometry.location.lat;
-                        vm.TargetLon = place.geometry.location.lng;
-                        if (place.formatted_address === 'Deutschland') {
-                            vm.TargetName = place.name + ', ' + place.formatted_address;
-                        } else {
-                            vm.TargetName = place.formatted_address;
-                        }
-                        vm.targetIsValid = true;
-                        vm.targetPredictions = [];
-                        vm.TargetLatLng = place.geometry.location;
-                        vm.TargetCountry = util.getPlaceCountry(place);
-                        vm.redirectIfReady();
-                    }
+            .then(function (data) {
+                if (data.data.status == 'CannotQuote') {
+                    $location.path('/cannotQuote/' + $scope.requestId);
+                } else {
+                    $location.path('/request');
+                    $location.search('r', $scope.requestId);
+                    $location.search('s', 'd');
                 }
-            })
-        }
+            });
+    }
 
-        vm.cumulativeOffset = function (element) {
-            var top = 0, left = 0;
-            do {
-                top += element.offsetTop || 0;
-                left += element.offsetLeft || 0;
-                element = element.offsetParent;
-            } while (element);
-
-            return {
-                top: top,
-                left: left
-            };
-        };
-
-        vm.onDownArrowClick = function () {
-            $timeout(function () {
-                var nav = document.getElementById('mainNavbar');
-                var navHeight = nav.clientHeight;
-                var elm = document.getElementById('downArrow');
-                var st = vm.cumulativeOffset(elm).top;// - navHeight - 10;
-                $log.info('nav is ' + navHeight + ' high, jumping to ' + st);
-                $("body,html").animate({ scrollTop: st }, "slow");
+    $scope.onStartNameEdit = function () {
+        $scope.startIsValid = false;
+        $scope.gacValidationMessage = '';
+        var newValue = $scope.StartName;
+        if (newValue != '') {
+            gacFactory.autocomplete(newValue)
+            .success(function (data, status, headers, config) {
+                if (data.status == "OK") {
+                    $scope.startPredictions = data.predictions;
+                } else {
+                    $scope.startPredictions = [];
+                }
             });
         }
     }
-})();
+
+    $scope.onTargetNameEdit = function () {
+        $scope.targetIsValid = false;
+        $scope.gacValidationMessage = '';
+        var newValue = $scope.TargetName;
+        if (newValue != '') {
+            gacFactory.autocomplete(newValue)
+            .success(function (data, status, headers, config) {
+                if (data.status == "OK") {
+                    $scope.targetPredictions = data.predictions;
+                } else {
+                    $scope.targetPredictions = [];
+                }
+            });
+        }
+    }
+
+    $scope.isCountry = function (place) {
+        for (var typeId = 0; typeId < place.types.length; ++typeId) {
+            if (place.types[typeId] === 'country') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.setStartPlace = function (place) {
+        gacFactory.details(place.place_id)
+        .success(function (data) {
+            if (data.status == "OK") {
+                var place = data.result;
+                if ($scope.isCountry(place)) {
+                    $scope.gacValidationMessage = 'Ein Land kann nicht als Abfahrtsort gewählt werden!';
+                    return;
+                }
+                if (place.geometry) {
+                    $scope.gacValidationMessage = '';
+                    $scope.StartLat = place.geometry.location.lat;
+                    $scope.StartLon = place.geometry.location.lng;
+                    if (place.formatted_address === 'Deutschland') {
+                        $scope.StartName = place.name + ', ' + place.formatted_address;
+                    } else {
+                        $scope.StartName = place.formatted_address;
+                    }
+                    $scope.startIsValid = true;
+                    $scope.startPredictions = [];
+                    $scope.StartLatLng = place.geometry.location;
+                    $scope.StartCountry = util.getPlaceCountry(place);
+                    $scope.redirectIfReady();
+                }
+            }
+        })
+    }
+
+    $scope.setTargetPlace = function (place) {
+        gacFactory.details(place.place_id)
+        .success(function (data) {
+            if (data.status == "OK") {
+                var place = data.result;
+                if ($scope.isCountry(place)) {
+                    $scope.gacValidationMessage = 'Ein Land kann nicht als Ziel gewählt werden!';
+                    return;
+                }
+                if (place.geometry) {
+                    $scope.gacValidationMessage = '';
+                    $scope.TargetLat = place.geometry.location.lat;
+                    $scope.TargetLon = place.geometry.location.lng;
+                    if (place.formatted_address === 'Deutschland') {
+                        $scope.TargetName = place.name + ', ' + place.formatted_address;
+                    } else {
+                        $scope.TargetName = place.formatted_address;
+                    }
+                    $scope.targetIsValid = true;
+                    $scope.targetPredictions = [];
+                    $scope.TargetLatLng = place.geometry.location;
+                    $scope.TargetCountry = util.getPlaceCountry(place);
+                    $scope.redirectIfReady();
+                }
+            }
+        })
+    }
+
+    $scope.cumulativeOffset = function (element) {
+        var top = 0, left = 0;
+        do {
+            top += element.offsetTop || 0;
+            left += element.offsetLeft || 0;
+            element = element.offsetParent;
+        } while (element);
+
+        return {
+            top: top,
+            left: left
+        };
+    };
+
+    $scope.onDownArrowClick = function () {
+        $timeout(function () {
+            var nav = document.getElementById('mainNavbar');
+            var navHeight = nav.clientHeight;
+            var elm = document.getElementById('downArrow');
+            var st = $scope.cumulativeOffset(elm).top;// - navHeight - 10;
+            $log.info('nav is ' + navHeight + ' high, jumping to ' + st);
+            $("body,html").animate({ scrollTop: st }, "slow");
+        });
+    }
+}])
