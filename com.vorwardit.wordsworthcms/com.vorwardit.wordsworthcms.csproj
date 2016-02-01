@@ -4717,9 +4717,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\admin\app.ts" />
-    <TypeScriptCompile Include="lib\admin\Domain\IEntity.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
-    <TypeScriptCompile Include="lib\admin\Services\DataService.ts" />
+    <TypeScriptCompile Include="lib\admin\Services\SiteService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
