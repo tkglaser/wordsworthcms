@@ -394,10 +394,8 @@
     <Content Include="lib\admin\app.min.js" />
     <Content Include="lib\admin\Controllers\AssetController.js" />
     <Content Include="lib\admin\Controllers\ContentController.js" />
-    <Content Include="lib\admin\Controllers\MenuController.js" />
     <Content Include="lib\admin\Controllers\PageLayoutController.js" />
     <Content Include="lib\admin\Controllers\PageController.js" />
-    <Content Include="lib\admin\Controllers\UserController.js" />
     <Content Include="lib\admin\Directives\ActiveLinkDirective.js" />
     <Content Include="lib\admin\Directives\FileModelDirective.js" />
     <Content Include="lib\admin\Directives\LoadingDirective.js" />
@@ -406,7 +404,6 @@
     <Content Include="lib\admin\Factories\LayoutFactory.js" />
     <Content Include="lib\admin\Factories\PageLayoutFactory.js" />
     <Content Include="lib\admin\Factories\PageFactory.js" />
-    <Content Include="lib\admin\Factories\UserFactory.js" />
     <Content Include="lib\admin\Factories\SiteFactory.js" />
     <Content Include="lib\admin\Views\Assets.html" />
     <Content Include="lib\admin\Views\Content.html" />
@@ -4715,9 +4712,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="lib\admin\app.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\LayoutController.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\MenuController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\SiteController.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\UserController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\WelcomeController.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Layout.ts" />
+    <TypeScriptCompile Include="lib\admin\Domain\MenuItem.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\User.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\UserType.ts" />

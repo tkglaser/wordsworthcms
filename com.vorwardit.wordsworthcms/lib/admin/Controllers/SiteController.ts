@@ -9,11 +9,10 @@
         static modalHeadingEdit: string = 'Auftritt bearbeiten';
         modalHeading: string;
 
-        static $inject = ['$location', 'SiteService'];
-        constructor(private $location: ng.ILocationService, private SiteService: app.services.SiteService) {
+        static $inject = ['SiteService'];
+        constructor(private SiteService: app.services.ISiteService) {
             this.getSites();
             this.modalHeading = SiteController.modalHeadingEdit;
-
         }
 
         getSites(): void {

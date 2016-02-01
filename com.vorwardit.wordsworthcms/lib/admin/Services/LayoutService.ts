@@ -1,5 +1,13 @@
 ﻿module app.services {
-    export class LayoutService {
+
+    export interface ILayoutService {
+        getBySiteId(siteId: string): ng.IPromise<app.domain.ILayout[]>;
+        getData(layoutId: string): ng.IPromise<app.domain.ILayout>;
+        update(data: app.domain.ILayout): ng.IPromise<any>;
+        remove(id: string): ng.IPromise<any>;
+    }
+
+    export class LayoutService implements ILayoutService {
         private httpService: ng.IHttpService;
         private qService: ng.IQService;
 

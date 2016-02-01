@@ -17,8 +17,8 @@ module app.controllers {
 
         static $inject = ['LayoutService', 'SiteService'];
         constructor(
-            private LayoutService: app.services.LayoutService,
-            private SiteService: app.services.SiteService)
+            private LayoutService: app.services.ILayoutService,
+            private SiteService: app.services.ISiteService)
         {
             this.getLayouts();
             var mixedMode = {

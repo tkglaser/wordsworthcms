@@ -1,7 +1,16 @@
 ﻿declare var adminAppGlobalSettings: any;
 
 module app.services {
-    export class SiteService {
+
+    export interface ISiteService {
+        getData(): ng.IPromise<app.domain.ISite[]>;
+        getSelectedSite(sites: app.domain.ISite[]): app.domain.ISite;
+        setSelectedSite(site: app.domain.ISite);
+        update(data: app.domain.ISite): ng.IPromise<any>;
+        remove(id: string): ng.IPromise<any>;
+    }
+
+    export class SiteService implements ISiteService {
         private httpService: ng.IHttpService;
         private rootScopeService: ng.IRootScopeService;
         private qService: ng.IQService;

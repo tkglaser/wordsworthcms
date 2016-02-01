@@ -46,9 +46,10 @@ var app;
             UserService.$inject = ['$http', '$rootScope', '$q'];
             return UserService;
         })();
+        services.UserService = UserService;
         angular
             .module('app')
-            .factory('UserService', UserService);
+            .service('UserService', UserService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
 //# sourceMappingURL=UserService.js.map

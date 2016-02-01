@@ -3,8 +3,7 @@ var app;
     var controllers;
     (function (controllers) {
         var SiteController = (function () {
-            function SiteController($location, SiteService) {
-                this.$location = $location;
+            function SiteController(SiteService) {
                 this.SiteService = SiteService;
                 this.getSites();
                 this.modalHeading = SiteController.modalHeadingEdit;
@@ -72,7 +71,7 @@ var app;
             };
             SiteController.modalHeadingNew = 'Neuen Auftritt anlegen';
             SiteController.modalHeadingEdit = 'Auftritt bearbeiten';
-            SiteController.$inject = ['$location', 'SiteService'];
+            SiteController.$inject = ['SiteService'];
             return SiteController;
         })();
         angular

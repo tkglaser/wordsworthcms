@@ -11,7 +11,7 @@
         ) {
         }
 
-        static allTypes(): UserType[] {
+        static allTypes(): IUserType[] {
             var result: UserType[] = [];
             result.push(new UserType(0, "Administrator"));
             result.push(new UserType(1, "Designer"));

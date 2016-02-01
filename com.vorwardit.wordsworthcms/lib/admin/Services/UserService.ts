@@ -1,5 +1,14 @@
 ﻿module app.services {
-    class UserService {
+
+    export interface IUserService {
+        getUser(): ng.IPromise<app.domain.IUser>;
+        getAll(): ng.IPromise<app.domain.IUser[]>;
+        create(data: app.domain.IUser): ng.IPromise<any>;
+        update(data: app.domain.IUser): ng.IPromise<any>;
+        remove(id: string): ng.IPromise<any>;
+    }
+
+    export class UserService implements IUserService {
         private httpService: ng.IHttpService;
         private rootScopeService: ng.IRootScopeService;
         private qService: ng.IQService;
@@ -58,5 +67,5 @@
 
     angular
         .module('app')
-        .factory('UserService', UserService);
+        .service('UserService', UserService);
 }

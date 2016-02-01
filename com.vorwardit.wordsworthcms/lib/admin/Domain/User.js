@@ -3,7 +3,8 @@ var app;
     var domain;
     (function (domain) {
         var User = (function () {
-            function User(userName, password, type, siteId) {
+            function User(userId, userName, password, type, siteId) {
+                this.userId = userId;
                 this.userName = userName;
                 this.password = password;
                 this.type = type;
