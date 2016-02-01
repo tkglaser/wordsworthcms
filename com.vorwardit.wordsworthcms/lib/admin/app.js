@@ -1,55 +1,48 @@
-﻿(function () {
-    'use strict';
-
-    angular.module('app', [
-        // Angular modules
-        'ngAnimate',
-        'ngRoute'
-
-        // Custom modules
-
-        // 3rd Party Modules
-        
-    ])
-    .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-        $routeProvider
-            .when('/', {
+var app;
+(function (app) {
+    var Config = (function () {
+        function Config($routeProvider, $locationProvider) {
+            $routeProvider
+                .when('/', {
                 templateUrl: 'lib/admin/Views/Welcome.html',
                 controller: 'WelcomeController'
             })
-            .when('/sites', {
+                .when('/sites', {
                 templateUrl: 'lib/admin/Views/Sites.html',
                 controller: 'SiteController as ctrl'
             })
-            .when('/layouts', {
+                .when('/layouts', {
                 templateUrl: 'lib/admin/Views/Layouts.html',
                 controller: 'LayoutController as ctrl'
             })
-            .when('/pagelayouts', {
+                .when('/pagelayouts', {
                 templateUrl: 'lib/admin/Views/PageLayouts.html',
                 controller: 'PageLayoutController as ctrl'
             })
-            .when('/pages', {
+                .when('/pages', {
                 templateUrl: 'lib/admin/Views/Pages.html',
                 controller: 'PageController as ctrl'
             })
-            .when('/assets', {
+                .when('/assets', {
                 templateUrl: 'lib/admin/Views/Assets.html',
                 controller: 'AssetController as ctrl'
             })
-            .when('/content', {
+                .when('/content', {
                 templateUrl: 'lib/admin/Views/Content.html',
                 controller: 'ContentController as ctrl'
             })
-            .when('/users', {
+                .when('/users', {
                 templateUrl: 'lib/admin/Views/Users.html',
                 controller: 'UserController as ctrl'
             })
-            .otherwise({
+                .otherwise({
                 redirectTo: '/'
             });
-
-        // use the HTML5 History API
-        //$locationProvider.html5Mode(true);
-    }]);
-})();
+            //$locationProvider.html5Mode(true);
+        }
+        return Config;
+    })();
+    Config.$inject = ['$routeProvider', '$locationProvider'];
+    var mainApp = angular.module('app', ['ngAnimate', 'ngRoute']);
+    mainApp.config(Config);
+})(app || (app = {}));
