@@ -7,7 +7,6 @@ module app.services {
         private qService: ng.IQService;
 
         static $inject = ['$http', '$rootScope', '$q'];
-
         constructor($http: ng.IHttpService, $rootScope: ng.IRootScopeService, $q: ng.IQService) {
             this.httpService = $http;
             this.rootScopeService = $rootScope;

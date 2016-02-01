@@ -394,12 +394,11 @@
     <Content Include="lib\admin\app.min.js" />
     <Content Include="lib\admin\Controllers\AssetController.js" />
     <Content Include="lib\admin\Controllers\ContentController.js" />
-    <Content Include="lib\admin\Controllers\LayoutController.js" />
     <Content Include="lib\admin\Controllers\MenuController.js" />
     <Content Include="lib\admin\Controllers\PageLayoutController.js" />
     <Content Include="lib\admin\Controllers\PageController.js" />
     <Content Include="lib\admin\Controllers\UserController.js" />
-    <Content Include="lib\admin\Controllers\WelcomeController.js" />
+    <None Include="lib\admin\Controllers\WelcomeController.old" />
     <Content Include="lib\admin\Directives\ActiveLinkDirective.js" />
     <Content Include="lib\admin\Directives\FileModelDirective.js" />
     <Content Include="lib\admin\Directives\LoadingDirective.js" />
@@ -4716,8 +4715,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\admin\app.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\LayoutController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\SiteController.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\WelcomeController.ts" />
+    <TypeScriptCompile Include="lib\admin\Domain\Layout.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
+    <TypeScriptCompile Include="lib\admin\Services\LayoutService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\SiteService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />

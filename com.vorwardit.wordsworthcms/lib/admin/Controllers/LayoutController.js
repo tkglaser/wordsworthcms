@@ -1,124 +1,113 @@
-﻿(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .controller('LayoutController', LayoutController);
-
-    LayoutController.$inject = ['$location', 'LayoutFactory', 'SiteFactory'];
-
-    function LayoutController($location, LayoutFactory, SiteFactory) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'LayoutController';
-        vm.modalHeadingNew = 'Neues Layout anlegen';
-        vm.modalHeadingEdit = 'Layout bearbeiten';
-        vm.modalHeading = vm.modalHeadingEdit;
-        vm.layouts = [];
-        vm.layout = {};
-
-        vm.sites = [];
-        vm.site = {};
-
-        activate();
-
-        var mixedMode = {
-            name: "htmlmixed",
-            scriptTypes: [{
-                matches: /\/x-handlebars-template|\/x-mustache/i,
-                mode: null
-            },
-            {
-                matches: /(text|application)\/(x-)?vb(a|script)/i,
-                mode: "vbscript"
-            }]
-        };
-        vm.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
-            mode: mixedMode,
-            selectionPointer: true,
-            extraKeys: {
-                "F11": function (cm) {
-                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-                },
-                "Esc": function (cm) {
-                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-                }
-            }
-        });
-
-        function activate() {
-            SiteFactory.getData().success(function (data) {
-                vm.sites = data;
-                vm.site = SiteFactory.getSelectedSite(data);
-                LayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                    vm.layouts = data;
+var app;
+(function (app) {
+    var controllers;
+    (function (controllers) {
+        var LayoutController = (function () {
+            function LayoutController(LayoutService, SiteService) {
+                this.LayoutService = LayoutService;
+                this.SiteService = SiteService;
+                this.getLayouts();
+                var mixedMode = {
+                    name: "htmlmixed",
+                    scriptTypes: [{
+                            matches: /\/x-handlebars-template|\/x-mustache/i,
+                            mode: null
+                        },
+                        {
+                            matches: /(text|application)\/(x-)?vb(a|script)/i,
+                            mode: "vbscript"
+                        }]
+                };
+                this.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
+                    mode: mixedMode,
+                    selectionPointer: true,
+                    extraKeys: {
+                        "F11": function (cm) {
+                            cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                        },
+                        "Esc": function (cm) {
+                            if (cm.getOption("fullScreen"))
+                                cm.setOption("fullScreen", false);
+                        }
+                    }
                 });
-            });
-        };
-
-        vm.siteChanged = function () {
-            SiteFactory.setSelectedSite(vm.site);
-            LayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                vm.layouts = data;
-            });
-        };
-
-        vm.create = function () {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingNew;
-            vm.layout = {};
-            vm.layout.name = '';
-            vm.layout.body = '';
-            vm.editor.setValue('');
-            setTimeout(function () {
-                vm.editor.refresh();
-            }, 200);
-            $('#editModal').modal();
-        };
-
-        vm.edit = function (layout) {
-            LayoutFactory.getData(layout.layoutId).success(function (data) {
+            }
+            LayoutController.prototype.getLayouts = function () {
+                var self = this;
+                this.SiteService.getData().then(function (data) {
+                    self.sites = data;
+                    self.site = self.SiteService.getSelectedSite(data);
+                    self.LayoutService.getBySiteId(self.site.siteId).then(function (data) {
+                        self.layouts = data;
+                    });
+                });
+            };
+            LayoutController.prototype.siteChanged = function () {
+                var self = this;
+                this.SiteService.setSelectedSite(this.site);
+                this.LayoutService.getBySiteId(this.site.siteId).then(function (data) {
+                    self.layouts = data;
+                });
+            };
+            ;
+            LayoutController.prototype.create = function () {
+                var self = this;
                 $('#saveError').hide();
-                vm.modalHeading = vm.modalHeadingEdit;
-                vm.layout = data;
-                vm.editor.setValue(vm.layout.body);
+                this.modalHeading = LayoutController.modalHeadingNew;
+                this.layout = new app.domain.Layout('', '', '', '');
+                this.editor.setValue('');
                 setTimeout(function () {
-                    vm.editor.refresh();
+                    self.editor.refresh();
                 }, 200);
                 $('#editModal').modal();
-            });
-        };
-
-        vm.delete = function (layout) {
-            $('#deleteError').hide();
-            vm.layout = layout;
-            $('#deleteModal').modal();
-        }
-
-        vm.deleteConfirmed = function () {
-            LayoutFactory.remove(vm.layout.layoutId).then(function () {
-                $('#deleteModal').modal('hide');
-                activate();
-            },
-            function () {
-                $('#deleteError').show();
-            })
-        }
-
-        vm.save = function () {
-            var data = {
-                LayoutId: vm.layout.layoutId,
-                Name: vm.layout.name,
-                Body: vm.editor.getValue(),
-                SiteId: vm.site.siteId
-            }
-            LayoutFactory.update(data).then(function () {
-                $('#editModal').modal("hide");
-                activate();
-            },
-            function () {
-                $('#saveError').show();
-            });
-        }
-    }
-})();
+            };
+            ;
+            LayoutController.prototype.edit = function (layout) {
+                var self = this;
+                this.LayoutService.getData(layout.layoutId).then(function (data) {
+                    $('#saveError').hide();
+                    self.modalHeading = LayoutController.modalHeadingEdit;
+                    self.layout = data;
+                    self.editor.setValue(self.layout.body);
+                    setTimeout(function () {
+                        self.editor.refresh();
+                    }, 200);
+                    $('#editModal').modal();
+                });
+            };
+            ;
+            LayoutController.prototype.delete = function (layout) {
+                $('#deleteError').hide();
+                this.layout = layout;
+                $('#deleteModal').modal();
+            };
+            LayoutController.prototype.deleteConfirmed = function () {
+                var self = this;
+                this.LayoutService.remove(this.layout.layoutId).then(function () {
+                    $('#deleteModal').modal('hide');
+                    self.getLayouts();
+                }, function () {
+                    $('#deleteError').show();
+                });
+            };
+            LayoutController.prototype.save = function () {
+                var self = this;
+                var data = new app.domain.Layout(this.layout.layoutId, this.layout.siteId, this.layout.name, this.editor.getValue());
+                this.LayoutService.update(data).then(function () {
+                    $('#editModal').modal("hide");
+                    self.getLayouts();
+                }, function () {
+                    $('#saveError').show();
+                });
+            };
+            LayoutController.modalHeadingNew = 'Neuen Auftritt anlegen';
+            LayoutController.modalHeadingEdit = 'Auftritt bearbeiten';
+            LayoutController.$inject = ['LayoutService', 'SiteService'];
+            return LayoutController;
+        })();
+        angular
+            .module('app')
+            .controller('LayoutController', LayoutController);
+    })(controllers = app.controllers || (app.controllers = {}));
+})(app || (app = {}));
+//# sourceMappingURL=LayoutController.js.map
