@@ -398,7 +398,6 @@
     <Content Include="lib\admin\Controllers\PageLayoutController.js" />
     <Content Include="lib\admin\Controllers\PageController.js" />
     <Content Include="lib\admin\Controllers\UserController.js" />
-    <None Include="lib\admin\Controllers\WelcomeController.old" />
     <Content Include="lib\admin\Directives\ActiveLinkDirective.js" />
     <Content Include="lib\admin\Directives\FileModelDirective.js" />
     <Content Include="lib\admin\Directives\LoadingDirective.js" />
