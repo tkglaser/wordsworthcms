@@ -4,16 +4,25 @@ module app.services {
     export class SiteService {
         private httpService: ng.IHttpService;
         private rootScopeService: ng.IRootScopeService;
+        private qService: ng.IQService;
 
-        static $inject = ['$http', '$rootScope'];
+        static $inject = ['$http', '$rootScope', '$q'];
 
-        constructor($http: ng.IHttpService, $rootScope: ng.IRootScopeService) {
+        constructor($http: ng.IHttpService, $rootScope: ng.IRootScopeService, $q: ng.IQService) {
             this.httpService = $http;
             this.rootScopeService = $rootScope;
+            this.qService = $q;
         }
 
         getData(): ng.IPromise<app.domain.ISite[]> {
-            return this.httpService.get('/api/site');
+            var self = this;
+            var defer = self.qService.defer();
+            this.httpService.get('/api/site').then(function (result) {
+                defer.resolve(result.data);
+            }, function (error) {
+                defer.reject(error);
+            });
+            return defer.promise;
         }
         
         getSelectedSite(sites: app.domain.ISite[]): app.domain.ISite {
@@ -46,5 +55,5 @@ module app.services {
     }
 
     angular.module('app')
-        .service('siteService', SiteService);
+        .service('SiteService', SiteService);
 }

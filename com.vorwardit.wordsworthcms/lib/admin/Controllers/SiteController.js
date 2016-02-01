@@ -1,93 +1,83 @@
-﻿(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .controller('SiteController', SiteController);
-
-    SiteController.$inject = ['$location', 'SiteFactory'];
-
-    function SiteController($location, SiteFactory) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'SiteController';
-        vm.modalHeadingNew = 'Neuen Auftritt anlegen';
-        vm.modalHeadingEdit = 'Auftritt bearbeiten';
-        vm.modalHeading = vm.modalHeadingEdit;
-        vm.sites = [];
-        vm.site = {};
-
-        activate();
-
-        function activate() {
-            SiteFactory.getData().success(function (data) {
-                vm.sites = data;
-            });
-        };
-
-        vm.newSite = function () {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingNew;
-            vm.site = {};
-            vm.site.name = '';
-            vm.site.bindings = [{value:''}];
-            $('#editSiteModal').modal();
-        };
-
-        vm.editSite = function (site) {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingEdit;
-            vm.site = {};
-            vm.site.siteId = site.siteId;
-            vm.site.name = site.name;
-            vm.site.bindings = [];
-            angular.forEach(site.bindings, function (binding) {
-                vm.site.bindings.push({ value: binding });
-            });
-            $('#editSiteModal').modal();
-        };
-
-        vm.deleteSite = function (site) {
-            $('#deleteError').hide();
-            vm.site = site;
-            $('#deleteSiteModal').modal();
-        }
-
-        vm.deleteConfirmed = function () {
-            SiteFactory.remove(vm.site.siteId).then(function () {
-                $('#deleteSiteModal').modal('hide');
-                activate();
-            },
-            function () {
-                $('#deleteError').show();
-            })
-        }
-
-        vm.addBinding = function () {
-            vm.site.bindings.push({ value: '' });
-        }
-
-        vm.removeBinding = function (binding) {
-            var index = vm.site.bindings.indexOf(binding);
-            vm.site.bindings.splice(index, 1);
-        }
-
-        vm.save = function () {
-            var newSite = {
-                SiteId: vm.site.siteId,
-                Name: vm.site.name,
-                Bindings: []
+var app;
+(function (app) {
+    var controllers;
+    (function (controllers) {
+        var SiteController = (function () {
+            function SiteController($location, SiteService) {
+                this.$location = $location;
+                this.SiteService = SiteService;
+                this.getSites();
+                this.modalHeading = SiteController.modalHeadingEdit;
             }
-            angular.forEach(vm.site.bindings, function (binding) {
-                newSite.Bindings.push(binding.value);
-            });
-            SiteFactory.update(newSite).then(function () {
-                $('#editSiteModal').modal("hide");
-                activate();
-            },
-            function () {
-                $('#saveError').show();
-            });
-        }
-    }
-})();
+            SiteController.prototype.getSites = function () {
+                var self = this;
+                this.SiteService.getData().then(function (sites) {
+                    self.sites = sites;
+                });
+            };
+            SiteController.prototype.newSite = function () {
+                $('#saveError').hide();
+                this.modalHeading = SiteController.modalHeadingNew;
+                this.site = new app.domain.Site('', '', []);
+                this.site.name = '';
+                this.site.bindings = [{ value: '' }];
+                $('#editSiteModal').modal();
+            };
+            ;
+            SiteController.prototype.editSite = function (site) {
+                $('#saveError').hide();
+                this.modalHeading = SiteController.modalHeadingEdit;
+                this.site = new app.domain.Site(site.siteId, site.name, []);
+                for (var i = 0; i < site.bindings.length; ++i) {
+                    this.site.bindings.push({
+                        value: site.bindings[i]
+                    });
+                }
+                $('#editSiteModal').modal();
+            };
+            ;
+            SiteController.prototype.deleteSite = function (site) {
+                $('#deleteError').hide();
+                this.site = site;
+                $('#deleteSiteModal').modal();
+            };
+            SiteController.prototype.deleteConfirmed = function () {
+                var self = this;
+                this.SiteService.remove(this.site.siteId).then(function () {
+                    $('#deleteSiteModal').modal('hide');
+                    self.getSites();
+                }, function () {
+                    $('#deleteError').show();
+                });
+            };
+            SiteController.prototype.addBinding = function () {
+                this.site.bindings.push({ value: '' });
+            };
+            SiteController.prototype.removeBinding = function (binding) {
+                var index = this.site.bindings.indexOf(binding);
+                this.site.bindings.splice(index, 1);
+            };
+            SiteController.prototype.save = function () {
+                var self = this;
+                var newSite = new app.domain.Site(this.site.siteId, this.site.name, []);
+                for (var i = 0; i < this.site.bindings.length; ++i) {
+                    newSite.bindings.push(this.site.bindings[i].value);
+                }
+                this.SiteService.update(newSite).then(function () {
+                    $('#editSiteModal').modal("hide");
+                    self.getSites();
+                }, function () {
+                    $('#saveError').show();
+                });
+            };
+            SiteController.modalHeadingNew = 'Neuen Auftritt anlegen';
+            SiteController.modalHeadingEdit = 'Auftritt bearbeiten';
+            SiteController.$inject = ['$location', 'SiteService'];
+            return SiteController;
+        })();
+        angular
+            .module('app')
+            .controller('SiteController', SiteController);
+    })(controllers = app.controllers || (app.controllers = {}));
+})(app || (app = {}));
+//# sourceMappingURL=SiteController.js.map

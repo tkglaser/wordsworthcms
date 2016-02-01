@@ -400,7 +400,6 @@
     <Content Include="lib\admin\Controllers\PageController.js" />
     <Content Include="lib\admin\Controllers\UserController.js" />
     <Content Include="lib\admin\Controllers\WelcomeController.js" />
-    <Content Include="lib\admin\Controllers\SiteController.js" />
     <Content Include="lib\admin\Directives\ActiveLinkDirective.js" />
     <Content Include="lib\admin\Directives\FileModelDirective.js" />
     <Content Include="lib\admin\Directives\LoadingDirective.js" />
@@ -4717,6 +4716,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="lib\admin\app.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\SiteController.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
     <TypeScriptCompile Include="lib\admin\Services\SiteService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
@@ -4727,6 +4727,7 @@
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\es6-promise\es6-promise.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>

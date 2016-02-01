@@ -3,12 +3,20 @@ var app;
     var services;
     (function (services) {
         var SiteService = (function () {
-            function SiteService($http, $rootScope) {
+            function SiteService($http, $rootScope, $q) {
                 this.httpService = $http;
                 this.rootScopeService = $rootScope;
+                this.qService = $q;
             }
             SiteService.prototype.getData = function () {
-                return this.httpService.get('/api/site');
+                var self = this;
+                var defer = self.qService.defer();
+                this.httpService.get('/api/site').then(function (result) {
+                    defer.resolve(result.data);
+                }, function (error) {
+                    defer.reject(error);
+                });
+                return defer.promise;
             };
             SiteService.prototype.getSelectedSite = function (sites) {
                 if (typeof this.rootScopeService["selectedSiteId"] === 'undefined') {
@@ -35,11 +43,12 @@ var app;
             SiteService.prototype.remove = function (id) {
                 return this.httpService.delete('/api/site/' + id);
             };
-            SiteService.$inject = ['$http', '$rootScope'];
+            SiteService.$inject = ['$http', '$rootScope', '$q'];
             return SiteService;
         })();
         services.SiteService = SiteService;
         angular.module('app')
-            .service('siteService', SiteService);
+            .service('SiteService', SiteService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
+//# sourceMappingURL=SiteService.js.map
