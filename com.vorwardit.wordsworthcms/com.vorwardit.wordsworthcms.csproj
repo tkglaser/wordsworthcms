@@ -4719,8 +4719,11 @@
     <TypeScriptCompile Include="lib\admin\Controllers\WelcomeController.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Layout.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
+    <TypeScriptCompile Include="lib\admin\Domain\User.ts" />
+    <TypeScriptCompile Include="lib\admin\Domain\UserType.ts" />
     <TypeScriptCompile Include="lib\admin\Services\LayoutService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\SiteService.ts" />
+    <TypeScriptCompile Include="lib\admin\Services\UserService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
