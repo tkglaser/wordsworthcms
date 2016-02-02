@@ -45,7 +45,6 @@ var app;
             AssetService.$inject = ['$http', '$q'];
             return AssetService;
         })();
-        services.AssetService = AssetService;
         angular
             .module('app')
             .service('AssetService', AssetService);

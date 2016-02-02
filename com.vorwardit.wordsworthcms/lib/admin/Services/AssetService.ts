@@ -6,7 +6,7 @@
         remove(siteId: string, name: string): ng.IPromise<any>;
     }
 
-    export class AssetService {
+    class AssetService implements IAssetService {
 
         static $inject = ['$http', '$q'];
         constructor(private httpService: ng.IHttpService, private qService: ng.IQService) {

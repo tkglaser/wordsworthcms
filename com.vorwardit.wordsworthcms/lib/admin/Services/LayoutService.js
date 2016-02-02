@@ -36,7 +36,6 @@ var app;
             LayoutService.$inject = ['$http', '$q'];
             return LayoutService;
         })();
-        services.LayoutService = LayoutService;
         angular
             .module('app')
             .service('LayoutService', LayoutService);

@@ -10,7 +10,7 @@ module app.services {
         remove(id: string): ng.IPromise<any>;
     }
 
-    export class SiteService implements ISiteService {
+    class SiteService implements ISiteService {
         private httpService: ng.IHttpService;
         private rootScopeService: ng.IRootScopeService;
         private qService: ng.IQService;

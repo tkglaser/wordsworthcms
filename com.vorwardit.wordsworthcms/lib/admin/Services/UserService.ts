@@ -8,7 +8,7 @@
         remove(id: string): ng.IPromise<any>;
     }
 
-    export class UserService implements IUserService {
+    class UserService implements IUserService {
         private httpService: ng.IHttpService;
         private rootScopeService: ng.IRootScopeService;
         private qService: ng.IQService;

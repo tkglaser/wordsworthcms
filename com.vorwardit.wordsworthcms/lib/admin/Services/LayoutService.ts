@@ -7,7 +7,7 @@
         remove(id: string): ng.IPromise<any>;
     }
 
-    export class LayoutService implements ILayoutService {
+    class LayoutService implements ILayoutService {
         private httpService: ng.IHttpService;
         private qService: ng.IQService;
 

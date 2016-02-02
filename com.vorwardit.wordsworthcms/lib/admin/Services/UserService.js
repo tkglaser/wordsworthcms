@@ -46,7 +46,6 @@ var app;
             UserService.$inject = ['$http', '$rootScope', '$q'];
             return UserService;
         })();
-        services.UserService = UserService;
         angular
             .module('app')
             .service('UserService', UserService);

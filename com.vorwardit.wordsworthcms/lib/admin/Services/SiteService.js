@@ -46,7 +46,6 @@ var app;
             SiteService.$inject = ['$http', '$rootScope', '$q'];
             return SiteService;
         })();
-        services.SiteService = SiteService;
         angular.module('app')
             .service('SiteService', SiteService);
     })(services = app.services || (app.services = {}));
