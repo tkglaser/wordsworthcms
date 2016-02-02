@@ -392,12 +392,10 @@
     <Content Include="Content\template\main\img\slide7.jpg" />
     <Content Include="Content\template\main\img\slide8.jpg" />
     <Content Include="lib\admin\app.min.js" />
-    <Content Include="lib\admin\Controllers\PageLayoutController.js" />
     <Content Include="lib\admin\Controllers\PageController.js" />
     <Content Include="lib\admin\Directives\ActiveLinkDirective.js" />
     <Content Include="lib\admin\Directives\FileModelDirective.js" />
     <Content Include="lib\admin\Directives\LoadingDirective.js" />
-    <Content Include="lib\admin\Factories\LayoutFactory.js" />
     <Content Include="lib\admin\Factories\PageLayoutFactory.js" />
     <Content Include="lib\admin\Factories\PageFactory.js" />
     <Content Include="lib\admin\Factories\SiteFactory.js" />
@@ -4711,6 +4709,7 @@
     <TypeScriptCompile Include="lib\admin\Controllers\ContentController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\LayoutController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\MenuController.ts" />
+    <TypeScriptCompile Include="lib\admin\Controllers\PageLayoutController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\SiteController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\UserController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\WelcomeController.ts" />
@@ -4718,12 +4717,14 @@
     <TypeScriptCompile Include="lib\admin\Domain\Content.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Layout.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\MenuItem.ts" />
+    <TypeScriptCompile Include="lib\admin\Domain\PageLayout.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\Site.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\User.ts" />
     <TypeScriptCompile Include="lib\admin\Domain\UserType.ts" />
     <TypeScriptCompile Include="lib\admin\Services\AssetService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\ContentService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\LayoutService.ts" />
+    <TypeScriptCompile Include="lib\admin\Services\PageLayoutService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\SiteService.ts" />
     <TypeScriptCompile Include="lib\admin\Services\UserService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
