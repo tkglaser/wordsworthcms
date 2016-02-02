@@ -9,9 +9,9 @@ var app;
                 this.modalHeading = SiteController.modalHeadingEdit;
             }
             SiteController.prototype.getSites = function () {
-                var self = this;
+                var _this = this;
                 this.SiteService.getData().then(function (sites) {
-                    self.sites = sites;
+                    _this.sites = sites;
                 });
             };
             SiteController.prototype.newSite = function () {
@@ -41,10 +41,10 @@ var app;
                 $('#deleteSiteModal').modal();
             };
             SiteController.prototype.deleteConfirmed = function () {
-                var self = this;
+                var _this = this;
                 this.SiteService.remove(this.site.siteId).then(function () {
                     $('#deleteSiteModal').modal('hide');
-                    self.getSites();
+                    _this.getSites();
                 }, function () {
                     $('#deleteError').show();
                 });
@@ -57,14 +57,14 @@ var app;
                 this.site.bindings.splice(index, 1);
             };
             SiteController.prototype.save = function () {
-                var self = this;
+                var _this = this;
                 var newSite = new app.domain.Site(this.site.siteId, this.site.name, []);
                 for (var i = 0; i < this.site.bindings.length; ++i) {
                     newSite.bindings.push(this.site.bindings[i].value);
                 }
                 this.SiteService.update(newSite).then(function () {
                     $('#editSiteModal').modal("hide");
-                    self.getSites();
+                    _this.getSites();
                 }, function () {
                     $('#saveError').show();
                 });

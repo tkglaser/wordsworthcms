@@ -21,31 +21,29 @@
         }
 
         getUser(): ng.IPromise<app.domain.IUser> {
-            var self = this;
             var deferred = this.qService.defer();
             if (typeof this.rootScopeService["appUser"] === 'undefined') {
                 this.httpService.get('/api/user').then(
-                    function (result) {
-                        self.rootScopeService["appUser"] = result.data;
+                    (result) => {
+                        this.rootScopeService["appUser"] = result.data;
                         deferred.resolve(result.data);
                     },
                     function (error) {
                         deferred.reject(error);
                     });
             } else {
-                deferred.resolve(self.rootScopeService["appUser"]);
+                deferred.resolve(this.rootScopeService["appUser"]);
             }
             return deferred.promise;
         }
         
         getAll(): ng.IPromise<app.domain.IUser[]> {
-            var self = this;
             var deferred = this.qService.defer();
             this.httpService.get('/api/user/all').then(
-                function (result) {
+                (result) => {
                     deferred.resolve(result.data);
                 },
-                function (error) {
+                (error) => {
                     deferred.reject(error);
                 });
 

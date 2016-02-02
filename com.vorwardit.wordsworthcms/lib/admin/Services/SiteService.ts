@@ -23,13 +23,14 @@ module app.services {
         }
 
         getData(): ng.IPromise<app.domain.ISite[]> {
-            var self = this;
-            var defer = self.qService.defer();
-            this.httpService.get('/api/site').then(function (result) {
-                defer.resolve(result.data);
-            }, function (error) {
-                defer.reject(error);
-            });
+            var defer = this.qService.defer();
+            this.httpService.get('/api/site').then(
+                (result) => {
+                    defer.resolve(result.data);
+                },
+                (error) => {
+                    defer.reject(error);
+                });
             return defer.promise;
         }
         

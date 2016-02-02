@@ -47,48 +47,48 @@ module app.controllers {
         }
 
         getLayouts(): void {
-            var self = this;
-            this.SiteService.getData().then(function (data) {
-                self.sites = data;
-                self.site = self.SiteService.getSelectedSite(data);
-                self.LayoutService.getBySiteId(self.site.siteId).then(function (data) {
-                    self.layouts = data;
+            this.SiteService.getData().then(
+                (data) => {
+                    this.sites = data;
+                    this.site = this.SiteService.getSelectedSite(data);
+                    this.LayoutService.getBySiteId(this.site.siteId).then(
+                        (data) => {
+                            this.layouts = data;
+                        });
                 });
-            });
         }
 
         siteChanged(): void {
-            var self = this;
             this.SiteService.setSelectedSite(this.site);
-            this.LayoutService.getBySiteId(this.site.siteId).then(function (data) {
-                self.layouts = data;
-            });
+            this.LayoutService.getBySiteId(this.site.siteId).then(
+                (data) => {
+                    this.layouts = data;
+                });
         };
 
         create(): void {
-            var self = this;
             $('#saveError').hide();
             this.modalHeading = LayoutController.modalHeadingNew;
             this.layout = new app.domain.Layout('', '', '', '');
             this.editor.setValue('');
-            setTimeout(function () {
-                self.editor.refresh();
+            setTimeout(() => {
+                this.editor.refresh();
             }, 200);
             $('#editModal').modal();
         };
 
         edit(layout: app.domain.ILayout): void {
-            var self = this;
-            this.LayoutService.getData(layout.layoutId).then(function (data) {
-                $('#saveError').hide();
-                self.modalHeading = LayoutController.modalHeadingEdit;
-                self.layout = data;
-                self.editor.setValue(self.layout.body);
-                setTimeout(function () {
-                    self.editor.refresh();
-                }, 200);
-                $('#editModal').modal();
-            });
+            this.LayoutService.getData(layout.layoutId).then(
+                (data) => {
+                    $('#saveError').hide();
+                    this.modalHeading = LayoutController.modalHeadingEdit;
+                    this.layout = data;
+                    this.editor.setValue(this.layout.body);
+                    setTimeout(() => {
+                        this.editor.refresh();
+                    }, 200);
+                    $('#editModal').modal();
+                });
         };
 
         delete(layout: app.domain.ILayout): void {
@@ -98,30 +98,28 @@ module app.controllers {
         }
 
         deleteConfirmed(): void {
-            var self = this;
             this.LayoutService.remove(this.layout.layoutId).then(
-                function () {
+                () => {
                     $('#deleteModal').modal('hide');
-                    self.getLayouts();
+                    this.getLayouts();
                 },
-                function () {
+                () => {
                     $('#deleteError').show();
                 })
         }
 
         save(): void {
-            var self = this;
             var data = new app.domain.Layout(
                 this.layout.layoutId,
                 this.layout.siteId,
                 this.layout.name,
                 this.editor.getValue());
             this.LayoutService.update(data).then(
-                function () {
+                () => {
                     $('#editModal').modal("hide");
-                    self.getLayouts();
+                    this.getLayouts();
                 },
-                function () {
+                () => {
                     $('#saveError').show();
                 });
         }

@@ -9,8 +9,7 @@ var app;
                 this.qService = $q;
             }
             SiteService.prototype.getData = function () {
-                var self = this;
-                var defer = self.qService.defer();
+                var defer = this.qService.defer();
                 this.httpService.get('/api/site').then(function (result) {
                     defer.resolve(result.data);
                 }, function (error) {

@@ -16,10 +16,10 @@
         }
 
         getSites(): void {
-            var self = this;
-            this.SiteService.getData().then(function (sites) {
-                self.sites = sites;
-            });
+            this.SiteService.getData().then(
+                (sites) => {
+                    this.sites = sites;
+                });
         }
 
         newSite() {
@@ -50,14 +50,14 @@
         }
 
         deleteConfirmed() {
-            var self = this;
-            this.SiteService.remove(this.site.siteId).then(function () {
-                $('#deleteSiteModal').modal('hide');
-                self.getSites();
-            },
-            function () {
-                $('#deleteError').show();
-            })
+            this.SiteService.remove(this.site.siteId).then(
+                () => {
+                    $('#deleteSiteModal').modal('hide');
+                    this.getSites();
+                },
+                () => {
+                    $('#deleteError').show();
+                })
         }
 
         addBinding() {
@@ -70,18 +70,18 @@
         }
 
         save() {
-            var self = this;
             var newSite = new domain.Site(this.site.siteId, this.site.name, []);
             for (var i = 0; i < this.site.bindings.length; ++i) {
                 newSite.bindings.push(this.site.bindings[i].value);
             }
-            this.SiteService.update(newSite).then(function () {
-                $('#editSiteModal').modal("hide");
-                self.getSites();
-            },
-            function () {
-                $('#saveError').show();
-            });
+            this.SiteService.update(newSite).then(
+                () => {
+                    $('#editSiteModal').modal("hide");
+                    this.getSites();
+                },
+                () => {
+                    $('#saveError').show();
+                });
         }
 
     }

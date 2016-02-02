@@ -75,6 +75,9 @@ var app;
             ContentController.$inject = ['ContentService', 'SiteService'];
             return ContentController;
         })();
+        angular
+            .module('app')
+            .controller('ContentController', ContentController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
 //# sourceMappingURL=ContentController.js.map

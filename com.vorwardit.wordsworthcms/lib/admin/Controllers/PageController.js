@@ -1,166 +1,147 @@
-﻿(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .controller('PageController', PageController);
-
-    PageController.$inject = ['$location', 'PageFactory', 'SiteFactory', 'PageLayoutFactory'];
-
-    function PageController($location, PageFactory, SiteFactory, PageLayoutFactory) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'PageController';
-        vm.modalHeadingNew = 'Neue Seite anlegen';
-        vm.modalHeadingEdit = 'Seite bearbeiten';
-        vm.modalHeading = vm.modalHeadingEdit;
-        vm.pages = [];
-        vm.page = {};
-        vm.pageversions = [];
-        vm.pageversion = {};
-
-        vm.pageLayouts = [];
-
-        vm.sites = [];
-        vm.site = {};
-
-        activate();
-
-        function activate() {
-            SiteFactory.getData().success(function (data) {
-                vm.sites = data;
-                vm.site = SiteFactory.getSelectedSite(data);
-                PageFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                    vm.pages = data;
+var app;
+(function (app) {
+    var controllers;
+    (function (controllers) {
+        var PageController = (function () {
+            function PageController(PageService, SiteService, PageLayoutService) {
+                this.PageService = PageService;
+                this.SiteService = SiteService;
+                this.PageLayoutService = PageLayoutService;
+                this.pages = [];
+                this.pageversions = [];
+                this.pageLayouts = [];
+                this.sites = [];
+                this.getData();
+            }
+            PageController.prototype.getData = function () {
+                var _this = this;
+                this.SiteService.getData().then(function (data) {
+                    _this.sites = data;
+                    _this.site = _this.SiteService.getSelectedSite(data);
+                    _this.PageService.getBySiteId(_this.site.siteId).then(function (data) {
+                        _this.pages = data;
+                    });
+                    _this.PageLayoutService.getBySiteId(_this.site.siteId).then(function (data) {
+                        _this.pageLayouts = data;
+                    });
                 });
-                PageLayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                    vm.pageLayouts = data;
+            };
+            ;
+            PageController.prototype.siteChanged = function () {
+                var _this = this;
+                this.SiteService.setSelectedSite(this.site);
+                this.PageService.getBySiteId(this.site.siteId).then(function (data) {
+                    _this.pages = data;
                 });
-            });
-        };
-
-        vm.siteChanged = function () {
-            SiteFactory.setSelectedSite(vm.site);
-            PageFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                vm.pages = data;
-            });
-            PageLayoutFactory.getBySiteId(vm.site.siteId).success(function (data) {
-                vm.pageLayouts = data;
-            });
-        };
-
-        vm.create = function () {
-            $('#saveError').hide();
-            vm.modalHeading = vm.modalHeadingNew;
-            vm.page = {};
-            vm.page.name = '';
-            vm.page.urls = [{ url: '', pageUrlId: -1 }];
-            $('#editModal').modal();
-        };
-
-        vm.edit = function (page) {
-            PageFactory.getData(page.pageId).success(function (data) {
+                this.PageLayoutService.getBySiteId(this.site.siteId).then(function (data) {
+                    _this.pageLayouts = data;
+                });
+            };
+            ;
+            PageController.prototype.create = function () {
                 $('#saveError').hide();
-                vm.modalHeading = vm.modalHeadingEdit;
-                vm.page = data;
+                this.modalHeading = PageController.modalHeadingNew;
+                this.page = new app.domain.Page('', '', '', [{ url: '', pageUrlId: -1 }]);
                 $('#editModal').modal();
-            });
-        };
-
-        vm.editContent = function (page) {
-            $('#saveContentError').hide();
-            PageFactory.getVersions(page.pageId).success(function (data) {
-                if (data.length > 0) {
-                    vm.pageversion = data[0];
-                } else {
-                    vm.pageversion = { pageId: page.pageId };
-                }
-                $('#editContentModal').modal();
-            });
-        }
-
-        vm.showVersions = function (page) {
-            $('#publishError').hide();
-            vm.page = page;
-            PageFactory.getVersions(page.pageId).success(function (data) {
-                vm.pageversions = data;
-                $('#publishModal').modal();
-            });
-        }
-
-        vm.newVersion = function () {
-            PageFactory.createNewVersion(vm.page.pageId).success(function () {
-                PageFactory.getVersions(vm.page.pageId).success(function (data) {
-                    vm.pageversions = data;
+            };
+            ;
+            PageController.prototype.edit = function (page) {
+                var _this = this;
+                this.PageService.getData(page.pageId).then(function (data) {
+                    $('#saveError').hide();
+                    _this.modalHeading = PageController.modalHeadingEdit;
+                    _this.page = data;
+                    $('#editModal').modal();
                 });
-            });
-        }
-
-        vm.publish = function (versionId) {
-            PageFactory.publish(versionId).then(function () {
-                PageFactory.getVersions(vm.page.pageId).success(function (data) {
-                    vm.pageversions = data;
+            };
+            ;
+            PageController.prototype.editContent = function (page) {
+                var _this = this;
+                $('#saveContentError').hide();
+                this.PageService.getVersions(page.pageId).then(function (data) {
+                    if (data.length > 0) {
+                        _this.pageversion = data[0];
+                    }
+                    else {
+                        _this.pageversion = new app.domain.PageVersion(page.pageId, '', '');
+                    }
+                    $('#editContentModal').modal();
                 });
-            },
-            function () {
-                $('#publishError').show();
-            });
-        }
-
-        vm.addUrl = function () {
-            vm.page.urls.push({ url: '', pageUrlId: -1 });
-        }
-
-        vm.removeUrl = function (url) {
-            var index = vm.page.urls.indexOf(url);
-            vm.page.urls.splice(index, 1);
-        }
-
-        vm.delete = function (page) {
-            $('#deleteError').hide();
-            vm.page = page;
-            $('#deleteModal').modal();
-        }
-
-        vm.deleteConfirmed = function () {
-            PageFactory.remove(vm.page.pageId).then(function () {
-                $('#deleteModal').modal('hide');
-                activate();
-            },
-            function () {
-                $('#deleteError').show();
-            })
-        }
-
-        vm.save = function () {
-            var data = {
-                PageId: vm.page.pageId,
-                Name: vm.page.name,
-                PageLayoutId: vm.page.pageLayoutId,
-                Urls: vm.page.urls
-            }
-            PageFactory.update(data).then(function () {
-                $('#editModal').modal("hide");
-                activate();
-            },
-            function () {
-                $('#saveError').show();
-            });
-        }
-
-        vm.saveVersion = function () {
-            var data = {
-                PageId: vm.pageversion.pageId,
-                Title: vm.pageversion.title,
-                MetaDescription: vm.pageversion.metaDescription
-            }
-            PageFactory.updateVersion(data).then(function () {
-                $('#editContentModal').modal("hide");
-                activate();
-            },
-            function () {
-                $('#saveContentError').show();
-            });
-        }
-    }
-})();
+            };
+            PageController.prototype.showVersions = function (page) {
+                var _this = this;
+                $('#publishError').hide();
+                this.page = page;
+                this.PageService.getVersions(page.pageId).then(function (data) {
+                    _this.pageversions = data;
+                    $('#publishModal').modal();
+                });
+            };
+            PageController.prototype.newVersion = function () {
+                var _this = this;
+                this.PageService.createNewVersion(this.page.pageId).then(function () {
+                    _this.PageService.getVersions(_this.page.pageId).then(function (data) {
+                        _this.pageversions = data;
+                    });
+                });
+            };
+            PageController.prototype.publish = function (versionId) {
+                var _this = this;
+                this.PageService.publish(versionId).then(function () {
+                    _this.PageService.getVersions(_this.page.pageId).then(function (data) {
+                        _this.pageversions = data;
+                    });
+                }, function () {
+                    $('#publishError').show();
+                });
+            };
+            PageController.prototype.addUrl = function () {
+                this.page.urls.push(new app.domain.PageUrl(-1, ''));
+            };
+            PageController.prototype.removeUrl = function (url) {
+                var index = this.page.urls.indexOf(url);
+                this.page.urls.splice(index, 1);
+            };
+            PageController.prototype.delete = function (page) {
+                $('#deleteError').hide();
+                this.page = page;
+                $('#deleteModal').modal();
+            };
+            PageController.prototype.deleteConfirmed = function () {
+                var _this = this;
+                this.PageService.remove(this.page.pageId).then(function () {
+                    $('#deleteModal').modal('hide');
+                    _this.getData();
+                }, function () {
+                    $('#deleteError').show();
+                });
+            };
+            PageController.prototype.save = function () {
+                var _this = this;
+                this.PageService.update(this.page).then(function () {
+                    $('#editModal').modal("hide");
+                    _this.getData();
+                }, function () {
+                    $('#saveError').show();
+                });
+            };
+            PageController.prototype.saveVersion = function () {
+                var _this = this;
+                this.PageService.updateVersion(this.pageversion).then(function () {
+                    $('#editContentModal').modal("hide");
+                    _this.getData();
+                }, function () {
+                    $('#saveContentError').show();
+                });
+            };
+            PageController.modalHeadingNew = 'Neue Seite anlegen';
+            PageController.modalHeadingEdit = 'Seite bearbeiten';
+            PageController.$inject = ['PageService', 'SiteService', 'PageLayoutService'];
+            return PageController;
+        })();
+        angular
+            .module('app')
+            .controller('PageController', PageController);
+    })(controllers = app.controllers || (app.controllers = {}));
+})(app || (app = {}));
+//# sourceMappingURL=PageController.js.map

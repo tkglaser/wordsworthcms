@@ -18,26 +18,24 @@
         }
 
         getBySiteId(siteId: string): ng.IPromise<app.domain.ILayout[]> {
-            var self = this;
-            var defer = self.qService.defer();
+            var defer = this.qService.defer();
             this.httpService.get('/api/layout?siteId=' + siteId).then(
-                function (result) {
+                (result) => {
                     defer.resolve(result.data);
                 },
-                function (error) {
+                (error) => {
                     defer.reject(error);
                 });
             return defer.promise;
         }
         
         getData(layoutId: string): ng.IPromise<app.domain.ILayout> {
-            var self = this;
-            var defer = self.qService.defer();
+            var defer = this.qService.defer();
             this.httpService.get('/api/layout/' + layoutId).then(
-                function (result) {
+                (result) => {
                     defer.resolve(result.data);
                 },
-                function (error) {
+                (error) => {
                     defer.reject(error);
                 });
             return defer.promise;

@@ -35,7 +35,7 @@ module app.controllers {
                         mode: "vbscript"
                     }]
             };
-            this.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorLayouts"), {
+            this.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorPageLayout"), {
                 mode: mixedMode,
                 selectionPointer: true,
                 extraKeys: {

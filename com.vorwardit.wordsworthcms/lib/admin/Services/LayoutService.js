@@ -8,8 +8,7 @@ var app;
                 this.qService = $q;
             }
             LayoutService.prototype.getBySiteId = function (siteId) {
-                var self = this;
-                var defer = self.qService.defer();
+                var defer = this.qService.defer();
                 this.httpService.get('/api/layout?siteId=' + siteId).then(function (result) {
                     defer.resolve(result.data);
                 }, function (error) {
@@ -18,8 +17,7 @@ var app;
                 return defer.promise;
             };
             LayoutService.prototype.getData = function (layoutId) {
-                var self = this;
-                var defer = self.qService.defer();
+                var defer = this.qService.defer();
                 this.httpService.get('/api/layout/' + layoutId).then(function (result) {
                     defer.resolve(result.data);
                 }, function (error) {

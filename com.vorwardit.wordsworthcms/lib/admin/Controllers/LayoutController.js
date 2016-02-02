@@ -33,44 +33,44 @@ var app;
                 });
             }
             LayoutController.prototype.getLayouts = function () {
-                var self = this;
+                var _this = this;
                 this.SiteService.getData().then(function (data) {
-                    self.sites = data;
-                    self.site = self.SiteService.getSelectedSite(data);
-                    self.LayoutService.getBySiteId(self.site.siteId).then(function (data) {
-                        self.layouts = data;
+                    _this.sites = data;
+                    _this.site = _this.SiteService.getSelectedSite(data);
+                    _this.LayoutService.getBySiteId(_this.site.siteId).then(function (data) {
+                        _this.layouts = data;
                     });
                 });
             };
             LayoutController.prototype.siteChanged = function () {
-                var self = this;
+                var _this = this;
                 this.SiteService.setSelectedSite(this.site);
                 this.LayoutService.getBySiteId(this.site.siteId).then(function (data) {
-                    self.layouts = data;
+                    _this.layouts = data;
                 });
             };
             ;
             LayoutController.prototype.create = function () {
-                var self = this;
+                var _this = this;
                 $('#saveError').hide();
                 this.modalHeading = LayoutController.modalHeadingNew;
                 this.layout = new app.domain.Layout('', '', '', '');
                 this.editor.setValue('');
                 setTimeout(function () {
-                    self.editor.refresh();
+                    _this.editor.refresh();
                 }, 200);
                 $('#editModal').modal();
             };
             ;
             LayoutController.prototype.edit = function (layout) {
-                var self = this;
+                var _this = this;
                 this.LayoutService.getData(layout.layoutId).then(function (data) {
                     $('#saveError').hide();
-                    self.modalHeading = LayoutController.modalHeadingEdit;
-                    self.layout = data;
-                    self.editor.setValue(self.layout.body);
+                    _this.modalHeading = LayoutController.modalHeadingEdit;
+                    _this.layout = data;
+                    _this.editor.setValue(_this.layout.body);
                     setTimeout(function () {
-                        self.editor.refresh();
+                        _this.editor.refresh();
                     }, 200);
                     $('#editModal').modal();
                 });
@@ -82,20 +82,20 @@ var app;
                 $('#deleteModal').modal();
             };
             LayoutController.prototype.deleteConfirmed = function () {
-                var self = this;
+                var _this = this;
                 this.LayoutService.remove(this.layout.layoutId).then(function () {
                     $('#deleteModal').modal('hide');
-                    self.getLayouts();
+                    _this.getLayouts();
                 }, function () {
                     $('#deleteError').show();
                 });
             };
             LayoutController.prototype.save = function () {
-                var self = this;
+                var _this = this;
                 var data = new app.domain.Layout(this.layout.layoutId, this.layout.siteId, this.layout.name, this.editor.getValue());
                 this.LayoutService.update(data).then(function () {
                     $('#editModal').modal("hide");
-                    self.getLayouts();
+                    _this.getLayouts();
                 }, function () {
                     $('#saveError').show();
                 });
