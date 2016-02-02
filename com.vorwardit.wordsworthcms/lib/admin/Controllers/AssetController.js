@@ -1,71 +1,68 @@
-﻿(function () {
-    'use strict';
-
-    angular
-        .module('app')
-        .controller('AssetController', AssetController);
-
-    AssetController.$inject = ['$location', 'AssetFactory', 'SiteFactory'];
-
-    function AssetController($location, AssetFactory, SiteFactory) {
-        /* jshint validthis:true */
-        var vm = this;
-        vm.title = 'AssetController';
-        vm.assets = [];
-        vm.asset = {};
-
-        vm.sites = [];
-        vm.site = {};
-
-        activate();
-
-        function activate() {
-            SiteFactory.getData().success(function (data) {
-                vm.sites = data;
-                vm.site = SiteFactory.getSelectedSite(data);
-                AssetFactory.getData(vm.site.siteId).success(function (data) {
-                    vm.assets = data;
+var app;
+(function (app) {
+    var controllers;
+    (function (controllers) {
+        var AssetController = (function () {
+            function AssetController(AssetService, SiteService) {
+                this.AssetService = AssetService;
+                this.SiteService = SiteService;
+                this.assets = [];
+                this.sites = [];
+                this.getData();
+            }
+            AssetController.prototype.getData = function () {
+                var _this = this;
+                this.SiteService.getData().then(function (sites) {
+                    _this.sites = sites;
+                    _this.site = _this.SiteService.getSelectedSite(sites);
+                    _this.AssetService.getData(_this.site.siteId).then(function (assets) {
+                        _this.assets = assets;
+                    });
                 });
-            });
-        }
-
-        vm.siteChanged = function () {
-            SiteFactory.setSelectedSite(vm.site);
-            AssetFactory.getData(vm.site.siteId).success(function (data) {
-                vm.assets = data;
-            });
-        };
-
-        vm.create = function () {
-            $('#saveError').hide();
-            $('#editModal').modal();
-        };
-
-        vm.delete = function (asset) {
-            $('#deleteError').hide();
-            vm.asset = asset;
-            $('#deleteModal').modal();
-        }
-
-        vm.deleteConfirmed = function () {
-            AssetFactory.remove(vm.site.siteId, vm.asset.name).then(function () {
-                $('#deleteModal').modal('hide');
-                activate();
-            },
-            function () {
-                $('#deleteError').show();
-            })
-        }
-
-        vm.save = function () {
-            vm.asset.siteId = vm.site.siteId;
-            AssetFactory.upload(vm.asset).then(function () {
-                $('#editModal').modal("hide");
-                activate();
-            },
-            function () {
-                $('#saveError').show();
-            });
-        }
-    }
-})();
+            };
+            AssetController.prototype.siteChanged = function () {
+                var _this = this;
+                this.SiteService.setSelectedSite(this.site);
+                this.AssetService.getData(this.site.siteId).then(function (data) {
+                    _this.assets = data;
+                });
+            };
+            ;
+            AssetController.prototype.create = function () {
+                $('#saveError').hide();
+                $('#editModal').modal();
+            };
+            ;
+            AssetController.prototype.delete = function (asset) {
+                $('#deleteError').hide();
+                this.asset = asset;
+                $('#deleteModal').modal();
+            };
+            AssetController.prototype.deleteConfirmed = function () {
+                var _this = this;
+                this.AssetService.remove(this.site.siteId, this.asset.name).then(function () {
+                    $('#deleteModal').modal('hide');
+                    _this.getData();
+                }, function () {
+                    $('#deleteError').show();
+                });
+            };
+            AssetController.prototype.save = function () {
+                var _this = this;
+                this.asset.siteId = this.site.siteId;
+                this.AssetService.upload(this.asset).then(function () {
+                    $('#editModal').modal("hide");
+                    _this.getData();
+                }, function () {
+                    $('#saveError').show();
+                });
+            };
+            AssetController.$inject = ['AssetService', 'SiteService'];
+            return AssetController;
+        })();
+        angular
+            .module('app')
+            .controller('AssetController', AssetController);
+    })(controllers = app.controllers || (app.controllers = {}));
+})(app || (app = {}));
+//# sourceMappingURL=AssetController.js.map
