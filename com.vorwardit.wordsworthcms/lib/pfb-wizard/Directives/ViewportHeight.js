@@ -1,4 +1,4 @@
-﻿app.directive('viewportHeight', ['$window', function ($window) {
+﻿angular.module('pfb').directive('viewportHeight', ['$window', function ($window) {
     return {
         restrict: 'A',
         link: function (scope, element) {

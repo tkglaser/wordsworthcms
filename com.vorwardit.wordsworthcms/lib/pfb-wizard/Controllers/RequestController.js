@@ -1,681 +1,669 @@
-﻿'use strict';
-app.controller('RequestController', [
-    '$scope', '$timeout', '$location', '$q', 'utilFactory',
-    '$log', '$sce', '$window', 'gacFactory', 'requestFactory', 'mailerFactory', 'analyticsFactory',
-function ($scope, $timeout, $location, $q, util, $log, $sce, $window, gacFactory, requestFactory, mailerFactory, analytics) {
-    $scope.locked = true;
-    $scope.requestId = '';
-    $scope.startIsValid = false;
-    $scope.targetIsValid = false;
-    $scope.startPredictions = [];
-    $scope.targetPredictions = [];
-    $scope.StartCountry = '';
-    $scope.TargetCountry = '';
-    $scope.showMap = false;
-    $scope.showNameSection = false;
-    $scope.distance = 0;
-    $scope.duration = 0;
-    $scope.map = null;
-    $scope.StartLatLng = null;
-    $scope.TargetLatLng = null;
-    $scope.ds = new google.maps.DirectionsService();
-    $scope.dr = new google.maps.DirectionsRenderer();
-    $scope.Request = {};
-    $scope.offers = [];
-    $scope.initFinished = false;
-    $scope.mapLoading = false;
-    $scope.offersLoading = false;
-    $scope.requestNumber = 0;
-    $scope.gacValidationMessage = '';
-
-    $scope.startErrorClass = function () {
-        if ($scope.startIsValid) {
-            return 'has-success';
-        } else {
-            return 'has-error'
-        }
-    };
-
-    $scope.targetErrorClass = function () {
-        if ($scope.targetIsValid) {
-            return 'has-success';
-        } else {
-            return 'has-error'
-        }
-    };
-
-    $scope.onStartNameEdit = function () {
-        if (!$scope.initFinished) {
-            return;
-        }
-
-        $scope.gacValidationMessage = '';
-        var newValue = $scope.StartName;
-
-        $scope.startIsValid = false;
-        $scope.getRequestId().then(function () {
-            $scope.setStatus('');
-            if (newValue != '') {
-                gacFactory.autocomplete(newValue)
-                .success(function (data, status, headers, config) {
-                    if (data.status == "OK") {
-                        $scope.startPredictions = data.predictions;
-                    } else {
-                        $scope.startPredictions = [];
-                    }
+var pfb;
+(function (pfb) {
+    var Controllers;
+    (function (Controllers) {
+        var RequestController = (function () {
+            function RequestController(locationService, logService, sceService, qService, timeoutService, windowService, requestService, gacService, utilService, analyticsService, mailerService) {
+                this.locationService = locationService;
+                this.logService = logService;
+                this.sceService = sceService;
+                this.qService = qService;
+                this.timeoutService = timeoutService;
+                this.windowService = windowService;
+                this.requestService = requestService;
+                this.gacService = gacService;
+                this.utilService = utilService;
+                this.analyticsService = analyticsService;
+                this.mailerService = mailerService;
+                this.locked = true;
+                this.requestId = '';
+                this.startIsValid = false;
+                this.targetIsValid = false;
+                this.startPredictions = [];
+                this.targetPredictions = [];
+                this.StartCountry = '';
+                this.TargetCountry = '';
+                this.showMap = false;
+                this.showNameSection = false;
+                this.distance = 0;
+                this.duration = 0;
+                this.map = null;
+                this.StartLatLng = null;
+                this.TargetLatLng = null;
+                this.ds = new google.maps.DirectionsService();
+                this.dr = new google.maps.DirectionsRenderer();
+                this.offers = [];
+                this.initFinished = false;
+                this.mapLoading = false;
+                this.offersLoading = false;
+                this.requestNumber = 0;
+                this.gacValidationMessage = '';
+                this.dateSectionSubmitted = false;
+                this.startTimeArrive = '';
+                this.startTimeDepart = '';
+                this.returnTimeArrive = '';
+                this.returnTimeDepart = '';
+                this.nameSectionSubmitted = false;
+                this.isMailFormShown = false;
+                this.emailForSending = "";
+                this.emailBeingSent = false;
+                this.mailSendSuccess = false;
+                this.showOfferSection = false;
+                this.busShouldStay = false;
+                this.isOneWay = false;
+                this.dateOptionsStart = $.extend({}, $.datepicker.regional["de"], {
+                    minDate: "+1w",
+                    numberOfMonths: 3,
                 });
-            }
-        })
-    }
-
-    $scope.onTargetNameEdit = function () {
-        if (!$scope.initFinished) {
-            return;
-        }
-
-        $scope.gacValidationMessage = '';
-        var newValue = $scope.TargetName;
-
-        $scope.targetIsValid = false;
-        $scope.getRequestId().then(function () {
-            $scope.setStatus('');
-            if (newValue != '') {
-                $scope.targetIsValid = false;
-                gacFactory.autocomplete(newValue)
-                .success(function (data, status, headers, config) {
-                    if (data.status == "OK") {
-                        $scope.targetPredictions = data.predictions;
-                    } else {
-                        $scope.targetPredictions = [];
-                    }
+                this.dateOptionsReturn = $.extend({}, $.datepicker.regional["de"], {
+                    minDate: "+1w",
+                    numberOfMonths: 3,
                 });
+                this.detectInitialState();
             }
-        });
-    }
-
-    $scope.isCountry = function (place) {
-        for (var typeId = 0; typeId < place.types.length; ++typeId) {
-            if (place.types[typeId] === 'country') {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    $scope.setStartPlace = function (place) {
-        gacFactory.details(place.place_id)
-        .success(function (data) {
-            if (data.status == "OK") {
-                var place = data.result;
-                if ($scope.isCountry(place)) {
-                    $scope.gacValidationMessage = 'Ein Land kann nicht als Abfahrtsort gewählt werden!';
-                    return;
-                }
-                if (place.geometry) {
-                    $scope.gacValidationMessage = '';
-                    $scope.StartLat = place.geometry.location.lat;
-                    $scope.StartLon = place.geometry.location.lng;
-                    if (place.formatted_address === 'Deutschland') {
-                        $scope.StartName = place.name + ', ' + place.formatted_address;
-                    } else {
-                        $scope.StartName = place.formatted_address;
-                    }
-                    $scope.startIsValid = true;
-                    $scope.startPredictions = [];
-                    $scope.StartLatLng = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
-                    $scope.StartCountry = util.getPlaceCountry(place);
-                    $scope.renderMapIfReady(true);
-                }
-            }
-        })
-    }
-
-    $scope.setTargetPlace = function (place) {
-        gacFactory.details(place.place_id)
-        .success(function (data) {
-            if (data.status == "OK") {
-                var place = data.result;
-                if ($scope.isCountry(place)) {
-                    $scope.gacValidationMessage = 'Ein Land kann nicht als Ziel gewählt werden!';
-                    return;
-                }
-                if (place.geometry) {
-                    $scope.gacValidationMessage = '';
-                    $scope.TargetLat = place.geometry.location.lat;
-                    $scope.TargetLon = place.geometry.location.lng;
-                    if (place.formatted_address === 'Deutschland') {
-                        $scope.TargetName = place.name + ', ' + place.formatted_address;
-                    } else {
-                        $scope.TargetName = place.formatted_address;
-                    }
-                    $scope.targetIsValid = true;
-                    $scope.targetPredictions = [];
-                    $scope.TargetLatLng = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
-                    $scope.TargetCountry = util.getPlaceCountry(place);
-                    $scope.renderMapIfReady(true);
-                }
-            }
-        })
-    }
-
-    $scope.setStatus = function (status) {
-        if ($scope.locked) {
-            $location.search('s', 'o');
-            status = 'o';
-        }
-
-        $location.search('s', status);
-
-        if (status === 'd') {
-            util.scrollTo('mapPanel');
-            $scope.showMap = true;
-            $scope.showNameSection = false;
-            $scope.showOfferSection = false;
-            analytics.pageView('/app/dates');
-        }
-        else if (status === 'n') {
-            $scope.showMap = true;
-            $scope.showNameSection = true;
-            $scope.showOfferSection = false;
-            util.scrollTo('namePanel');
-            analytics.pageView('/app/passengers');
-        }
-        else if (status === 'o') {
-            $scope.locked = true;
-            $scope.offersLoading = true;
-            requestFactory.offers($scope.requestId).then(function (data) {
-                $scope.offers = data;
-                angular.forEach($scope.offers, function (value) {
-                    value.safeProductDescription = $sce.trustAsHtml(value.productDescription);
-                });
-                $scope.offersLoading = false;
-            });
-            $scope.showMap = true;
-            $scope.showNameSection = true;
-            $scope.showOfferSection = true;
-            util.scrollTo('offerPanel');
-            analytics.pageView('/app/offers');
-        }
-        else {
-            $scope.showMap = false;
-            $scope.showNameSection = false;
-            $scope.showOfferSection = false;
-            analytics.pageView('/app/places');
-        }
-    }
-
-    function pad2Digits(num) {
-        var s = "0" + num;
-        return s.substr(s.length - 2);
-    }
-
-    $scope.getRequestId = function () {
-        if ($scope.locked) {
-            return requestFactory.create().success(function (data) {
-                $location.search('r', data);
-                $scope.requestId = data;
-                $scope.locked = false;
-                $scope.showOfferSection = false;
-            });
-        } else {
-            return $q.when();
-        }
-    };
-
-    $scope.save = function (newStatus) {
-        return $scope.getRequestId().then(function (data) {
-            var startDate = $scope.Request.StartDate.$modelValue;
-            var newData = {
-                RequestId: $scope.requestId,
-
-                StartName: $scope.StartName,
-                StartCountry: $scope.StartCountry,
-                StartLat: $scope.StartLat,
-                StartLon: $scope.StartLon,
-                TargetName: $scope.TargetName,
-                TargetCountry: $scope.TargetCountry,
-                TargetLat: $scope.TargetLat,
-                TargetLon: $scope.TargetLon,
-                Distance: $scope.distance,
-                Duration: $scope.duration,
-                StartDate: util.isoDateString($scope.Request.StartDate.$modelValue),
-                StartTime: $scope.StartTime,
-                StartTimeMode: $scope.StartTimeMode,
-                ReturnDate: util.isoDateString($scope.Request.ReturnDate.$modelValue),
-                ReturnTime: $scope.ReturnTime,
-                ReturnTimeMode: $scope.ReturnTimeMode,
-                Passengers: $scope.Passengers,
-                Name: $scope.Name,
-                Email: $scope.EMail,
-                Phone: $scope.Telephone,
-                TripType: $scope.isOneWay ? 'OneWay' : 'Return',
-                BusShouldStay: $scope.busShouldStay
-            }
-            return requestFactory.update(newData).then(function (data) {
-                if (data.data.status == 'CannotQuote') {
-                    $location.path('/cannotQuote/' + $scope.requestId);
-                    $location.search({});
-                }
-                $scope.startTimeArrive = data.data.startTimeArrive;
-                $scope.startTimeDepart = data.data.startTimeDepart;
-                $scope.returnTimeArrive = data.data.returnTimeArrive;
-                $scope.returnTimeDepart = data.data.returnTimeDepart;
-                $scope.requestNumber = data.data.number;
-                if (typeof newStatus !== 'undefined') {
-                    $scope.setStatus(newStatus);
-                }
-                return data;
-            });
-        });
-    }
-
-
-    //$('.clockpicker').clockpicker();
-
-    $scope.invalidate = function (fieldName) {
-        if (!$scope.initFinished) {
-            return;
-        }
-        if (fieldName === 'start') {
-            $scope.startIsValid = false;
-            $scope.StartLatLng = null;
-            $location.search('s', '');
-            $scope.showMap = false;
-            $scope.showNameSection = false;
-            $scope.showOfferSection = false;
-        } else if (fieldName === 'target') {
-            $scope.targetIsValid = false;
-            $scope.TargetLatLng = null;
-            $location.search('s', '');
-            $scope.showMap = false;
-            $scope.showNameSection = false;
-            $scope.showOfferSection = false;
-        }
-        else if (fieldName === 'dates') {
-            $location.search('s', 'd');
-            $scope.showNameSection = false;
-            $scope.showOfferSection = false;
-            $scope.showOfferSection = false;
-        }
-    };
-
-    $scope.displayDistance = function () {
-        if ($scope.duration == 0) {
-            return '';
-        }
-        var durationHours = Math.floor($scope.duration / 60);
-        var durationMinutes = $scope.duration - durationHours * 60;
-        var result = ' ' + $scope.distance + ' km, ';
-        if (durationHours == 0) {
-        }
-        else if (durationHours == 1) {
-            result = result + ' 1 Stunde ';
-        }
-        else {
-            result = result + durationHours + ' Stunden ';
-        }
-        if (durationMinutes == 1) {
-            result = result + ' 1 Minute';
-        }
-        else {
-            result = result + durationMinutes + ' Minuten';
-        }
-        return result;
-    }
-
-    $scope.renderMapIfReady = function (postBack) {
-        if ($scope.StartLatLng == null || $scope.TargetLatLng == null) {
-            $scope.distance = 0;
-            $scope.duration = 0;
-            return;
-        }
-        $scope.mapLoading = true;
-        $scope.showMap = true;
-        //if (postBack) {
-        //    $scope.$apply();
-        //}
-        $timeout(function () {
-            if ($scope.map == null) {
-                var mapOptions = {
-                    scrollwheel: false,
-                    navigationControl: false,
-                    mapTypeControl: false,
-                    scaleControl: false,
-                    draggable: false,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP,
-                    center: new google.maps.LatLng(50, 10),
-                    zoom: 5
-                };
-
-                $scope.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-                $scope.dr.setMap($scope.map);
-            }
-
-            if (postBack) {
-                util.scrollTo('mapPanel');
-            }
-
-            $scope.ds.route({
-                origin: $scope.StartLatLng,
-                destination: $scope.TargetLatLng,
-                travelMode: google.maps.TravelMode.DRIVING,
-                unitSystem: google.maps.UnitSystem.METRIC
-            }, function (result, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    $scope.dr.setDirections(result);
-                    if (postBack) {
-                        $scope.save().then(function (data) {
-                            $scope.distance = data.data.distance;
-                            $scope.duration = data.data.duration;
-
-                            $scope.setStatus('d');
-                            $scope.mapLoading = false;
-                        });
-                    } else {
-                        $scope.mapLoading = false;
-                    };
+            RequestController.prototype.startErrorClass = function () {
+                if (this.startIsValid) {
+                    return 'has-success';
                 }
                 else {
-                    $scope.distance = 0;
-                    $scope.duration = 0;
-                    $scope.mapLoading = false;
+                    return 'has-error';
                 }
-            })
-        });
-    }
-
-    // =============== Date Section =======================
-
-    $scope.dateSectionSubmitted = false;
-    $scope.startTimeArrive = '';
-    $scope.startTimeDepart = '';
-    $scope.returnTimeArrive = '';
-    $scope.returnTimeDepart = '';
-
-    $scope.dateOptionsStart = $.extend({}, $.datepicker.regional["de"], {
-        minDate: "+1w",
-        numberOfMonths: 3,
-    });
-
-    $scope.dateOptionsReturn = $.extend({}, $.datepicker.regional["de"], {
-        minDate: "+1w",
-        numberOfMonths: 3,
-    });
-
-    $scope.$watch('StartDate', function (val) {
-        $scope.dateOptionsReturn.minDate = val;
-        if ($scope.ReturnDate == null && val != null) {
-            $scope.Request.ReturnDate.$setViewValue(val);
-            $scope.ReturnDate = val;
-        }
-    });
-
-    $scope.$watch('ReturnDate', function (val) {
-        $scope.dateOptionsStart.maxDate = val;
-    });
-
-    $scope.isDateSectionValid = function () {
-        return $scope.Request.StartDate.$valid && $scope.Request.ReturnDate.$valid;
-    };
-
-    $scope.startDateErrorClass = function () {
-        if (!$scope.Request.StartDate.$dirty && !$scope.dateSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.StartDate.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.returnDateErrorClass = function () {
-        if (!$scope.Request.ReturnDate.$dirty && !$scope.dateSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.ReturnDate.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.submitDateSection = function () {
-        $scope.dateSectionSubmitted = true;
-        analytics.buttonClick('dates');
-        if ($scope.isDateSectionValid()) {
-            $scope.save('n');
-        }
-    }
-
-    // =============== Name Section =======================
-
-    $scope.nameSectionSubmitted = false;
-
-    $scope.passengersEdited = function () {
-        if (!$scope.initFinished) {
-            return;
-        }
-
-        if ($scope.locked) {
-            $scope.nameSectionSubmitted = false;
-            $scope.getRequestId().then(function () {
-                $scope.save();
-                $scope.setStatus('n');
-            });
-        }
-    }
-
-    //$scope.$watch('Passengers', function () {
-    //})
-
-    $scope.passengerErrorClass = function () {
-        if (!$scope.Request.Passengers.$dirty && !$scope.nameSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.Passengers.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.nameErrorClass = function () {
-        if (!$scope.Request.Name.$dirty && !$scope.nameSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.Name.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.emailErrorClass = function () {
-        if (!$scope.Request.EMail.$dirty && !$scope.nameSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.EMail.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.telephoneErrorClass = function () {
-        if (!$scope.Request.Telephone.$dirty && !$scope.nameSectionSubmitted) {
-            return '';
-        }
-        if ($scope.Request.Telephone.$valid) {
-            return 'has-success';
-        } else {
-            return 'has-error';
-        }
-    }
-
-    $scope.nameSectionValid = function () {
-        return $scope.Request.$valid;
-    }
-
-    $scope.submitNameSection = function () {
-        $scope.nameSectionSubmitted = true;
-        analytics.buttonClick('passengers');
-        if ($scope.nameSectionValid()) {
-            $scope.offersLoading = true;
-            $scope.save().then(function () {
-                analytics.offersDisplayed();
-                $scope.setStatus('o');
-            });
-        }
-    }
-
-    // =============== Offer Section =======================
-    $scope.detectInitialState = function () {
-        var state = $location.search();
-        if (state.hasOwnProperty('r')) {
-            $scope.requestId = state.r;
-            requestFactory.get(state.r).success(function (data) {
-                $scope.requestNumber = data.number;
-                if (data.hasOwnProperty('startLat')) {
-                    $scope.Request.StartName.$setViewValue($scope.Request.StartName.$setViewValue);
-                    $scope.StartName = data.startName;
-                    $scope.StartCountry = data.startCountry;
-                    $scope.StartLat = data.startLat;
-                    $scope.StartLon = data.startLon;
-                    $scope.StartLatLng = new google.maps.LatLng(data.startLat, data.startLon);
-                    $scope.startIsValid = true;
-                    $scope.Request.TargetName.$setViewValue($scope.Request.TargetName.$setViewValue);
-
-                    $scope.TargetName = data.targetName;
-                    $scope.TargetCountry = data.targetCountry;
-                    $scope.TargetLat = data.targetLat;
-                    $scope.TargetLon = data.targetLon;
-                    $scope.TargetLatLng = new google.maps.LatLng(data.targetLat, data.targetLon);
-                    $scope.targetIsValid = true;
-                    $scope.distance = data.distance;
-                    $scope.duration = data.duration;
-                    $scope.renderMapIfReady(false);
-                }
-
-                if (data.startDate != null) {
-                    var sDate = new Date(data.startDate);
-                    var rDate = new Date(data.returnDate);
-                    $scope.Request.StartDate.$setViewValue(sDate);
-                    $scope.StartDate = sDate;
-                    $scope.StartTime = pad2Digits(sDate.getUTCHours()) + ':' + pad2Digits(sDate.getUTCMinutes());
-                    $scope.Request.ReturnDate.$setViewValue(rDate);
-                    $scope.ReturnDate = rDate;
-                    $scope.ReturnTime = pad2Digits(rDate.getUTCHours()) + ':' + pad2Digits(rDate.getUTCMinutes());
-                    $scope.startTimeArrive = data.startTimeArrive;
-                    $scope.startTimeDepart = data.startTimeDepart;
-                    $scope.returnTimeArrive = data.returnTimeArrive;
-                    $scope.returnTimeDepart = data.returnTimeDepart;
-
-                    $scope.StartTimeMode = data.startTimeMode;
-                    $scope.ReturnTimeMode = data.returnTimeMode;
-                }
-                $scope.busShouldStay = data.busShouldStay;
-                if (data.tripType == 'OneWay') {
-                    $scope.isOneWay = true;
-                }
-                else {
-                    $scope.isOneWay = false;
-                }
-                if (data.passengers > 0) {
-                    $scope.Passengers = data.passengers;
-                }
-                $scope.Name = data.name;
-                $scope.EMail = data.email;
-                $scope.Telephone = data.phone;
-                $scope.locked = data.isLocked;
-
-                if ($scope.locked) {
-                    if (state.s === 'recalc') {
-                        $location.search('s', 'n');
-                        state.s = 'n';
-                        data.isOfferExpired = false;
-                    }
-                    else {
-                        $location.search('s', 'o');
-                        state.s = 'o';
-                    }
-                }
-
-                if (state.s === 'd') {
-                    util.scrollTo('mapPanel');
-                    analytics.pageView('/app/dates');
-                }
-                else if (state.s === 'n') {
-                    $scope.showNameSection = true;
-                    util.jumpTo('namePanel');
-                    analytics.pageView('/app/passengers');
-                }
-                else if (state.s === 'o') {
-                    $scope.locked = true;
-                    $scope.offersLoading = true;
-                    requestFactory.offers($scope.requestId).then(function (data) {
-                        $scope.offers = data;
-                        angular.forEach($scope.offers, function (value) {
-                            value.safeProductDescription = $sce.trustAsHtml(value.productDescription);
-                        });
-                        $scope.offersLoading = false;
-                    });
-                    $scope.showNameSection = true;
-                    $scope.showOfferSection = true;
-                    util.jumpTo('offerPanel');
-                    analytics.pageView('/app/offers');
-                }
-                else {
-                    analytics.pageView('/app/places');
-                }
-                if (data.isOfferExpired) {
-                    $location.path('/offerExpired/' + $scope.requestId);
-                }
-                $scope.initFinished = true;
-            })
-            .error(function (data) {
-                $log.error(data)
-            })
+            };
             ;
-        }
-        else {
-            $scope.initFinished = true;
-            analytics.pageView('/app/places');
-        }
-    }
-
-    $scope.detectInitialState();
-
-    // =============== Mailing Section =======================
-    $scope.isMailFormShown = false;
-    $scope.emailForSending = "";
-    $scope.emailBeingSent = false;
-    $scope.mailSendSuccess = false;
-
-    $scope.print = function () {
-        $window.print();
-    };
-
-    $scope.showMailForm = function () {
-        $scope.emailForSending = $scope.EMail;
-        $scope.isMailFormShown = true;
-    }
-
-    $scope.sendMail = function () {
-        $scope.emailBeingSent = true;
-
-        mailerFactory.sendMail({
-            Id: $scope.requestId,
-            Type: 'offer',
-            Email: $scope.emailForSending
-        }).success(function () {
-            $scope.emailBeingSent = false;
-            $scope.mailSendSuccess = true;
-            $timeout(function () {
-                $scope.mailSendSuccess = false;
-                $scope.isMailFormShown = false;
-            }, 2000);
-        });
-    }
-
-}])
+            RequestController.prototype.targetErrorClass = function () {
+                if (this.targetIsValid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            ;
+            RequestController.prototype.onStartNameEdit = function () {
+                var _this = this;
+                if (!this.initFinished) {
+                    return;
+                }
+                this.gacValidationMessage = '';
+                var newValue = this.Request["StartName"].$modelValue;
+                this.startIsValid = false;
+                this.getRequestId().then(function () {
+                    _this.setStatus('');
+                    if (newValue != '') {
+                        _this.gacService.autocomplete(newValue).then(function (predictions) {
+                            _this.startPredictions = predictions;
+                        }, function (error) {
+                            _this.startPredictions = [];
+                        });
+                    }
+                });
+            };
+            RequestController.prototype.onTargetNameEdit = function () {
+                var _this = this;
+                if (!this.initFinished) {
+                    return;
+                }
+                this.gacValidationMessage = '';
+                var newValue = this.Request["TargetName"].$modelValue;
+                this.targetIsValid = false;
+                this.getRequestId().then(function () {
+                    _this.setStatus('');
+                    if (newValue != '') {
+                        _this.targetIsValid = false;
+                        _this.gacService.autocomplete(newValue).then(function (predictions) {
+                            _this.targetPredictions = predictions;
+                        }, function (error) {
+                            _this.targetPredictions = [];
+                        });
+                    }
+                });
+            };
+            RequestController.prototype.isCountry = function (place) {
+                for (var typeId = 0; typeId < place.types.length; ++typeId) {
+                    if (place.types[typeId] === 'country') {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            RequestController.prototype.setStartPlace = function (place) {
+                var _this = this;
+                this.gacService.details(place.place_id).then(function (result) {
+                    var place = result;
+                    if (_this.isCountry(place)) {
+                        _this.gacValidationMessage = 'Ein Land kann nicht als Abfahrtsort gewählt werden!';
+                        return;
+                    }
+                    if (place.geometry) {
+                        _this.gacValidationMessage = '';
+                        var location = place.geometry.location;
+                        _this.StartLat = location.lat;
+                        _this.StartLon = location.lng;
+                        if (place.formatted_address === 'Deutschland') {
+                            _this.Request["StartName"].$setViewValue(place.name + ', ' + place.formatted_address);
+                        }
+                        else {
+                            _this.Request["StartName"].$setViewValue(place.formatted_address);
+                        }
+                        _this.Request["StartName"].$render();
+                        _this.startIsValid = true;
+                        _this.startPredictions = [];
+                        _this.StartLatLng = new google.maps.LatLng(location.lat, location.lng);
+                        _this.StartCountry = _this.utilService.getPlaceCountry(place);
+                        _this.renderMapIfReady(true);
+                    }
+                });
+            };
+            RequestController.prototype.setTargetPlace = function (place) {
+                var _this = this;
+                this.gacService.details(place.place_id).then(function (result) {
+                    var place = result;
+                    if (_this.isCountry(place)) {
+                        _this.gacValidationMessage = 'Ein Land kann nicht als Ziel gewählt werden!';
+                        return;
+                    }
+                    if (place.geometry) {
+                        _this.gacValidationMessage = '';
+                        var location = place.geometry.location; // TS defs out of sync :(
+                        _this.TargetLat = location.lat;
+                        _this.TargetLon = location.lng;
+                        if (place.formatted_address === 'Deutschland') {
+                            _this.Request["TargetName"].$setViewValue(place.name + ', ' + place.formatted_address);
+                        }
+                        else {
+                            _this.Request["TargetName"].$setViewValue(place.formatted_address);
+                        }
+                        _this.Request["TargetName"].$render();
+                        _this.targetIsValid = true;
+                        _this.targetPredictions = [];
+                        _this.TargetLatLng = place.geometry.location;
+                        _this.TargetLatLng = new google.maps.LatLng(location.lat, location.lng);
+                        _this.TargetCountry = _this.utilService.getPlaceCountry(place);
+                        _this.renderMapIfReady(true);
+                    }
+                });
+            };
+            RequestController.prototype.setStatus = function (status) {
+                var _this = this;
+                if (this.locked) {
+                    this.locationService.search('s', 'o');
+                    status = 'o';
+                }
+                this.locationService.search('s', status);
+                if (status === 'd') {
+                    this.utilService.scrollTo('mapPanel');
+                    this.showMap = true;
+                    this.showNameSection = false;
+                    this.showOfferSection = false;
+                    this.analyticsService.pageview('/app/dates');
+                }
+                else if (status === 'n') {
+                    this.showMap = true;
+                    this.showNameSection = true;
+                    this.showOfferSection = false;
+                    this.utilService.scrollTo('namePanel');
+                    this.analyticsService.pageview('/app/passengers');
+                }
+                else if (status === 'o') {
+                    this.locked = true;
+                    this.offersLoading = true;
+                    this.requestService.offers(this.requestId).then(function (data) {
+                        _this.offers = data;
+                        angular.forEach(_this.offers, function (value) {
+                            value.safeProductDescription = _this.sceService.trustAsHtml(value.productDescription);
+                        });
+                        _this.offersLoading = false;
+                    });
+                    this.showMap = true;
+                    this.showNameSection = true;
+                    this.showOfferSection = true;
+                    this.utilService.scrollTo('offerPanel');
+                    this.analyticsService.pageview('/app/offers');
+                }
+                else {
+                    this.showMap = false;
+                    this.showNameSection = false;
+                    this.showOfferSection = false;
+                    this.analyticsService.pageview('/app/places');
+                }
+            };
+            RequestController.prototype.pad2Digits = function (num) {
+                var s = "0" + num;
+                return s.substr(s.length - 2);
+            };
+            RequestController.prototype.getRequestId = function () {
+                var _this = this;
+                var deferred = this.qService.defer();
+                if (this.locked) {
+                    this.requestService.create().then(function (id) {
+                        _this.locationService.search('r', id);
+                        _this.requestId = id;
+                        _this.locked = false;
+                        _this.showOfferSection = false;
+                    }, function (error) {
+                        deferred.reject(error);
+                    });
+                }
+                else {
+                    deferred.resolve();
+                }
+                return deferred.promise;
+            };
+            ;
+            RequestController.prototype.save = function (newStatus) {
+                var _this = this;
+                var deferred = this.qService.defer();
+                this.getRequestId().then(function () {
+                    var startDate = _this.Request["StartDate"].$modelValue;
+                    var newData = {
+                        requestId: _this.requestId,
+                        startName: _this.Request["StartName"].$modelValue,
+                        startCountry: _this.StartCountry,
+                        startLat: _this.StartLat,
+                        startLon: _this.StartLon,
+                        targetName: _this.Request["TargetName"].$modelValue,
+                        targetCountry: _this.TargetCountry,
+                        targetLat: _this.TargetLat,
+                        targetLon: _this.TargetLon,
+                        distance: _this.distance,
+                        duration: _this.duration,
+                        startDate: _this.utilService.isoDateString(_this.Request["StartDate"].$modelValue),
+                        startTime: _this.StartTime,
+                        startTimeMode: _this.StartTimeMode,
+                        returnDate: _this.utilService.isoDateString(_this.Request["ReturnDate"].$modelValue),
+                        returnTime: _this.ReturnTime,
+                        returnTimeMode: _this.ReturnTimeMode,
+                        passengers: _this.Request["Passengers"].$modelValue,
+                        name: _this.Request["Name"].$modelValue,
+                        email: _this.Request["EMail"].$modelValue,
+                        phone: _this.Request["Telephone"].$modelValue,
+                        tripType: _this.isOneWay ? 'OneWay' : 'Return',
+                        busShouldStay: _this.busShouldStay
+                    };
+                    return _this.requestService.update(newData);
+                }, function (error) {
+                    deferred.reject(error);
+                }).then(function (request) {
+                    if (request.status == 'CannotQuote') {
+                        _this.locationService.path('/cannotQuote/' + _this.requestId);
+                        _this.locationService.search({});
+                    }
+                    _this.startTimeArrive = request.startTimeArrive;
+                    _this.startTimeDepart = request.startTimeDepart;
+                    _this.returnTimeArrive = request.returnTimeArrive;
+                    _this.returnTimeDepart = request.returnTimeDepart;
+                    _this.requestNumber = request.number;
+                    if (newStatus) {
+                        _this.setStatus(newStatus.valueOf());
+                    }
+                    deferred.resolve(request);
+                }, function (error) {
+                    deferred.reject(error);
+                });
+                return deferred.promise;
+            };
+            RequestController.prototype.invalidate = function (fieldName) {
+                if (!this.initFinished) {
+                    return;
+                }
+                if (fieldName === 'start') {
+                    this.startIsValid = false;
+                    this.StartLatLng = null;
+                    this.locationService.search('s', '');
+                    this.showMap = false;
+                    this.showNameSection = false;
+                    this.showOfferSection = false;
+                }
+                else if (fieldName === 'target') {
+                    this.targetIsValid = false;
+                    this.TargetLatLng = null;
+                    this.locationService.search('s', '');
+                    this.showMap = false;
+                    this.showNameSection = false;
+                    this.showOfferSection = false;
+                }
+                else if (fieldName === 'dates') {
+                    this.locationService.search('s', 'd');
+                    this.showNameSection = false;
+                    this.showOfferSection = false;
+                    this.showOfferSection = false;
+                }
+            };
+            ;
+            RequestController.prototype.displayDistance = function () {
+                if (this.duration == 0) {
+                    return '';
+                }
+                var durationHours = Math.floor(this.duration / 60);
+                var durationMinutes = this.duration - durationHours * 60;
+                var result = ' ' + this.distance + ' km, ';
+                if (durationHours == 0) {
+                }
+                else if (durationHours == 1) {
+                    result = result + ' 1 Stunde ';
+                }
+                else {
+                    result = result + durationHours + ' Stunden ';
+                }
+                if (durationMinutes == 1) {
+                    result = result + ' 1 Minute';
+                }
+                else {
+                    result = result + durationMinutes + ' Minuten';
+                }
+                return result;
+            };
+            RequestController.prototype.renderMapIfReady = function (postBack) {
+                var _this = this;
+                if (this.StartLatLng == null || this.TargetLatLng == null) {
+                    this.distance = 0;
+                    this.duration = 0;
+                    return;
+                }
+                this.mapLoading = true;
+                this.showMap = true;
+                this.timeoutService(function () {
+                    if (_this.map == null) {
+                        var mapOptions = {
+                            scrollwheel: false,
+                            navigationControl: false,
+                            mapTypeControl: false,
+                            scaleControl: false,
+                            draggable: false,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP,
+                            center: new google.maps.LatLng(50, 10),
+                            zoom: 5
+                        };
+                        _this.map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                        _this.dr.setMap(_this.map);
+                    }
+                    if (postBack) {
+                        _this.utilService.scrollTo('mapPanel');
+                    }
+                    _this.ds.route({
+                        origin: _this.StartLatLng,
+                        destination: _this.TargetLatLng,
+                        travelMode: google.maps.TravelMode.DRIVING,
+                        unitSystem: google.maps.UnitSystem.METRIC
+                    }, function (result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            _this.dr.setDirections(result);
+                            if (postBack) {
+                                _this.save().then(function (data) {
+                                    _this.distance = data.distance;
+                                    _this.duration = data.duration;
+                                    _this.setStatus('d');
+                                    _this.mapLoading = false;
+                                });
+                            }
+                            else {
+                                _this.mapLoading = false;
+                            }
+                            ;
+                        }
+                        else {
+                            _this.distance = 0;
+                            _this.duration = 0;
+                            _this.mapLoading = false;
+                        }
+                    });
+                });
+            };
+            RequestController.prototype.startDateChanged = function (val) {
+                this.dateOptionsReturn.minDate = val;
+                this.Request["ReturnDate"].$setViewValue(val);
+                this.Request["ReturnDate"].$render();
+                this.invalidate('dates');
+            };
+            RequestController.prototype.returnDateChanged = function (val) {
+                this.dateOptionsStart.maxDate = val;
+                this.invalidate('dates');
+            };
+            RequestController.prototype.isDateSectionValid = function () {
+                return this.Request["StartDate"].$valid && this.Request["ReturnDate"].$valid;
+            };
+            ;
+            RequestController.prototype.startDateErrorClass = function () {
+                if (!this.Request["StartDate"].$dirty && !this.dateSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["StartDate"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.returnDateErrorClass = function () {
+                if (!this.Request["ReturnDate"].$dirty && !this.dateSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["ReturnDate"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.submitDateSection = function () {
+                this.dateSectionSubmitted = true;
+                this.analyticsService.buttonclick('dates');
+                if (this.isDateSectionValid()) {
+                    this.save('n');
+                }
+            };
+            RequestController.prototype.passengersEdited = function () {
+                var _this = this;
+                if (!this.initFinished) {
+                    return;
+                }
+                if (this.locked) {
+                    this.nameSectionSubmitted = false;
+                    this.getRequestId().then(function () {
+                        _this.save('n');
+                    });
+                }
+            };
+            RequestController.prototype.passengerErrorClass = function () {
+                if (!this.Request["Passengers"].$dirty && !this.nameSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["Passengers"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.nameErrorClass = function () {
+                if (!this.Request["Name"].$dirty && !this.nameSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["Name"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.emailErrorClass = function () {
+                if (!this.Request["EMail"].$dirty && !this.nameSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["EMail"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.telephoneErrorClass = function () {
+                if (!this.Request["Telephone"].$dirty && !this.nameSectionSubmitted) {
+                    return '';
+                }
+                if (this.Request["Telephone"].$valid) {
+                    return 'has-success';
+                }
+                else {
+                    return 'has-error';
+                }
+            };
+            RequestController.prototype.nameSectionValid = function () {
+                return this.Request.$valid;
+            };
+            RequestController.prototype.submitNameSection = function () {
+                var _this = this;
+                this.nameSectionSubmitted = true;
+                this.analyticsService.buttonclick('passengers');
+                if (this.nameSectionValid()) {
+                    this.offersLoading = true;
+                    this.save().then(function () {
+                        _this.analyticsService.offersdisplayed();
+                        _this.setStatus('o');
+                    });
+                }
+            };
+            RequestController.prototype.detectInitialState = function () {
+                var _this = this;
+                var state = this.locationService.search();
+                if (state.hasOwnProperty('r')) {
+                    this.requestId = state.r;
+                    this.requestService.get(state.r).then(function (data) {
+                        _this.requestNumber = data.number;
+                        if (data.hasOwnProperty('startLat')) {
+                            _this.Request["StartName"].$setViewValue(data.startName);
+                            _this.Request["StartName"].$render();
+                            _this.StartCountry = data.startCountry;
+                            _this.StartLat = data.startLat;
+                            _this.StartLon = data.startLon;
+                            _this.StartLatLng = new google.maps.LatLng(data.startLat, data.startLon);
+                            _this.startIsValid = true;
+                            _this.Request["TargetName"].$setViewValue(data.targetName);
+                            _this.Request["TargetName"].$render();
+                            _this.TargetCountry = data.targetCountry;
+                            _this.TargetLat = data.targetLat;
+                            _this.TargetLon = data.targetLon;
+                            _this.TargetLatLng = new google.maps.LatLng(data.targetLat, data.targetLon);
+                            _this.targetIsValid = true;
+                            _this.distance = data.distance;
+                            _this.duration = data.duration;
+                            _this.renderMapIfReady(false);
+                        }
+                        if (data.startDate != null) {
+                            var sDate = new Date(data.startDate);
+                            var rDate = new Date(data.returnDate);
+                            _this.Request["StartDate"].$setViewValue(sDate);
+                            _this.Request["StartDate"].$render();
+                            _this.StartTime = _this.pad2Digits(sDate.getUTCHours()) + ':' + _this.pad2Digits(sDate.getUTCMinutes());
+                            _this.Request["ReturnDate"].$setViewValue(rDate);
+                            _this.Request["ReturnDate"].$render();
+                            _this.ReturnTime = _this.pad2Digits(rDate.getUTCHours()) + ':' + _this.pad2Digits(rDate.getUTCMinutes());
+                            _this.startTimeArrive = data.startTimeArrive;
+                            _this.startTimeDepart = data.startTimeDepart;
+                            _this.returnTimeArrive = data.returnTimeArrive;
+                            _this.returnTimeDepart = data.returnTimeDepart;
+                            _this.StartTimeMode = data.startTimeMode;
+                            _this.ReturnTimeMode = data.returnTimeMode;
+                        }
+                        _this.busShouldStay = data.busShouldStay;
+                        if (data.tripType == 'OneWay') {
+                            _this.isOneWay = true;
+                        }
+                        else {
+                            _this.isOneWay = false;
+                        }
+                        if (data.passengers > 0) {
+                            _this.Request["Passengers"].$setViewValue(data.passengers);
+                            _this.Request["Passengers"].$render();
+                        }
+                        _this.Request["Name"].$setViewValue(data.name);
+                        _this.Request["Name"].$render();
+                        _this.Request["EMail"].$setViewValue(data.email);
+                        _this.Request["EMail"].$render();
+                        _this.Request["Telephone"].$setViewValue(data.phone);
+                        _this.Request["Telephone"].$render();
+                        _this.locked = data.isLocked;
+                        if (_this.locked) {
+                            if (state.s === 'recalc') {
+                                _this.locationService.search('s', 'n');
+                                state.s = 'n';
+                                data.isOfferExpired = false;
+                            }
+                            else {
+                                _this.locationService.search('s', 'o');
+                                state.s = 'o';
+                            }
+                        }
+                        if (state.s === 'd') {
+                            _this.utilService.scrollTo('mapPanel');
+                            _this.analyticsService.pageview('/app/dates');
+                        }
+                        else if (state.s === 'n') {
+                            _this.showNameSection = true;
+                            _this.utilService.jumpTo('namePanel');
+                            _this.analyticsService.pageview('/app/passengers');
+                        }
+                        else if (state.s === 'o') {
+                            _this.locked = true;
+                            _this.offersLoading = true;
+                            _this.requestService.offers(_this.requestId).then(function (data) {
+                                _this.offers = data;
+                                angular.forEach(_this.offers, function (value) {
+                                    value.safeProductDescription = _this.sceService.trustAsHtml(value.productDescription);
+                                });
+                                _this.offersLoading = false;
+                            });
+                            _this.showNameSection = true;
+                            _this.showOfferSection = true;
+                            _this.utilService.jumpTo('offerPanel');
+                            _this.analyticsService.pageview('/app/offers');
+                        }
+                        else {
+                            _this.analyticsService.pageview('/app/places');
+                        }
+                        if (data.isOfferExpired) {
+                            _this.locationService.path('/offerExpired/' + _this.requestId);
+                        }
+                        _this.initFinished = true;
+                    }, function (error) {
+                        _this.logService.error(error);
+                    });
+                }
+                else {
+                    this.initFinished = true;
+                    this.analyticsService.pageview('/app/places');
+                }
+            };
+            RequestController.prototype.print = function () {
+                this.windowService.print();
+            };
+            ;
+            RequestController.prototype.showMailForm = function () {
+                this.emailForSending = this.Request["EMail"].$modelValue;
+                this.isMailFormShown = true;
+            };
+            RequestController.prototype.sendMail = function () {
+                var _this = this;
+                this.emailBeingSent = true;
+                this.mailerService.sendMail({
+                    Id: this.requestId,
+                    Type: 'offer',
+                    Email: this.emailForSending
+                }).then(function () {
+                    _this.emailBeingSent = false;
+                    _this.mailSendSuccess = true;
+                    _this.timeoutService(function () {
+                        _this.mailSendSuccess = false;
+                        _this.isMailFormShown = false;
+                    }, 2000);
+                });
+            };
+            RequestController.$inject = [
+                '$location', '$log', '$sce', '$q', '$timeout', '$window',
+                'RequestService', 'gacService', 'UtilService', 'AnalyticsService', 'MailerService'];
+            return RequestController;
+        })();
+        angular.module('pfb').controller('RequestController', RequestController);
+    })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
+})(pfb || (pfb = {}));
+//# sourceMappingURL=RequestController.js.map

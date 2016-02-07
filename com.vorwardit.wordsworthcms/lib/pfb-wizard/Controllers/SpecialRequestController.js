@@ -1,27 +1,38 @@
-﻿app.controller('SpecialRequestController', [
-    '$scope', '$routeParams', '$window', '$log', '$sce',
-    '$location', 'requestFactory', 'request', 'analyticsFactory',
-function ($scope, $routeParams, $window, $log, $sce, $location, requestFactory, request, analytics) {
-    $scope.request = request.data;
-    $scope.requestId = $routeParams.requestId;
-    $scope.success = false;
-
-    $scope.$on('$viewContentLoaded', function (event) {
-        analytics.pageView('/app/specialrequest');
-    });
-
-    $("body,html").scrollTop(0);
-
-    $scope.submit = function () {
-        $("body,html").scrollTop(0);
-        requestFactory.update({
-            RequestId: $scope.requestId,
-            HasSpecialRequests: true,
-            SpecialRequests: $scope.SpecialRequests
-        }).success(function () {
-            $scope.success = true;
-        }).error(function (data) {
-        })
-        ;
-    };
-}]);
+var pfb;
+(function (pfb) {
+    var Controllers;
+    (function (Controllers) {
+        var SpecialRequestController = (function () {
+            function SpecialRequestController(routeParamsService, requestService, request) {
+                this.routeParamsService = routeParamsService;
+                this.requestService = requestService;
+                this.success = false;
+                this.request = request.data;
+                this.requestId = this.routeParamsService["requestId"];
+                // TODO: Analytics
+                //$scope.$on('$viewContentLoaded', function (event) {
+                //    analytics.pageView('/app/specialrequest');
+                //});
+                $("body,html").scrollTop(0);
+            }
+            SpecialRequestController.prototype.submit = function () {
+                var _this = this;
+                $("body,html").scrollTop(0);
+                this.requestService.update({
+                    requestId: this.requestId,
+                    hasSpecialRequests: true,
+                    specialRequests: this.SpecialRequests
+                }).then(function () {
+                    _this.success = true;
+                }, function () {
+                    // TODO
+                });
+            };
+            ;
+            SpecialRequestController.$inject = ['$routeParams', 'RequestService', 'request'];
+            return SpecialRequestController;
+        })();
+        angular.module('pfb').controller('SpecialRequestController', SpecialRequestController);
+    })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
+})(pfb || (pfb = {}));
+//# sourceMappingURL=SpecialRequestController.js.map

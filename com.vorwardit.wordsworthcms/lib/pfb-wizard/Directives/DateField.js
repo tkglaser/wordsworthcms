@@ -1,4 +1,4 @@
-﻿app.directive('dateField', function () {
+﻿angular.module('pfb').directive('dateField', function () {
     return {
         restrict: 'A',
         require: 'ngModel',

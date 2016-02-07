@@ -1,69 +1,69 @@
-﻿    <div class="row ng-cloak" ng-show="initFinished">
+﻿    <div class="row ng-cloak" ng-show="ctrl.initFinished">
         <div class="col-lg-10 col-lg-offset-1">
             <div class="text-on-image">
                 <h1 class="text-center">Reisebus mieten leicht gemacht</h1>
                 <h2 class="text-center">Über PAUL fährt Bus können Sie schnell und bequem einen Bus für Ihre Reise buchen.</h2>
             </div>
-            <form name="Request">
+            <form name="ctrl.Request">
                 <div class="panel panel-default hidden-print">
                     <!--<div class="panel-heading"><p class="panel-title text-center">Geben sie Ihren Abfahrtsort und Zielort ein</p></div>-->
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-4 col-md-4">
                                 <div class="form-group-lg has-feedback"
-                                     ng-class="startErrorClass()">
+                                     ng-class="ctrl.startErrorClass()">
                                     <input class="form-control input-lg"
                                            type="text"
                                            id="StartName"
                                            name="StartName"
                                            ng-model="StartName"
-                                           ng-keyup="onStartNameEdit()"
+                                           ng-keyup="ctrl.onStartNameEdit()"
                                            placeholder="Abfahrtsort (z.B. Berlin)"
                                            required
                                            autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="startErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="startErrorClass() == 'has-error'"></span>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-error'"></span>
                                 </div>
-                                <div class="list-group" ng-show="startPredictions.length > 0">
-                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in startPredictions" ng-click="setStartPlace(prediction)">
+                                <div class="list-group" ng-show="ctrl.startPredictions.length > 0">
+                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.startPredictions" ng-click="ctrl.setStartPlace(prediction)">
                                         {{prediction.description}}
                                     </a>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4">
                                 <div class="form-group-lg has-feedback"
-                                     ng-class="targetErrorClass()">
+                                     ng-class="ctrl.targetErrorClass()">
                                     <input class="form-control input-lg"
                                            type="text"
                                            id="TargetName"
                                            name="TargetName"
                                            ng-model="TargetName"
-                                           ng-keyup="onTargetNameEdit()"
+                                           ng-keyup="ctrl.onTargetNameEdit()"
                                            placeholder="Zielort (z.B. Hamburg)"
                                            required
                                            autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="targetErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="targetErrorClass() == 'has-error'"></span>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-error'"></span>
                                 </div>
-                                <div class="list-group" ng-show="targetPredictions.length > 0">
-                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in targetPredictions" ng-click="setTargetPlace(prediction)">
+                                <div class="list-group" ng-show="ctrl.targetPredictions.length > 0">
+                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.targetPredictions" ng-click="ctrl.setTargetPlace(prediction)">
                                         {{prediction.description}}
                                     </a>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-md-4 hidden-print">
                                 <button class="btn btn-primary btn-lg btn-block" type="button" ng-disabled="mapLoading">
-                                    <span ng-show="mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
-                                    <span ng-hide="mapLoading">Weiter</span>
+                                    <span ng-show="ctrl.mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                    <span ng-hide="ctrl.mapLoading">Weiter</span>
                                 </button>
                             </div>
                         </div>
-                        <div ng-if="gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{gacValidationMessage}}</div>
+                        <div ng-if="ctrl.gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{ctrl.gacValidationMessage}}</div>
                     </div>
                 </div>
-                <div class="panel panel-primary ng-cloak animate-show hidden-print" ng-show="showMap" id="mapPanel">
+                <div class="panel panel-primary ng-cloak animate-show hidden-print" ng-show="ctrl.showMap" id="mapPanel">
                     <div class="panel-heading">
-                        <h2 class="panel-title"><span class="fa fa-location-arrow"></span> Ihre Reise von {{StartName}} nach {{TargetName}}<small>{{displayDistance()}}</small></h2>
+                        <h2 class="panel-title"><span class="fa fa-location-arrow"></span> Ihre Reise von {{StartName}} nach {{TargetName}}<small>{{ctrl.displayDistance()}}</small></h2>
                     </div>
                     <div id="map-canvas"></div>
                     <div class="panel-body">
@@ -77,40 +77,39 @@
                                     <div class="checkbox-inline" style="margin-top:-5px">
                                         <label style="margin-bottom:0">
                                             <input type="checkbox"
-                                                   ng-model="busShouldStay"
-                                                   ng-change="invalidate('dates')"
-                                                   ng-init="busShouldStay = false" />
+                                                   ng-model="ctrl.busShouldStay"
+                                                   ng-change="ctrl.invalidate('dates')" />
                                                 Bus vor Ort
                                         </label>
                                     </div>
                                 </div>
                             </div>
                                 <div class="form-group has-feedback"
-                                     ng-class="startDateErrorClass()"
+                                     ng-class="ctrl.startDateErrorClass()"
                                      style="margin-bottom:0">
                                     <input class="form-control"
                                            type="text"
                                            id="StartDate"
                                            name="StartDate"
-                                           ui-date="dateOptionsStart"
+                                           ui-date="ctrl.dateOptionsStart"
                                            ng-model="StartDate"
-                                           ng-keyup="invalidate('dates')"
-                                           ng-change="invalidate('dates')"
+                                           ng-keyup="ctrl.invalidate('dates')"
+                                           ng-change="ctrl.startDateChanged(StartDate)"
                                            placeholder="Hinfahrtsdatum"
                                            date-field
                                            required
                                            autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="startDateErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="startDateErrorClass() == 'has-error'"></span>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.startDateErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.startDateErrorClass() == 'has-error'"></span>
                                 </div>
 
                                 <div>&nbsp;</div>
 
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-3 form-inline">
-                                        <select ng-model="StartTime"
-                                                ng-init="StartTime = '09:00'"
-                                                ng-change="invalidate('dates')"
+                                        <select ng-model="ctrl.StartTime"
+                                                ng-init="ctrl.StartTime = '09:00'"
+                                                ng-change="ctrl.invalidate('dates')"
                                                 class="form-control">
                                             <option value="00:00">00:00</option>
                                             <option value="00:15">00:15</option>
@@ -214,8 +213,8 @@
                                         <div class="radio">
                                             <label>
                                                 <input type="radio"
-                                                       ng-model="StartTimeMode"
-                                                       ng-change="invalidate('dates')"
+                                                       ng-model="ctrl.StartTimeMode"
+                                                       ng-change="ctrl.invalidate('dates')"
                                                        value="Departure" />
                                                 Abfahrt
                                             </label>
@@ -226,7 +225,7 @@
                                             <label>
                                                 <input type="radio"
                                                        ng-model="StartTimeMode"
-                                                       ng-change="invalidate('dates')"
+                                                       ng-change="ctrl.invalidate('dates')"
                                                        value="Arrival" />
                                                 Ankunft
                                             </label>
@@ -243,9 +242,9 @@
                                         <div class="checkbox-inline" style="margin-top:-5px">
                                             <label style="margin-bottom:0">
                                                 <input type="checkbox"
-                                                       ng-model="isOneWay"
-                                                       ng-change="invalidate('dates')"
-                                                       ng-init="isOneWay = false" />
+                                                       ng-model="ctrl.isOneWay"
+                                                       ng-change="ctrl.invalidate('dates')"
+                                                       ng-init="ctrl.isOneWay = false" />
                                                 Keine R&uuml;ckfahrt
                                             </label>
                                         </div>
@@ -253,31 +252,31 @@
                                 </div>
                                 <div class="form-group has-feedback"
                                      style="margin-bottom:0"
-                                     ng-class="returnDateErrorClass()"
-                                     ng-hide="isOneWay">
+                                     ng-class="ctrl.returnDateErrorClass()"
+                                     ng-hide="ctrl.isOneWay">
                                     <input class="form-control"
                                            type="text"
                                            id="ReturnDate"
                                            name="ReturnDate"
-                                           ui-date="dateOptionsReturn"
+                                           ui-date="ctrl.dateOptionsReturn"
                                            ng-model="ReturnDate"
                                            placeholder="R&uuml;ckfahrtsdatum"
-                                           ng-keyup="invalidate('dates')"
-                                           ng-change="invalidate('dates')"
+                                           ng-keyup="ctrl.invalidate('dates')"
+                                           ng-change="ctrl.returnDateChanged(ReturnDate)"
                                            date-field
                                            required
                                            autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="returnDateErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="returnDateErrorClass() == 'has-error'"></span>
+                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.returnDateErrorClass() == 'has-success'"></span>
+                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.returnDateErrorClass() == 'has-error'"></span>
                                 </div>
 
                                 <div>&nbsp;</div>
 
-                                <div class="row" ng-hide="isOneWay">
+                                <div class="row" ng-hide="ctrl.isOneWay">
                                     <div class="col-xs-12 col-sm-3 form-inline">
-                                        <select ng-model="ReturnTime"
-                                                ng-init="ReturnTime = '17:00'"
-                                                ng-change="invalidate('dates')"
+                                        <select ng-model="ctrl.ReturnTime"
+                                                ng-init="ctrl.ReturnTime = '17:00'"
+                                                ng-change="ctrl.invalidate('dates')"
                                                 class="form-control">
                                             <option value="00:00">00:00</option>
                                             <option value="00:15">00:15</option>
@@ -378,11 +377,11 @@
                                         </select>
                                     </div>
                                     <div class="col-xs-6 col-sm-3">
-                                        <div class="radio" ng-init="ReturnTimeMode = 'Departure'">
+                                        <div class="radio" ng-init="ctrl.ReturnTimeMode = 'Departure'">
                                             <label>
                                                 <input type="radio"
-                                                       ng-model="ReturnTimeMode"
-                                                       ng-change="invalidate('dates')"
+                                                       ng-model="ctrl.ReturnTimeMode"
+                                                       ng-change="ctrl.invalidate('dates')"
                                                        value="Departure" />
                                                 Abfahrt
                                             </label>
@@ -392,8 +391,8 @@
                                         <div class="radio">
                                             <label>
                                                 <input type="radio"
-                                                       ng-model="ReturnTimeMode"
-                                                       ng-change="invalidate('dates')"
+                                                       ng-model="ctrl.ReturnTimeMode"
+                                                       ng-change="ctrl.invalidate('dates')"
                                                        value="Arrival" />
                                                 Ankunft
                                             </label>
@@ -402,14 +401,14 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-2 hidden-print">
-                                <button class="btn btn-primary btn-block btn-lg" type="button" ng-click="submitDateSection()">
+                                <button class="btn btn-primary btn-block btn-lg" type="button" ng-click="ctrl.submitDateSection()">
                                     Weiter
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary ng-cloak animate-show hidden-print" ng-show="showNameSection" id="namePanel">
+                <div class="panel panel-primary ng-cloak animate-show hidden-print" ng-show="ctrl.showNameSection" id="namePanel">
                     <div class="panel-heading">
                         <h2 class="panel-title"><span class="fa fa-flag-checkered"></span> Jetzt nur noch diese Angaben</h2>
                     </div>
@@ -419,14 +418,14 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-horizontal form-condensed">
-                                        <div class="form-group" ng-class="passengerErrorClass()">
+                                        <div class="form-group" ng-class="ctrl.passengerErrorClass()">
                                             <label for="Passengers" class="col-sm-2 control-label">Personen</label>
                                             <div class="col-sm-10">
-                                                <input type="number" id="Passengers" name="Passengers" ng-model="Passengers" ng-keyup="passengersEdited()" class="form-control" placeholder="Anzahl (ab 9 Personen)" required min="1" />
+                                                <input type="number" id="Passengers" name="Passengers" ng-model="Passengers" ng-keyup="ctrl.passengersEdited()" class="form-control" placeholder="Anzahl (ab 9 Personen)" required min="1" />
                                             </div>
                                         </div>
 
-                                        <div class="form-group" ng-class="nameErrorClass()">
+                                        <div class="form-group" ng-class="ctrl.nameErrorClass()">
                                             <label for="Name" class="col-sm-2 control-label">Name</label>
                                             <div class="col-sm-10">
                                                 <input type="text" id="Name" name="Name" ng-model="Name" class="form-control" placeholder="Ihr vollst&auml;ndiger Vor- und Zuname" required />
@@ -436,13 +435,13 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-horizontal">
-                                        <div class="form-group" ng-class="emailErrorClass()">
+                                        <div class="form-group" ng-class="ctrl.emailErrorClass()">
                                             <label for="EMail" class="col-sm-2 control-label">E-Mail</label>
                                             <div class="col-sm-10">
                                                 <input type="email" id="EMail" name="EMail" ng-model="EMail" class="form-control" placeholder="Ihre E-Mail" required />
                                             </div>
                                         </div>
-                                        <div class="form-group" ng-class="telephoneErrorClass()">
+                                        <div class="form-group" ng-class="ctrl.telephoneErrorClass()">
                                             <label for="Telephone" class="col-sm-2 control-label">Telefon</label>
                                             <div class="col-sm-10">
                                                 <input type="tel" id="Telephone" name="Telephone" ng-model="Telephone" class="form-control" placeholder="Ihre Telefonnummer" required />
@@ -457,23 +456,23 @@
                             </div>
                             <div class="form-group hidden-print">
                                 <div class="col-sm-12 text-center">
-                                    <button class="btn btn-primary btn-lg" type="button" ng-click="submitNameSection()" ng-disabled="offersLoading">
-                                        <span ng-show="offersLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
-                                        <span ng-hide="offersLoading"><span class="fa fa-calculator"></span> unverbindliches Angebot Berechnen</span>
+                                    <button class="btn btn-primary btn-lg" type="button" ng-click="ctrl.submitNameSection()" ng-disabled="ctrl.offersLoading">
+                                        <span ng-show="ctrl.offersLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                        <span ng-hide="ctrl.offersLoading"><span class="fa fa-calculator"></span> unverbindliches Angebot Berechnen</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary ng-cloak animate-show" ng-show="showOfferSection" id="offerPanel">
+                <div class="panel panel-primary ng-cloak animate-show" ng-show="ctrl.showOfferSection" id="offerPanel">
                     <div class="panel-heading">
                         <h2 class="panel-title">Unser Angebot f&uuml;r Ihre Fahrt von {{StartName}} nach {{TargetName}}</h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-2 col-xs-4">Anfragenummer:</div>
-                            <div class="col-sm-4 col-xs-8"><strong>{{requestNumber}}</strong></div>
+                            <div class="col-sm-4 col-xs-8"><strong>{{ctrl.requestNumber}}</strong></div>
                             <div class="col-sm-2 col-xs-4">Personen:</div>
                             <div class="col-sm-4 col-xs-8"><strong>{{Passengers}}</strong></div>
 
@@ -481,52 +480,52 @@
                             <div class="col-sm-4 col-xs-8"><strong>{{StartName}}</strong></div>
                             <div class="col-sm-2 col-xs-4">Reiseziel:</div>
                             <div class="col-sm-4 col-xs-8"><strong>{{TargetName}}</strong></div>
-                            <div class="col-sm-offset-8 col-sm-4 col-xs-offset-4 col-xs-8" ng-show="busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
+                            <div class="col-sm-offset-8 col-sm-4 col-xs-offset-4 col-xs-8" ng-show="ctrl.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
                             <div class="col-sm-2 col-xs-4">Hinfahrt:</div>
                             <div class="col-sm-4 col-xs-8"><strong>{{StartDate | date}}</strong></div>
                             <div class="col-sm-2 col-xs-4">R&uuml;ckfahrt:</div>
-                            <div class="col-sm-4 col-xs-8" ng-hide="isOneWay"><strong>{{ReturnDate | date}}</strong></div>
-                            <div class="col-sm-4 col-xs-8" ng-show="isOneWay"><strong>Keine R&uuml;ckfahrt</strong></div>
+                            <div class="col-sm-4 col-xs-8" ng-hide="ctrl.isOneWay"><strong>{{ReturnDate | date}}</strong></div>
+                            <div class="col-sm-4 col-xs-8" ng-show="ctrl.isOneWay"><strong>Keine R&uuml;ckfahrt</strong></div>
 
-                            <div class="col-sm-2 col-xs-4" ng-show="StartTimeMode == 'Departure'">Abfahrt:</div>
-                            <div class="col-sm-4 col-xs-8" ng-show="StartTimeMode == 'Departure'"><strong>{{startTimeDepart}}</strong> (Ankunft ca. {{startTimeArrive}})</div>
-                            <div class="col-sm-2 col-xs-4" ng-show="StartTimeMode == 'Arrival'">Ankunft:</div>
-                            <div class="col-sm-4 col-xs-8" ng-show="StartTimeMode == 'Arrival'"><strong>{{startTimeArrive}}</strong> (Abfahrt ca. {{startTimeDepart}})</div>
+                            <div class="col-sm-2 col-xs-4" ng-show="ctrl.StartTimeMode == 'Departure'">Abfahrt:</div>
+                            <div class="col-sm-4 col-xs-8" ng-show="ctrl.StartTimeMode == 'Departure'"><strong>{{ctrl.startTimeDepart}}</strong> (Ankunft ca. {{ctrl.startTimeArrive}})</div>
+                            <div class="col-sm-2 col-xs-4" ng-show="ctrl.StartTimeMode == 'Arrival'">Ankunft:</div>
+                            <div class="col-sm-4 col-xs-8" ng-show="ctrl.StartTimeMode == 'Arrival'"><strong>{{ctrl.startTimeArrive}}</strong> (Abfahrt ca. {{ctrl.startTimeDepart}})</div>
 
-                            <div class="col-sm-2 col-xs-4" ng-show="!isOneWay && ReturnTimeMode == 'Departure'">Abfahrt:</div>
-                            <div class="col-sm-4 col-xs-8" ng-show="!isOneWay && ReturnTimeMode == 'Departure'"><strong>{{returnTimeDepart}}</strong> (Ankunft ca. {{returnTimeArrive}})</div>
-                            <div class="col-sm-2 col-xs-4" ng-show="!isOneWay && ReturnTimeMode == 'Arrival'">R&uuml;ckkunft:</div>
-                            <div class="col-sm-4 col-xs-8" ng-show="!isOneWay && ReturnTimeMode == 'Arrival'"><strong>{{returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{returnTimeDepart}})</div>
+                            <div class="col-sm-2 col-xs-4" ng-show="!ctrl.isOneWay && ctrl.ReturnTimeMode == 'Departure'">Abfahrt:</div>
+                            <div class="col-sm-4 col-xs-8" ng-show="!ctrl.isOneWay && ctrl.ReturnTimeMode == 'Departure'"><strong>{{ctrl.returnTimeDepart}}</strong> (Ankunft ca. {{ctrl.returnTimeArrive}})</div>
+                            <div class="col-sm-2 col-xs-4" ng-show="!ctrl.isOneWay && ctrl.ReturnTimeMode == 'Arrival'">R&uuml;ckkunft:</div>
+                            <div class="col-sm-4 col-xs-8" ng-show="!ctrl.isOneWay && ctrl.ReturnTimeMode == 'Arrival'"><strong>{{ctrl.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{ctrl.returnTimeDepart}})</div>
                         </div>
 
                         <div class="pull-right hidden-print" role="group">
-                            <button class="btn btn-primary btn-xs" type="button" ng-click="showMailForm()"><span class="fa fa-mail-forward"></span> Per Mail senden...</button>
-                            <button class="btn btn-info btn-xs" type="button" ng-click="print()"><span class="fa fa-print"></span> Ausdrucken</button>
+                            <button class="btn btn-primary btn-xs" type="button" ng-click="ctrl.showMailForm()"><span class="fa fa-mail-forward"></span> Per Mail senden...</button>
+                            <button class="btn btn-info btn-xs" type="button" ng-click="ctrl.print()"><span class="fa fa-print"></span> Ausdrucken</button>
                         </div>
                         <div class="clearfix"></div>
-                        <div class="panel panel-default pull-right ng-cloak" ng-show="isMailFormShown" style="max-width:300px;">
+                        <div class="panel panel-default pull-right ng-cloak" ng-show="ctrl.isMailFormShown" style="max-width:300px;">
                             <div class="panel-body">
-                                <div ng-hide="mailSendSuccess" class="input-group input-group-sm">
-                                    <input type="text" class="form-control input-sm" placeholder="Email" ng-model="emailForSending" />
+                                <div ng-hide="ctrl.mailSendSuccess" class="input-group input-group-sm">
+                                    <input type="text" class="form-control input-sm" placeholder="Email" ng-model="ctrl.emailForSending" />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-sm" type="button" ng-disabled="emailBeingSent" ng-click="sendMail()">
-                                            <span ng-hide="emailBeingSent"><span class="fa fa-envelope"></span> Senden</span>
-                                            <span ng-show="emailBeingSent"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                        <button class="btn btn-primary btn-sm" type="button" ng-disabled="ctrl.emailBeingSent" ng-click="ctrl.sendMail()">
+                                            <span ng-hide="ctrl.emailBeingSent"><span class="fa fa-envelope"></span> Senden</span>
+                                            <span ng-show="ctrl.emailBeingSent"><span class="fa fa-fw fa-cog fa-spin"></span></span>
                                         </button>
                                     </span>
                                 </div><!-- /input-group -->
-                                <div ng-show="mailSendSuccess" class="text-success">Email erfolgreich versandt!</div>
+                                <div ng-show="ctrl.mailSendSuccess" class="text-success">Email erfolgreich versandt!</div>
                             </div>
                         </div>
                         <div class="clearfix"></div>
 
                         <hr />
-                        <div ng-if="offers.length == 0 && !offersLoading" class="lead text-center hidden-print">
+                        <div ng-if="ctrl.offers.length == 0 && !offersLoading" class="lead text-center hidden-print">
                             Leider k&ouml;nnen wir Ihnen im Moment kein Online-Angebot machen. Bitte rufen Sie uns an unter:<br />
                             <strong>0800 / 28 77 28 5</strong>
                         </div>
                         <div class="row visible-print">
-                            <div class="col-xs-4" ng-repeat="offer in offers">
+                            <div class="col-xs-4" ng-repeat="offer in ctrl.offers">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 div class="panel-title text-center">{{offer.productName}}</h4>
@@ -551,7 +550,7 @@
                             Haben Sie Fragen oder spezielle W&uuml;nsche? Rufen Sie uns an unter <strong>0800 / 28 77 28 5</strong>
                         </div>
                         <div class="row hidden-print">
-                            <div class="col-sm-4" ng-repeat="offer in offers">
+                            <div class="col-sm-4" ng-repeat="offer in ctrl.offers">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 div class="panel-title text-center">{{offer.productName}}</h4>
