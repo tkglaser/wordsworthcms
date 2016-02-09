@@ -242,3 +242,4 @@ var pfb;
         angular.module('pfb').controller('LandingController', LandingController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=LandingController.js.map

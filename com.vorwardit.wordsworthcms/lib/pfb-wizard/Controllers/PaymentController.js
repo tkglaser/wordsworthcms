@@ -26,3 +26,4 @@ var pfb;
         angular.module('pfb').controller('PaymentController', PaymentController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=PaymentController.js.map

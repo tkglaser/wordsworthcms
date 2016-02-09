@@ -35,3 +35,4 @@ var app;
             .directive('loading', LoadingDirective);
     })(directives = app.directives || (app.directives = {}));
 })(app || (app = {}));
+//# sourceMappingURL=LoadingDirective.js.map

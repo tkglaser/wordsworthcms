@@ -50,3 +50,4 @@ var app;
             .service('AssetService', AssetService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
+//# sourceMappingURL=AssetService.js.map

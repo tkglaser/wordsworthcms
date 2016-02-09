@@ -65,3 +65,4 @@ var app;
             .controller('AssetController', AssetController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
+//# sourceMappingURL=AssetController.js.map

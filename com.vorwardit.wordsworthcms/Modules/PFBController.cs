@@ -10,10 +10,11 @@ using com.vorwardit.wordsworthcms.BusinessLogic.Interfaces;
 
 namespace com.vorwardit.wordsworthcms.Modules
 {
-    public class PFBModel
-    {
-        public string APIEndpoint { get; set; }
-        public string ClientId { get; set; }
+	public class PFBModel
+	{
+		public string APIEndpoint { get; set; }
+		public string ClientId { get; set; }
+		public bool Html5 { get; set; }
     }
 
     [Module("Paul fährt Bus Plugin")]
@@ -52,8 +53,9 @@ namespace com.vorwardit.wordsworthcms.Modules
             var pageVersion = await pageService.GetPageVersionAsync(pageVersionId);
             var md = pageVersion.GetModule<PFBModel>(position);
             md.Data.APIEndpoint = form["APIEndpoint"];
-            md.Data.ClientId = form["ClientId"];
-            pageVersion.SetModule(position, md);
+			md.Data.ClientId = form["ClientId"];
+			md.Data.Html5 = form["Html5"] != "false";
+			pageVersion.SetModule(position, md);
             await pageService.UpdateAsync(pageVersion);
             return Content("ok");
         }

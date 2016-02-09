@@ -41,3 +41,4 @@ var app;
             .controller('MenuController', MenuController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
+//# sourceMappingURL=MenuController.js.map

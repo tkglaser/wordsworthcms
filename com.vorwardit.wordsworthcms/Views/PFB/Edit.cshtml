@@ -10,12 +10,21 @@
     @Html.ValidationSummary(true, "", new { @class = "" })
 
     @Html.LabelFor(model => model.APIEndpoint, htmlAttributes: new { @class = "" })
-    @Html.EditorFor(model => model.APIEndpoint, new { htmlAttributes = new { @class = "", style = "width:100%" } })
+    @Html.EditorFor(model => model.APIEndpoint, new { htmlAttributes = new { @class = "", style = "width:80%" } })
     @Html.ValidationMessageFor(model => model.APIEndpoint, "", new { @class = "" })
 
+    <br/>
+
     @Html.LabelFor(model => model.ClientId, htmlAttributes: new { @class = "" })
-    @Html.EditorFor(model => model.ClientId, new { htmlAttributes = new { @class = "", style = "width:100%" } })
+    @Html.EditorFor(model => model.ClientId, new { htmlAttributes = new { @class = "", style = "width:80%" } })
     @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "" })
+
+    <br />
+
+    @Html.LabelFor(model => model.Html5, htmlAttributes: new { @class = "" })
+    @Html.EditorFor(model => model.Html5, new { htmlAttributes = new { @class = "", style = "width:80%" } })
+    @Html.ValidationMessageFor(model => model.Html5, "", new { @class = "" })
+
     <br />
     <button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
     <button type="button" class="cmsTypeCancelButton">Abbrechen</button>

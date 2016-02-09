@@ -80,3 +80,4 @@ var app;
             .controller('ContentController', ContentController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
+//# sourceMappingURL=ContentController.js.map

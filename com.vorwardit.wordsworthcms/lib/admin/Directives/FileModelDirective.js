@@ -24,3 +24,4 @@ var app;
             .directive('fileModel', FileModelDirective);
     })(directives = app.directives || (app.directives = {}));
 })(app || (app = {}));
+//# sourceMappingURL=FileModelDirective.js.map

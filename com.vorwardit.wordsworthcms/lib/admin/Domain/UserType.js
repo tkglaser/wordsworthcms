@@ -19,3 +19,4 @@ var app;
         domain.UserType = UserType;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
+//# sourceMappingURL=UserType.js.map

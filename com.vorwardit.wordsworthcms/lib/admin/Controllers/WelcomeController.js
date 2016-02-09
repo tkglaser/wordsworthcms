@@ -12,3 +12,4 @@ var app;
             .controller('WelcomeController', WelcomeController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
+//# sourceMappingURL=WelcomeController.js.map

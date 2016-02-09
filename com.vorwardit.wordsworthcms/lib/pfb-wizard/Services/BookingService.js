@@ -19,3 +19,4 @@ var pfb;
         angular.module('pfb').service('BookingService', BookingService);
     })(Services = pfb.Services || (pfb.Services = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=BookingService.js.map

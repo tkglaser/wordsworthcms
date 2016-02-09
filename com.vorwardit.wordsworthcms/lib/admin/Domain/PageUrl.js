@@ -12,3 +12,4 @@ var app;
         domain.PageUrl = PageUrl;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
+//# sourceMappingURL=PageUrl.js.map

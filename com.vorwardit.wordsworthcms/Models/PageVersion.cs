@@ -110,7 +110,14 @@ namespace com.vorwardit.wordsworthcms.Models
 			{
 				if (result.Data.ContainsKey(p.Name))
 				{
-					p.SetValue(typedResult.Data, result.Data[p.Name]);
+					if (p.PropertyType == typeof(bool))
+					{
+						p.SetValue(typedResult.Data, result.Data[p.Name].ToLower() == "true");
+					}
+					else
+					{
+						p.SetValue(typedResult.Data, result.Data[p.Name]);
+					}
 				}
 			}
 

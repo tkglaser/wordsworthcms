@@ -14,3 +14,4 @@ var app;
         domain.Asset = Asset;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
+//# sourceMappingURL=Asset.js.map

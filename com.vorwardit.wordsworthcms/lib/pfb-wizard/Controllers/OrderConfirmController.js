@@ -65,3 +65,4 @@ var pfb;
         angular.module('pfb').controller('OrderConfirmController', OrderConfirmController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=OrderConfirmController.js.map

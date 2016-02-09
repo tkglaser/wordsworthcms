@@ -79,3 +79,4 @@ var app;
             .controller('SiteController', SiteController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
+//# sourceMappingURL=SiteController.js.map

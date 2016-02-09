@@ -29,3 +29,4 @@ var pfb;
             .service('AnalyticsService', AnalyticsService);
     })(Services = pfb.Services || (pfb.Services = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=AnalyticsService.js.map

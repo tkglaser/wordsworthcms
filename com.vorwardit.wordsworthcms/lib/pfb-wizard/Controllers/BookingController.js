@@ -52,3 +52,4 @@ var pfb;
         angular.module('pfb').controller('BookingController', BookingController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
+//# sourceMappingURL=BookingController.js.map
