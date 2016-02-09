@@ -107,4 +107,3 @@ var pfb;
     var app = angular.module('pfb', ['pfb-views', 'ngAnimate', 'ngRoute', 'ui.bootstrap', 'ui.date']);
     app.config(Config);
 })(pfb || (pfb = {}));
-//# sourceMappingURL=app.js.map

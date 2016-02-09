@@ -85,4 +85,3 @@ var pfb;
         angular.module('pfb').service('UtilService', UtilService);
     })(Services = pfb.Services || (pfb.Services = {}));
 })(pfb || (pfb = {}));
-//# sourceMappingURL=UtilService.js.map

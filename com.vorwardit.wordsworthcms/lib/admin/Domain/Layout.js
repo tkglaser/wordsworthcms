@@ -14,4 +14,3 @@ var app;
         domain.Layout = Layout;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=Layout.js.map

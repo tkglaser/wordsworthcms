@@ -110,4 +110,3 @@ var pfb;
         angular.module('pfb').controller('OrderController', OrderController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
-//# sourceMappingURL=OrderController.js.map

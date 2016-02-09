@@ -13,4 +13,3 @@ var app;
         domain.Site = Site;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=Site.js.map

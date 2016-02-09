@@ -13,4 +13,3 @@ var app;
         domain.PageVersion = PageVersion;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=PageVersion.js.map

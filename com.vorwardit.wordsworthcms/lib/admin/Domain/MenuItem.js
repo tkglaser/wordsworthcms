@@ -14,4 +14,3 @@ var app;
         domain.MenuItem = MenuItem;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=MenuItem.js.map

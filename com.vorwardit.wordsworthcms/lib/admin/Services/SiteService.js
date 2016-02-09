@@ -49,4 +49,3 @@ var app;
             .service('SiteService', SiteService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
-//# sourceMappingURL=SiteService.js.map

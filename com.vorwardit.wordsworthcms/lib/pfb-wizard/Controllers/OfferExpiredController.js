@@ -20,4 +20,3 @@ var pfb;
         angular.module('pfb').controller('OfferExpiredController', OfferExpiredController);
     })(Controllers = pfb.Controllers || (pfb.Controllers = {}));
 })(pfb || (pfb = {}));
-//# sourceMappingURL=OfferExpiredController.js.map

@@ -15,4 +15,3 @@ var app;
         domain.User = User;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=User.js.map

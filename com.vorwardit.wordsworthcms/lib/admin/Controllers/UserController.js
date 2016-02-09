@@ -88,4 +88,3 @@ var app;
             .controller('UserController', UserController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
-//# sourceMappingURL=UserController.js.map

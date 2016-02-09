@@ -14,4 +14,3 @@ var app;
         domain.Page = Page;
     })(domain = app.domain || (app.domain = {}));
 })(app || (app = {}));
-//# sourceMappingURL=Page.js.map

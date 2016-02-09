@@ -83,4 +83,3 @@ var pfb;
         angular.module('pfb').service('RequestService', RequestService);
     })(Services = pfb.Services || (pfb.Services = {}));
 })(pfb || (pfb = {}));
-//# sourceMappingURL=RequestService.js.map

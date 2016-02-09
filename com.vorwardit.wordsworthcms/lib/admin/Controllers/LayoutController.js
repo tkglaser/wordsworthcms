@@ -110,4 +110,3 @@ var app;
             .controller('LayoutController', LayoutController);
     })(controllers = app.controllers || (app.controllers = {}));
 })(app || (app = {}));
-//# sourceMappingURL=LayoutController.js.map

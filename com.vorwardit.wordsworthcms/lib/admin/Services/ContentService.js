@@ -39,4 +39,3 @@ var app;
             .service('ContentService', ContentService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
-//# sourceMappingURL=ContentService.js.map

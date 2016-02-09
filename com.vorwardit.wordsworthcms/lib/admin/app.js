@@ -46,4 +46,3 @@ var app;
     var mainApp = angular.module('app', ['ngAnimate', 'ngRoute']);
     mainApp.config(Config);
 })(app || (app = {}));
-//# sourceMappingURL=app.js.map

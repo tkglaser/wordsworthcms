@@ -16,4 +16,3 @@ var pfb;
         angular.module('pfb').service('MailerService', MailerService);
     })(Services = pfb.Services || (pfb.Services = {}));
 })(pfb || (pfb = {}));
-//# sourceMappingURL=MailerService.js.map

@@ -39,4 +39,3 @@ var app;
             .service('LayoutService', LayoutService);
     })(services = app.services || (app.services = {}));
 })(app || (app = {}));
-//# sourceMappingURL=LayoutService.js.map
