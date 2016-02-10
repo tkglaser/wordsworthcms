@@ -84,7 +84,12 @@ module app.controllers {
         create(): void {
             $('#saveError').hide();
             this.modalHeading = PageLayoutController.modalHeadingNew;
-            this.pagelayout = new app.domain.PageLayout('', '', '', '');
+            this.pagelayout = {
+                pageLayoutId: '',
+                layoutId: '',
+                name: '',
+                body: ''
+            };
             this.editor.setValue('');
             setTimeout(() => {
                 this.editor.refresh();
@@ -124,9 +129,8 @@ module app.controllers {
         }
 
         save(): void {
-            var data = new app.domain.PageLayout(
-                this.pagelayout.pageLayoutId, this.pagelayout.layoutId, this.pagelayout.name, this.editor.getValue());
-            this.PageLayoutService.update(data).then(
+            this.pagelayout.body = this.editor.getValue();
+            this.PageLayoutService.update(this.pagelayout).then(
                 () => {
                     $('#editModal').modal("hide");
                     this.getData();

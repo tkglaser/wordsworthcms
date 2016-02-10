@@ -5,14 +5,4 @@
         name: string;
         urls: IPageUrl[];
     }
-
-    export class Page implements IPage {
-        constructor(
-            public pageId: string,
-            public pageLayoutId: string,
-            public name: string,
-            public urls: IPageUrl[]
-        ) {
-        }
-    }
 }

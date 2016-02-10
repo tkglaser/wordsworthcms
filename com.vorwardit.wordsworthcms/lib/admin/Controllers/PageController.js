@@ -41,7 +41,12 @@ var app;
             PageController.prototype.create = function () {
                 $('#saveError').hide();
                 this.modalHeading = PageController.modalHeadingNew;
-                this.page = new app.domain.Page('', '', '', [{ url: '', pageUrlId: -1 }]);
+                this.page = {
+                    pageId: '',
+                    pageLayoutId: '',
+                    name: '',
+                    urls: [{ url: '', pageUrlId: -1 }]
+                };
                 $('#editModal').modal();
             };
             ;
@@ -63,7 +68,11 @@ var app;
                         _this.pageversion = data[0];
                     }
                     else {
-                        _this.pageversion = new app.domain.PageVersion(page.pageId, '', '');
+                        _this.pageversion = {
+                            pageId: page.pageId,
+                            title: '',
+                            metaDescription: ''
+                        };
                     }
                     $('#editContentModal').modal();
                 });
@@ -96,7 +105,7 @@ var app;
                 });
             };
             PageController.prototype.addUrl = function () {
-                this.page.urls.push(new app.domain.PageUrl(-1, ''));
+                this.page.urls.push({ pageUrlId: -1, url: '' });
             };
             PageController.prototype.removeUrl = function (url) {
                 var index = this.page.urls.indexOf(url);

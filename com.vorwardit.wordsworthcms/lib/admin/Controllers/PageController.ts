@@ -54,7 +54,12 @@
         create(): void {
             $('#saveError').hide();
             this.modalHeading = PageController.modalHeadingNew;
-            this.page = new app.domain.Page('', '', '', [{ url: '', pageUrlId: -1 }]);
+            this.page = {
+                pageId: '',
+                pageLayoutId: '',
+                name: '',
+                urls: [{ url: '', pageUrlId: -1 }]
+            };
             $('#editModal').modal();
         };
 
@@ -75,7 +80,11 @@
                     if (data.length > 0) {
                         this.pageversion = data[0];
                     } else {
-                        this.pageversion = new app.domain.PageVersion(page.pageId, '', '');
+                        this.pageversion = {
+                            pageId: page.pageId,
+                            title: '',
+                            metaDescription: ''
+                        };
                     }
                     $('#editContentModal').modal();
                 });
@@ -115,7 +124,7 @@
         }
 
         addUrl(): void {
-            this.page.urls.push(new app.domain.PageUrl(-1, ''));
+            this.page.urls.push({ pageUrlId: -1, url: '' });
         }
 
         removeUrl(url: app.domain.IPageUrl): void {

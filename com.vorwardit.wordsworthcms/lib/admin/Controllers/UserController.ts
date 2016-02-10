@@ -45,7 +45,13 @@
             $('#saveError').hide();
             this.modalHeading = UserController.modalHeadingNew;
             this.showPasswordBox = true;
-            this.user = new app.domain.User('', '', '', 2, '');
+            this.user = {
+                userId: '',
+                userName: '',
+                password: '',
+                type: 2,
+                siteId: ''
+            };
             $('#editModal').modal();
         };
 
@@ -53,14 +59,19 @@
             $('#saveError').hide();
             this.modalHeading = UserController.modalHeadingEdit;
             this.showPasswordBox = false;
-            this.user = new app.domain.User(user.userId, user.userName, '', user.type, user.siteId);
+            this.user = {
+                userId: user.userId,
+                userName: user.userName,
+                password: '',
+                type: user.type,
+                siteId: user.siteId
+            };
             $('#editModal').modal();
         };
 
         save(): void {
             if (this.user.userId == '') {
-                var data = new app.domain.User('', this.user.userName, this.user.password, this.user.type, this.user.siteId);
-                this.UserService.create(data).then(() => {
+                this.UserService.create(this.user).then(() => {
                     $('#editModal').modal("hide");
                     this.getData();
                 },
@@ -68,8 +79,8 @@
                     $('#saveError').show();
                 });
             } else {
-                var data = new app.domain.User(this.user.userId, this.user.userName, '', this.user.type, this.user.siteId);
-                this.UserService.update(data).then(() => {
+                this.user.password = '';
+                this.UserService.update(this.user).then(() => {
                     $('#editModal').modal("hide");
                     this.getData();
                 },

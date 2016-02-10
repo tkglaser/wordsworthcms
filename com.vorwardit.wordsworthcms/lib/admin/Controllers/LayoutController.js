@@ -54,7 +54,12 @@ var app;
                 var _this = this;
                 $('#saveError').hide();
                 this.modalHeading = LayoutController.modalHeadingNew;
-                this.layout = new app.domain.Layout('', '', '', '');
+                this.layout = {
+                    body: '',
+                    layoutId: '',
+                    name: '',
+                    siteId: this.site.siteId
+                };
                 this.editor.setValue('');
                 setTimeout(function () {
                     _this.editor.refresh();
@@ -92,8 +97,8 @@ var app;
             };
             LayoutController.prototype.save = function () {
                 var _this = this;
-                var data = new app.domain.Layout(this.layout.layoutId, this.layout.siteId, this.layout.name, this.editor.getValue());
-                this.LayoutService.update(data).then(function () {
+                this.layout.body = this.editor.getValue();
+                this.LayoutService.update(this.layout).then(function () {
                     $('#editModal').modal("hide");
                     _this.getLayouts();
                 }, function () {

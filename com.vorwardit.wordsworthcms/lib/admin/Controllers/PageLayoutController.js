@@ -62,7 +62,12 @@ var app;
                 var _this = this;
                 $('#saveError').hide();
                 this.modalHeading = PageLayoutController.modalHeadingNew;
-                this.pagelayout = new app.domain.PageLayout('', '', '', '');
+                this.pagelayout = {
+                    pageLayoutId: '',
+                    layoutId: '',
+                    name: '',
+                    body: ''
+                };
                 this.editor.setValue('');
                 setTimeout(function () {
                     _this.editor.refresh();
@@ -100,8 +105,8 @@ var app;
             };
             PageLayoutController.prototype.save = function () {
                 var _this = this;
-                var data = new app.domain.PageLayout(this.pagelayout.pageLayoutId, this.pagelayout.layoutId, this.pagelayout.name, this.editor.getValue());
-                this.PageLayoutService.update(data).then(function () {
+                this.pagelayout.body = this.editor.getValue();
+                this.PageLayoutService.update(this.pagelayout).then(function () {
                     $('#editModal').modal("hide");
                     _this.getData();
                 }, function () {

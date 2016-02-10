@@ -31,7 +31,13 @@ var app;
                 $('#saveError').hide();
                 this.modalHeading = UserController.modalHeadingNew;
                 this.showPasswordBox = true;
-                this.user = new app.domain.User('', '', '', 2, '');
+                this.user = {
+                    userId: '',
+                    userName: '',
+                    password: '',
+                    type: 2,
+                    siteId: ''
+                };
                 $('#editModal').modal();
             };
             ;
@@ -39,15 +45,20 @@ var app;
                 $('#saveError').hide();
                 this.modalHeading = UserController.modalHeadingEdit;
                 this.showPasswordBox = false;
-                this.user = new app.domain.User(user.userId, user.userName, '', user.type, user.siteId);
+                this.user = {
+                    userId: user.userId,
+                    userName: user.userName,
+                    password: '',
+                    type: user.type,
+                    siteId: user.siteId
+                };
                 $('#editModal').modal();
             };
             ;
             UserController.prototype.save = function () {
                 var _this = this;
                 if (this.user.userId == '') {
-                    var data = new app.domain.User('', this.user.userName, this.user.password, this.user.type, this.user.siteId);
-                    this.UserService.create(data).then(function () {
+                    this.UserService.create(this.user).then(function () {
                         $('#editModal').modal("hide");
                         _this.getData();
                     }, function () {
@@ -55,8 +66,8 @@ var app;
                     });
                 }
                 else {
-                    var data = new app.domain.User(this.user.userId, this.user.userName, '', this.user.type, this.user.siteId);
-                    this.UserService.update(data).then(function () {
+                    this.user.password = '';
+                    this.UserService.update(this.user).then(function () {
                         $('#editModal').modal("hide");
                         _this.getData();
                     }, function () {

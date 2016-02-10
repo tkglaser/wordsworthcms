@@ -25,7 +25,11 @@
         newSite() {
             $('#saveError').hide();
             this.modalHeading = SiteController.modalHeadingNew;
-            this.site = new domain.Site('', '', []);
+            this.site = {
+                siteId: '',
+                name: '',
+                bindings: []
+            };
             this.site.name = '';
             this.site.bindings = [{ value: '' }];
             $('#editSiteModal').modal();
@@ -34,7 +38,11 @@
         editSite(site: app.domain.ISite) {
             $('#saveError').hide();
             this.modalHeading = SiteController.modalHeadingEdit;
-            this.site = new domain.Site(site.siteId, site.name, []);
+            this.site = {
+                siteId: site.siteId,
+                name: site.name,
+                bindings: []
+            };
             for (var i = 0; i < site.bindings.length; ++i) {
                 this.site.bindings.push({
                     value: site.bindings[i]
@@ -70,7 +78,11 @@
         }
 
         save() {
-            var newSite = new domain.Site(this.site.siteId, this.site.name, []);
+            var newSite: app.domain.ISite = {
+                siteId: this.site.siteId,
+                name: this.site.name,
+                bindings: []                
+            };
             for (var i = 0; i < this.site.bindings.length; ++i) {
                 newSite.bindings.push(this.site.bindings[i].value);
             }

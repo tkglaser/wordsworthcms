@@ -39,7 +39,12 @@
         create(): void {
             $('#saveError').hide();
             this.modalHeading = ContentController.modalHeadingNew;
-            this.content = new app.domain.Content(-1, '', '', '');
+            this.content = {
+                contentId: -1,
+                siteId: this.site.siteId,
+                url: '',
+                body: ''                
+            };
             $('#editModal').modal();
         };
 
@@ -71,8 +76,7 @@
         }
 
         save(): void {
-            var data = new app.domain.Content(this.content.contentId, this.site.siteId, this.content.url, this.content.body);
-            this.ContentService.update(data).then(
+            this.ContentService.update(this.content).then(
                 () => {
                     $('#editModal').modal("hide");
                     this.getData();
