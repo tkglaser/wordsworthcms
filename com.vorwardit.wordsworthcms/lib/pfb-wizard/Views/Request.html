@@ -564,11 +564,11 @@
                                             <div class="text-center" ng-bind-html="offer.safeProductDescription"></div>
                                         </div>
 
-                                        <a ng-if="!offer.noOffer" href="/order/{{offer.requestId}}/{{offer.offerId}}" class="btn btn-success btn-lg btn-block hidden-print">
+                                        <a ng-if="!offer.noOffer" href="#/order/{{offer.requestId}}/{{offer.offerId}}" class="btn btn-success btn-lg btn-block hidden-print">
                                             Zum Angebot
                                             <span class="glyphicon glyphicon-chevron-right"></span>
                                         </a>
-                                        <a ng-if="offer.noOffer" class="btn btn-warning btn-lg btn-block hidden-print" href="/specialRequest/{{requestId}}">
+                                        <a ng-if="offer.noOffer" class="btn btn-warning btn-lg btn-block hidden-print" href="#/specialRequest/{{requestId}}">
                                             Anfragen
                                             <span class="glyphicon glyphicon-chevron-right"></span>
                                         </a>

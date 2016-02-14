@@ -12,19 +12,19 @@
                 </p>
                 <div class="row">
                     <div class="col-sm-5">
-                        <h4>Rechnungsadresse <small><a href="/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Rechnungsadresse <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <address>
                             <span ng-if="request.organisation"><strong>{{request.organisation}}</strong> <br /> z.Hd. </span>
                             <strong>{{request.name}}</strong><br />
                             {{request.address}}<br />
                             {{request.postcode}} {{request.town}}
                         </address>
-                        <h4>Kontakt <small><a href="/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Kontakt <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <div>Email: <strong>{{request.email}}</strong></div>
                     </div>
 
                     <div class="col-sm-7">
-                        <h4>Reisedaten <small><a href="/request?r={{requestId}}&s=o"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Reisedaten <small><a href="#/request?r={{requestId}}&s=o"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <div class="row" style="margin-bottom:18px;">
                             <div class="col-xs-2">Fahrt:</div>
                             <div class="col-xs-10">
@@ -51,7 +51,7 @@
                                 <strong>{{request.passengers}}</strong>
                             </div>
                         </div>
-                        <h4>Zahlungsweise <small><a href="/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Zahlungsweise <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <div ng-show="paymode == 'later'"><strong>Sp&auml;ter bezahlen</strong></div>
                         <div ng-hide="paymode == 'later'"><strong>Jetzt bezahlen</strong></div>
                     </div>
