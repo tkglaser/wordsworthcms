@@ -4,3 +4,7 @@ packages/
 com.vorwardit.wordsworthcms/obj/
 com.vorwardit.wordsworthcms/node_modules/
 *.user
+com.vorwardit.wordsworthcms/lib/pfb-wizard/Models/*.js
+com.vorwardit.wordsworthcms/lib/pfb-wizard/Services/*.js
+com.vorwardit.wordsworthcms/lib/pfb-wizard/Controllers/*.js
+com.vorwardit.wordsworthcms/lib/pfb-wizard/app.js
