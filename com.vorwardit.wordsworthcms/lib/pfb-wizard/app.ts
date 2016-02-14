@@ -100,9 +100,7 @@ module pfb {
                 .otherwise({
                     redirectTo: '/'
                 });
-            if (PFBConfig.html5Routing && PFBConfig.html5Routing.valueOf()) {
-                this.locationProvider.html5Mode(true);
-            }
+            this.locationProvider.html5Mode(PFBConfig.html5Routing);
         }
     }
 

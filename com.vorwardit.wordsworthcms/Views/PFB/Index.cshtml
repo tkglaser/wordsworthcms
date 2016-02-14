@@ -3,7 +3,7 @@
     var PFBConfig = {
         apiEndpoint: '@Model.APIEndpoint',
         clientId: '@Model.ClientId',
-        html5Routing: '@Model.Html5'
+        html5Routing: @(Model.Html5 ? "true" : "false")
     }
 </script>
 
