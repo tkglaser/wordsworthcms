@@ -37,11 +37,11 @@ module pfb {
                     templateUrl: '/views/Order.html',
                     controller: 'OrderController as ctrl',
                     resolve: {
-                        offer: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.offer($route.current.params.requestId, $route.current.params.offerId);
+                        offer: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.offer($route.current.params.requestId, $route.current.params.offerId);
                         }],
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
@@ -49,11 +49,11 @@ module pfb {
                     templateUrl: '/views/OrderConfirm.html',
                     controller: 'OrderConfirmController as ctrl',
                     resolve: {
-                        offer: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.offer($route.current.params.requestId, $route.current.params.offerId);
+                        offer: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.offer($route.current.params.requestId, $route.current.params.offerId);
                         }],
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
@@ -61,8 +61,8 @@ module pfb {
                     templateUrl: '/views/Booking.html',
                     controller: 'BookingController as ctrl',
                     resolve: {
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
@@ -70,8 +70,8 @@ module pfb {
                     templateUrl: '/views/CannotQuote.html',
                     controller: 'CannotQuoteController as ctrl',
                     resolve: {
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
@@ -79,8 +79,8 @@ module pfb {
                     templateUrl: '/views/OfferExpired.html',
                     controller: 'OfferExpiredController as ctrl',
                     resolve: {
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
@@ -88,8 +88,8 @@ module pfb {
                     templateUrl: '/views/SpecialRequest.html',
                     controller: 'SpecialRequestController as ctrl',
                     resolve: {
-                        request: ['requestService', '$route', function (requestService, $route) {
-                            return requestService.get($route.current.params.requestId);
+                        request: ['RequestService', '$route', function (RequestService, $route) {
+                            return RequestService.get($route.current.params.requestId);
                         }]
                     }
                 })
