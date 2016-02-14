@@ -16,7 +16,15 @@ module pfb.Services {
         }
 
         book(data: Models.IBooking): ng.IPromise<any> {
-            return this.httpService.post(PFBConfig.apiEndpoint + 'booking', data);
+            var deferred = this.qService.defer();
+            this.httpService.post(PFBConfig.apiEndpoint + 'booking', data).then(
+                (result) => {
+                    deferred.resolve(result.data);
+                },
+                (error) => {
+                    deferred.reject(error);
+                });
+            return deferred.promise;
         }
 
         pay(data: Models.IPayment): ng.IPromise<any> {
