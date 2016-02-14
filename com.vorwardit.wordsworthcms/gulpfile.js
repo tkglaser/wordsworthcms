@@ -39,7 +39,7 @@ gulp.task('min:js:admin', function () {
 gulp.task('min:js:pfb', ['min:html:pfb'], function () {
     return gulp.src(['lib/pfb-wizard/pfb-views.js', 'lib/pfb-wizard/**/*.js', '!lib/pfb-wizard/**/*.min.js'], { base: "." })
     .pipe(concat('lib/pfb-wizard/pfb.min.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest("."));
 });
 
