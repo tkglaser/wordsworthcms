@@ -22,8 +22,8 @@
             request: any,
             offer: any
         ) {
-            this.offer = offer.data;
-            this.request = request.data;
+            this.offer = offer;
+            this.request = request;
             this.name = this.request.name;
             this.requestId = this.routeParamsService["requestId"];
             this.offerId = this.routeParamsService["offerId"];

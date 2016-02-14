@@ -11,7 +11,7 @@
             private routeParamsService: ng.route.IRouteParamsService,
             request: any
         ) {
-            this.request = request.data;
+            this.request = request;
             this.requestId = this.routeParamsService["requestId"];
             this.locationService.search('r', null);
             this.locationService.search('s', null);

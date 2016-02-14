@@ -13,7 +13,7 @@
             private requestService: Services.IRequestService,
             request: any
         ) {
-            this.request = request.data;
+            this.request = request;
             this.requestId = this.routeParamsService["requestId"];
 
             // TODO: Analytics

@@ -25,8 +25,8 @@
             request: any,
             offer: any
         ) {
-            this.offer = offer.data;
-            this.request = request.data;
+            this.offer = offer;
+            this.request = request;
 
             this.name = this.request.name;
             this.email = this.request.email;
