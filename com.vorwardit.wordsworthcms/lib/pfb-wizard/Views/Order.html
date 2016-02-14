@@ -118,6 +118,7 @@
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <button type="button" class="btn btn-success btn-block btn-lg"
+                                            ng-disabled="!ctrl.canSubmit()"
                                             ng-click="ctrl.submit()">
                                         Weiter <span class="fa fa-chevron-right"></span>
                                     </button>

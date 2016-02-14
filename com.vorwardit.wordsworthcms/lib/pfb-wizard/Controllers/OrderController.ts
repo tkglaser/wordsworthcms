@@ -50,9 +50,13 @@
             $("body,html").scrollTop(0);
         }
 
+        canSubmit(): boolean {
+            return this.form.$valid;
+        }
+
         submit(): void {
             this.submitted = true;
-            if (this.form.$valid) {
+            if (this.canSubmit()) {
                 var newData: Models.IRequest = {
                     requestId: this.requestId,
                     name: this.name,
@@ -64,7 +68,7 @@
                 }
                 this.requestService.update(newData).then(
                     () => {
-                        this.locationService.path('/orderconfirm/' + this.requestId + '/' + this.offerId + '/' + this.form["paymode"].$modelValue)
+                        this.locationService.path('/orderconfirm/' + this.requestId + '/' + this.offerId + '/' + this.paymode)
                     },
                     () => {
                         // TODO
