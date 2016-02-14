@@ -7,78 +7,78 @@
             </div>
             <div class="panel-body">
                 <p class="pull-right hidden-print" role="group">
-                    <button class="btn btn-primary btn-xs" type="button" ng-click="showMailForm()"><span class="fa fa-mail-forward"></span> Per Mail senden...</button>
-                    <button class="btn btn-info btn-xs" type="button" ng-click="print()"><span class="fa fa-print"></span> Ausdrucken</button>
+                    <button class="btn btn-primary btn-xs" type="button" ng-click="ctrl.showMailForm()"><span class="fa fa-mail-forward"></span> Per Mail senden...</button>
+                    <button class="btn btn-info btn-xs" type="button" ng-click="ctrl.print()"><span class="fa fa-print"></span> Ausdrucken</button>
                 </p>
 
-                <p ng-if="request.status == 'Booked' && request.outstanding > 0">
+                <p ng-if="ctrl.request.status == 'Booked' && ctrl.request.outstanding > 0">
                     Ihnen sollte in den n&auml;chsten Minuten eine Best&auml;tigung per EMail zugehen.
-                    Der Rechnungsbetrag in Höhe von <strong>{{request.outstanding | currency}}</strong> wird erst fällig, wenn wir Ihnen den Auftrag verbindlich bestätigt haben.
+                    Der Rechnungsbetrag in Höhe von <strong>{{ctrl.request.outstanding | currency}}</strong> wird erst fällig, wenn wir Ihnen den Auftrag verbindlich bestätigt haben.
                     Dazu erhalten Sie von uns eine separate Auftragsbestätigung.
                 </p>
-                <p ng-if="request.status == 'Booked' && request.outstanding == 0">
+                <p ng-if="ctrl.request.status == 'Booked' && ctrl.request.outstanding == 0">
                     Ihnen sollte in den n&auml;chsten Minuten eine Best&auml;tigung per EMail zugehen.
                     Bitte beachten Sie, dass der Vertrag erst mit Zusendung der Auftragsbestätigung zustande kommt.
                 </p>
                 <div class="clearfix"></div>
-                <div class="panel panel-default pull-right ng-cloak" ng-show="isMailFormShown" style="max-width:300px;">
+                <div class="panel panel-default pull-right ng-cloak" ng-show="ctrl.isMailFormShown" style="max-width:300px;">
                     <div class="panel-body">
-                        <div ng-hide="mailSendSuccess" class="input-group input-group-sm">
-                            <input type="text" class="form-control input-sm" placeholder="Email" ng-model="emailForSending" />
+                        <div ng-hide="ctrl.mailSendSuccess" class="input-group input-group-sm">
+                            <input type="text" class="form-control input-sm" placeholder="Email" ng-model="ctrl.emailForSending" />
                             <span class="input-group-btn">
-                                <button class="btn btn-primary btn-sm" type="button" ng-disabled="emailBeingSent" ng-click="sendMail()">
-                                    <span ng-hide="emailBeingSent"><span class="fa fa-envelope"></span> Senden</span>
-                                    <span ng-show="emailBeingSent"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                <button class="btn btn-primary btn-sm" type="button" ng-disabled="ctrl.emailBeingSent" ng-click="ctrl.sendMail()">
+                                    <span ng-hide="ctrl.emailBeingSent"><span class="fa fa-envelope"></span> Senden</span>
+                                    <span ng-show="ctrl.emailBeingSent"><span class="fa fa-fw fa-cog fa-spin"></span></span>
                                 </button>
                             </span>
                         </div><!-- /input-group -->
-                        <div ng-show="mailSendSuccess" class="text-success">Email erfolgreich versandt!</div>
+                        <div ng-show="ctrl.mailSendSuccess" class="text-success">Email erfolgreich versandt!</div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="panel" ng-class="(request.outstanding > 0) ? 'panel-warning' : 'panel-success'">
+                <div class="panel" ng-class="(ctrl.request.outstanding > 0) ? 'panel-warning' : 'panel-success'">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Ihre Buchung bei PAUL f&auml;hrt Bus. Nummer: <strong>{{request.number}}</strong></h2>
+                        <h2 class="panel-title">Ihre Buchung bei PAUL f&auml;hrt Bus. Nummer: <strong>{{ctrl.request.number}}</strong></h2>
                     </div>
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-sm-5">
                                 <h4>Rechnungsadresse</h4>
                                 <address>
-                                    <span ng-if="request.organisation"><strong>{{request.organisation}}</strong> <br /> z.Hd. </span>
-                                    <strong>{{request.name}}</strong><br />
-                                    {{request.address}}<br />
-                                    {{request.postcode}} {{request.town}}
+                                    <span ng-if="ctrl.request.organisation"><strong>{{ctrl.request.organisation}}</strong> <br /> z.Hd. </span>
+                                    <strong>{{ctrl.request.name}}</strong><br />
+                                    {{ctrl.request.address}}<br />
+                                    {{ctrl.request.postcode}} {{ctrl.request.town}}
                                 </address>
                                 <h4>Kontakt</h4>
-                                <div>Email: <strong>{{request.email}}</strong></div>
+                                <div>Email: <strong>{{ctrl.request.email}}</strong></div>
                             </div>
                             <div class="col-sm-7">
                                 <h4>Reisedaten</h4>
                                 <div class="row">
                                     <div class="col-xs-2">Fahrt:</div>
                                     <div class="col-xs-10">
-                                        Von <strong>{{request.startName}}</strong> nach <strong>{{request.targetName}}</strong>
+                                        Von <strong>{{ctrl.request.startName}}</strong> nach <strong>{{ctrl.request.targetName}}</strong>
                                     </div>
-                                    <div class="col-xs-offset-2 col-xs-10" ng-show="request.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
+                                    <div class="col-xs-offset-2 col-xs-10" ng-show="ctrl.request.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
                                     <div class="col-xs-2">Hinfahrt:</div>
                                     <div class="col-xs-10">
-                                        Am <strong>{{request.startDate | date}}</strong>,
-                                        <span ng-show="request.startTimeMode == 'Departure'">Abfahrt <strong>{{request.startTimeDepart}}</strong> (Ankunft ca. {{request.startTimeArrive}})</span>
-                                        <span ng-show="request.startTimeMode == 'Arrival'">Ankunft <strong>{{request.startTimeArrive}}</strong> (Abfahrt ca. {{request.startTimeDepart}})</span>
+                                        Am <strong>{{ctrl.request.startDate | date}}</strong>,
+                                        <span ng-show="ctrl.request.startTimeMode == 'Departure'">Abfahrt <strong>{{ctrl.request.startTimeDepart}}</strong> (Ankunft ca. {{ctrl.request.startTimeArrive}})</span>
+                                        <span ng-show="ctrl.request.startTimeMode == 'Arrival'">Ankunft <strong>{{ctrl.request.startTimeArrive}}</strong> (Abfahrt ca. {{ctrl.request.startTimeDepart}})</span>
                                     </div>
                                     <div class="col-xs-2">R&uuml;ckfahrt:</div>
                                     <div class="col-xs-10">
-                                        <span ng-show="request.tripType == 'OneWay'"><strong>Keine R&uuml;ckfahrt</strong></span>
-                                        <span ng-show="request.tripType == 'Return'">
-                                            Am <strong>{{request.returnDate | date}}</strong>,
-                                            <span ng-show="request.returnTimeMode == 'Departure'">R&uuml;ckfahrt <strong>{{request.returnTimeDepart}}</strong> (R&uuml;ckkunft ca. {{request.returnTimeArrive}})</span>
-                                            <span ng-show="request.returnTimeMode == 'Arrival'">R&uuml;ckkunft <strong>{{request.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{request.returnTimeDepart}})</span>
+                                        <span ng-show="ctrl.request.tripType == 'OneWay'"><strong>Keine R&uuml;ckfahrt</strong></span>
+                                        <span ng-show="ctrl.request.tripType == 'Return'">
+                                            Am <strong>{{ctrl.request.returnDate | date}}</strong>,
+                                            <span ng-show="ctrl.request.returnTimeMode == 'Departure'">R&uuml;ckfahrt <strong>{{ctrl.request.returnTimeDepart}}</strong> (R&uuml;ckkunft ca. {{ctrl.request.returnTimeArrive}})</span>
+                                            <span ng-show="ctrl.request.returnTimeMode == 'Arrival'">R&uuml;ckkunft <strong>{{ctrl.request.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{ctrl.request.returnTimeDepart}})</span>
                                         </span>
                                     </div>
                                     <div class="col-xs-2">Personen:</div>
                                     <div class="col-xs-10">
-                                        <strong>{{request.passengers}}</strong>
+                                        <strong>{{ctrl.request.passengers}}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -93,34 +93,34 @@
                         </tr>
                         <tr>
                             <td>
-                                <p style="font-weight:bold; font-size:large">{{request.productName}}</p>
+                                <p style="font-weight:bold; font-size:large">{{ctrl.request.productName}}</p>
                             </td>
                             <td>
-                                <div class="text-center" ng-bind-html="request.safeProductDescription"></div>
+                                <div class="text-center" ng-bind-html="ctrl.request.safeProductDescription"></div>
                             </td>
                             <td class="text-right">
-                                {{request.price | currency}}
+                                {{ctrl.request.price | currency}}
                             </td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="2"><strong>Zwischensumme:</strong></td>
-                            <td class="text-right">{{request.price | currency}}</td>
+                            <td class="text-right">{{ctrl.request.price | currency}}</td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="2">enthalten 19% MwSt.:</td>
-                            <td class="text-right">{{request.price * 0.19 | currency}}</td>
+                            <td class="text-right">{{ctrl.request.price * 0.19 | currency}}</td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="2"><strong>Gesamtpreis inkl. MwSt.:</strong></td>
-                            <td class="text-right"><strong>{{request.price | currency}}</strong></td>
+                            <td class="text-right"><strong>{{ctrl.request.price | currency}}</strong></td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="2">Bereits gezahlt:</td>
-                            <td class="text-right">{{request.paid | currency}}</td>
+                            <td class="text-right">{{ctrl.request.paid | currency}}</td>
                         </tr>
                         <tr>
                             <td class="text-right" colspan="2">Differenz:</td>
-                            <td class="text-right">{{request.outstanding | currency}}</td>
+                            <td class="text-right">{{ctrl.request.outstanding | currency}}</td>
                         </tr>
                     </table>
                 </div>

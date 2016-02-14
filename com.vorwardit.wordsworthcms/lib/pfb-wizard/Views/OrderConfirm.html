@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <div class="col-md-12">
 
-        <div class="panel panel-primary ng-cloak" ng-show="!redirecting">
+        <div class="panel panel-primary ng-cloak" ng-show="!ctrl.redirecting">
             <div class="panel-heading">
                 <h1 class="panel-title">Bestellung aufgeben</h1>
             </div>
@@ -12,54 +12,54 @@
                 </p>
                 <div class="row">
                     <div class="col-sm-5">
-                        <h4>Rechnungsadresse <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Rechnungsadresse <small><a href="#/order/{{ctrl.requestId}}/{{ctrl.offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <address>
-                            <span ng-if="request.organisation"><strong>{{request.organisation}}</strong> <br /> z.Hd. </span>
-                            <strong>{{request.name}}</strong><br />
-                            {{request.address}}<br />
-                            {{request.postcode}} {{request.town}}
+                            <span ng-if="ctrl.request.organisation"><strong>{{ctrl.request.organisation}}</strong> <br /> z.Hd. </span>
+                            <strong>{{ctrl.request.name}}</strong><br />
+                            {{ctrl.request.address}}<br />
+                            {{ctrl.request.postcode}} {{ctrl.request.town}}
                         </address>
-                        <h4>Kontakt <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
-                        <div>Email: <strong>{{request.email}}</strong></div>
+                        <h4>Kontakt <small><a href="#/order/{{ctrl.requestId}}/{{ctrl.offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <div>Email: <strong>{{ctrl.request.email}}</strong></div>
                     </div>
 
                     <div class="col-sm-7">
-                        <h4>Reisedaten <small><a href="#/request?r={{requestId}}&s=o"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <h4>Reisedaten <small><a href="#/request?r={{ctrl.requestId}}&s=o"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
                         <div class="row" style="margin-bottom:18px;">
                             <div class="col-xs-2">Fahrt:</div>
                             <div class="col-xs-10">
-                                Von <strong>{{request.startName}}</strong> nach <strong>{{request.targetName}}</strong>
+                                Von <strong>{{ctrl.request.startName}}</strong> nach <strong>{{ctrl.request.targetName}}</strong>
                             </div>
-                            <div class="col-xs-offset-2 col-xs-10" ng-show="request.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
+                            <div class="col-xs-offset-2 col-xs-10" ng-show="ctrl.request.busShouldStay"><i class="fa fa-info-circle"></i> Bus bleibt vor Ort</div>
                             <div class="col-xs-2">Hinfahrt:</div>
                             <div class="col-xs-10">
-                                Am <strong>{{request.startDate | date}}</strong>,
-                                <span ng-show="request.startTimeMode == 'Departure'">Abfahrt <strong>{{request.startTimeDepart}}</strong> (Ankunft ca. {{request.startTimeArrive}})</span>
-                                <span ng-show="request.startTimeMode == 'Arrival'">Ankunft <strong>{{request.startTimeArrive}}</strong> (Abfahrt ca. {{request.startTimeDepart}})</span>
+                                Am <strong>{{ctrl.request.startDate | date}}</strong>,
+                                <span ng-show="ctrl.request.startTimeMode == 'Departure'">Abfahrt <strong>{{ctrl.request.startTimeDepart}}</strong> (Ankunft ca. {{ctrl.request.startTimeArrive}})</span>
+                                <span ng-show="ctrl.request.startTimeMode == 'Arrival'">Ankunft <strong>{{ctrl.request.startTimeArrive}}</strong> (Abfahrt ca. {{ctrl.request.startTimeDepart}})</span>
                             </div>
                             <div class="col-xs-2">R&uuml;ckfahrt:</div>
                             <div class="col-xs-10">
-                                <span ng-show="request.tripType == 'OneWay'"><strong>Keine R&uuml;ckfahrt</strong></span>
-                                <span ng-show="request.tripType == 'Return'">
-                                    Am <strong>{{request.returnDate | date}}</strong>,
-                                    <span ng-show="request.returnTimeMode == 'Departure'">R&uuml;ckfahrt <strong>{{request.returnTimeDepart}}</strong> (R&uuml;ckkunft ca. {{request.returnTimeArrive}})</span>
-                                    <span ng-show="request.returnTimeMode == 'Arrival'">R&uuml;ckkunft <strong>{{request.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{request.returnTimeDepart}})</span>
+                                <span ng-show="ctrl.request.tripType == 'OneWay'"><strong>Keine R&uuml;ckfahrt</strong></span>
+                                <span ng-show="ctrl.request.tripType == 'Return'">
+                                    Am <strong>{{ctrl.request.returnDate | date}}</strong>,
+                                    <span ng-show="ctrl.request.returnTimeMode == 'Departure'">R&uuml;ckfahrt <strong>{{ctrl.request.returnTimeDepart}}</strong> (R&uuml;ckkunft ca. {{ctrl.request.returnTimeArrive}})</span>
+                                    <span ng-show="ctrl.request.returnTimeMode == 'Arrival'">R&uuml;ckkunft <strong>{{ctrl.request.returnTimeArrive}}</strong> (R&uuml;ckfahrt ca. {{ctrl.request.returnTimeDepart}})</span>
                                 </span>
                             </div>
                             <div class="col-xs-2">Personen:</div>
                             <div class="col-xs-10">
-                                <strong>{{request.passengers}}</strong>
+                                <strong>{{ctrl.request.passengers}}</strong>
                             </div>
                         </div>
-                        <h4>Zahlungsweise <small><a href="#/order/{{requestId}}/{{offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
-                        <div ng-show="paymode == 'later'"><strong>Sp&auml;ter bezahlen</strong></div>
-                        <div ng-hide="paymode == 'later'"><strong>Jetzt bezahlen</strong></div>
+                        <h4>Zahlungsweise <small><a href="#/order/{{ctrl.requestId}}/{{ctrl.offerId}}"><span class="fa fa-pencil"></span> Bearbeiten</a></small></h4>
+                        <div ng-show="ctrl.paymode == 'later'"><strong>Sp&auml;ter bezahlen</strong></div>
+                        <div ng-hide="ctrl.paymode == 'later'"><strong>Jetzt bezahlen</strong></div>
                     </div>
                 </div>
                 <p>
-                    <div class="checkbox" ng-class="acceptedStyle()">
+                    <div class="checkbox" ng-class="ctrl.acceptedStyle()">
                         <label>
-                            <input type="checkbox" ng-model="accepted" /> Ich habe die
+                            <input type="checkbox" ng-model="ctrl.accepted" /> Ich habe die
                             <a href="http://static.paulfaehrtbus.de/agb" target="_blank">AGBs <span class="glyphicon glyphicon-new-window"></span></a> der Magnitude Internet GmbH
                             gelesen und erkl&auml;re hiermit mein Einverst&auml;ndnis.
                         </label>
@@ -73,31 +73,31 @@
                     </tr>
                     <tr>
                         <td>
-                            <p style="font-weight:bold; font-size:large">{{offer.productName}}</p>
+                            <p style="font-weight:bold; font-size:large">{{ctrl.offer.productName}}</p>
                         </td>
                         <td>
-                            <div class="text-center" ng-bind-html="offer.safeProductDescription"></div>
+                            <div class="text-center" ng-bind-html="ctrl.offer.safeProductDescription"></div>
                         </td>
                         <td class="text-right">
-                            {{offer.price | currency}}
+                            {{ctrl.offer.price | currency}}
                         </td>
                     </tr>
                     <tr>
                         <td class="text-right" colspan="2"><strong>Zwischensumme:</strong></td>
-                        <td class="text-right">{{offer.price | currency}}</td>
+                        <td class="text-right">{{ctrl.offer.price | currency}}</td>
                     </tr>
                     <tr>
                         <td class="text-right" colspan="2">enthalten 19% MwSt.:</td>
-                        <td class="text-right">{{offer.price * 0.19 | currency}}</td>
+                        <td class="text-right">{{ctrl.offer.price * 0.19 | currency}}</td>
                     </tr>
                     <tr>
                         <td class="text-right lead" colspan="2"><strong>Gesamtpreis inkl. MwSt.:</strong></td>
-                        <td class="text-right lead"><strong>{{offer.price | currency}}</strong></td>
+                        <td class="text-right lead"><strong>{{ctrl.offer.price | currency}}</strong></td>
                     </tr>
                 </table>
-                <div ng-show="submitted && !accepted" class="text-danger"><strong>Bitte stimmen Sie unseren AGBs zu (siehe oben)!</strong></div>
+                <div ng-show="ctrl.submitted && !ctrl.accepted" class="text-danger"><strong>Bitte stimmen Sie unseren AGBs zu (siehe oben)!</strong></div>
                 <button type="button" class="btn btn-success btn-block btn-lg"
-                        ng-click="submit()">
+                        ng-click="ctrl.submit()">
                     Jetzt verbindlich buchen
                 </button>
             </div>
@@ -106,7 +106,7 @@
     </div>
 </div>
 
-<div class="row ng-cloak" ng-show="redirecting">
+<div class="row ng-cloak" ng-show="ctrl.redirecting">
     <div class="col-sm-6 col-sm-offset-3">
         <div class="panel panel-default">
             <div class="panel-body text-center">
