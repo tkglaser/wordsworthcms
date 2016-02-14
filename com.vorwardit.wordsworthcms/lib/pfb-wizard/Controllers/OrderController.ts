@@ -8,6 +8,14 @@
 
         form: ng.IFormController;
         submitted: boolean = false;
+        
+        name: string;
+        email: string;
+        organisation: string;
+        street: string;
+        town: string;
+        postcode: string;
+        paymode: string = 'later';
 
         static $inject = ['$location', '$routeParams', '$sce', 'RequestService', 'request', 'offer'];
         constructor(
@@ -21,13 +29,13 @@
             this.offer = offer;
             this.request = request;
 
-            this.form["name"] = this.request.name;
-            this.form["email"] = this.request.email;
-            this.form["organisation"] = this.request.organisation;
-            this.form["street"] = this.request.address;
-            this.form["town"] = this.request.town;
-            this.form["postcode"] = this.request.postcode;
-            this.form["paymode"] = 'later';
+            this.name = this.request.name;
+            this.email = this.request.email;
+            this.organisation = this.request.organisation;
+            this.street = this.request.address;
+            this.town = this.request.town;
+            this.postcode = this.request.postcode;
+            this.paymode = 'later';
 
             this.requestId = this.routeParamsService["requestId"];
             this.offerId = this.routeParamsService["offerId"];
@@ -42,72 +50,17 @@
             $("body,html").scrollTop(0);
         }
 
-        nameValidClass(): string {
-            if (!this.form["name"].$dirty && !this.submitted) {
-                return '';
-            }
-            if (this.form["name"].$valid) {
-                return 'has-success';
-            } else {
-                return 'has-error';
-            }
-        }
-
-        emailValidClass(): string {
-            if (!this.form["email"].$dirty && !this.submitted) {
-                return '';
-            }
-            if (this.form["email"].$valid) {
-                return 'has-success';
-            } else {
-                return 'has-error';
-            }
-        }
-
-        streetValidClass(): string {
-            if (!this.form["street"].$dirty && !this.submitted) {
-                return '';
-            }
-            if (this.form["street"].$valid) {
-                return 'has-success';
-            } else {
-                return 'has-error';
-            }
-        }
-
-        townValidClass(): string {
-            if (!this.form["town"].$dirty && !this.submitted) {
-                return '';
-            }
-            if (this.form["town"].$valid) {
-                return 'has-success';
-            } else {
-                return 'has-error';
-            }
-        }
-
-        postcodeValidClass(): string {
-            if (!this.form["postcode"].$dirty && !this.submitted) {
-                return '';
-            }
-            if (this.form["postcode"].$valid) {
-                return 'has-success';
-            } else {
-                return 'has-error';
-            }
-        }
-
         submit(): void {
             this.submitted = true;
             if (this.form.$valid) {
                 var newData: Models.IRequest = {
                     requestId: this.requestId,
-                    name: this.form["name"].$modelValue,
-                    email: this.form["email"].$modelValue,
-                    organisation: this.form["organisation"].$modelValue,
-                    address: this.form["street"].$modelValue,
-                    town: this.form["town"].$modelValue,
-                    postcode: this.form["postcode"].$modelValue
+                    name: this.name,
+                    email: this.email,
+                    organisation: this.organisation,
+                    address: this.street,
+                    town: this.town,
+                    postcode: this.postcode
                 }
                 this.requestService.update(newData).then(
                     () => {

@@ -55,41 +55,41 @@
                         </div>
 
                         <h4>Ihre Rechnungsadresse</h4>
-                        <form class="form-horizontal form-condensed" ng-form="ctrl.form">
-                            <div class="form-group" ng-class="ctrl.nameValidClass()">
+                        <div class="form-horizontal form-condensed" ng-form="ctrl.form">
+                            <div class="form-group" >
                                 <label class="col-sm-3 col-md-2">Name *</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="text" class="form-control" name="name" placeholder="Ihr Name" ng-model="name" required />
+                                    <input type="text" class="form-control" name="name" placeholder="Ihr Name" ng-model="ctrl.name" required />
                                 </div>
                             </div>
-                            <div class="form-group" ng-class="ctrl.emailValidClass()">
+                            <div class="form-group" >
                                 <label class="col-sm-3 col-md-2">Email *</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="email" class="form-control" name="email" placeholder="Ihre Email" ng-model="email" required />
+                                    <input type="email" class="form-control" name="email" placeholder="Ihre Email" ng-model="ctrl.email" required />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 col-md-2">Organisation</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="text" class="form-control" name="organisation" placeholder="Ihre Firma oder Arbeitgeber" ng-model="organisation" />
+                                    <input type="text" class="form-control" name="organisation" placeholder="Ihre Firma oder Arbeitgeber" ng-model="ctrl.organisation" />
                                 </div>
                             </div>
-                            <div class="form-group" ng-class="ctrl.streetValidClass()">
+                            <div class="form-group" >
                                 <label class="col-sm-3 col-md-2">Strasse *</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="text" class="form-control" name="street" ng-model="street" placeholder="Ihre Strasse" required />
+                                    <input type="text" class="form-control" name="street" ng-model="ctrl.street" placeholder="Ihre Strasse" required />
                                 </div>
                             </div>
-                            <div class="form-group" ng-class="ctrl.townValidClass()">
+                            <div class="form-group" >
                                 <label class="col-sm-3 col-md-2">Stadt *</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="text" class="form-control" name="town" ng-model="town" placeholder="Ihre Stadt" required />
+                                    <input type="text" class="form-control" name="town" ng-model="ctrl.town" placeholder="Ihre Stadt" required />
                                 </div>
                             </div>
-                            <div class="form-group" ng-class="ctrl.postcodeValidClass()">
+                            <div class="form-group" >
                                 <label class="col-sm-3 col-md-2">Postleitzahl&nbsp;*</label>
                                 <div class="col-sm-9 col-md-10">
-                                    <input type="text" class="form-control" name="postcode" ng-model="postcode" placeholder="Ihre Postleitzahl" required />
+                                    <input type="text" class="form-control" name="postcode" ng-model="ctrl.postcode" placeholder="Ihre Postleitzahl" required />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -97,19 +97,19 @@
                                 <div class="col-sm-9 col-md-10">
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="paymode" value="later" />
+                                            <input type="radio" ng-model="ctrl.paymode" value="later" />
                                             Sp&auml;ter bezahlen
                                         </label>
-                                        <div ng-show="paymode == 'later'" class="animate-show" style="margin-left:25px">
+                                        <div ng-show="ctrl.paymode == 'later'" class="animate-show" style="margin-left:25px">
                                             <small>Buchen sie jetzt und bezahlen sie bis zu 7 Tage vor Ihrer Reise</small>
                                         </div>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" ng-model="paymode" value="now" />
+                                            <input type="radio" ng-model="ctrl.paymode" value="now" />
                                             Jetzt bezahlen
                                         </label>
-                                        <div ng-show="paymode == 'now'" class="animate-show" style="margin-left:25px">
+                                        <div ng-show="ctrl.paymode == 'now'" class="animate-show" style="margin-left:25px">
                                             <small>Zahlen sie jetzt sofort per <img src="https://www.paypal.com/de_DE/i/logo/PayPal_mark_37x23.gif"> oder Lastschrift</small>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
