@@ -1,71 +1,74 @@
-﻿<div class="ng-cloak landingform-container" ng-style="style()" viewport-height>
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1">
-            <div class="text-on-image">
-                <h1 class="text-center">Reisebus mieten leicht gemacht</h1>
-                <h2 class="text-center">Über PAUL fährt Bus können Sie schnell und bequem einen Bus für Ihre Reise buchen.</h2>
-            </div>
-            <form name="ctrl.Request">
-                <div class="panel panel-default">
-                    <!--<div class="panel-heading"><p class="panel-title text-center">Geben sie Ihren Abfahrtsort und Zielort ein</p></div>-->
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-sm-4 col-md-4">
-                                <div class="form-group-lg has-feedback"
-                                     ng-class="ctrl.startErrorClass()">
-                                    <input class="form-control input-lg"
-                                           type="text"
-                                           id="StartName"
-                                           name="StartName"
-                                           ng-model="StartName"
-                                           ng-keyup="ctrl.onStartNameEdit()"
-                                           placeholder="Abfahrtsort (z.B. Berlin)"
-                                           required
-                                           autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-error'"></span>
-                                </div>
-                                <div class="list-group" ng-show="ctrl.startPredictions.length > 0">
-                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.startPredictions" ng-click="ctrl.setStartPlace(prediction)">
-                                        {{prediction.description}}
-                                    </a>
-                                </div>
+﻿<div class="row">
+    <div class="col-lg-12">
+        <!--<div class="text-on-image">
+            <h1 class="text-center">Reisebus mieten leicht gemacht</h1>
+            <h2 class="text-center">Über PAUL fährt Bus können Sie schnell und bequem einen Bus für Ihre Reise buchen.</h2>
+        </div>-->
+        <div class="alert alert-info">
+            <strong>
+                <i class="fa fa-info-circle"></i> Willkommen beim Angebotsassistenten.
+            </strong>
+            Starten Sie, indem Sie Abfahrtsort und Zielort Ihrer Reise eingeben.
+        </div>
+        <form name="ctrl.Request">
+            <div class="panel panel-default">
+                <!--<div class="panel-heading"><p class="panel-title text-center">Geben sie Ihren Abfahrtsort und Zielort ein</p></div>-->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4">
+                            <div class="form-group-lg has-feedback"
+                                    ng-class="ctrl.startErrorClass()">
+                                <input class="form-control input-lg"
+                                        type="text"
+                                        id="StartName"
+                                        name="StartName"
+                                        ng-model="StartName"
+                                        ng-keyup="ctrl.onStartNameEdit()"
+                                        placeholder="Abfahrtsort (z.B. Berlin)"
+                                        required
+                                        autocomplete="off" />
+                                <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-success'"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.startErrorClass() == 'has-error'"></span>
                             </div>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="form-group-lg has-feedback"
-                                     ng-class="ctrl.targetErrorClass()">
-                                    <input class="form-control input-lg"
-                                           type="text"
-                                           id="TargetName"
-                                           name="TargetName"
-                                           ng-model="TargetName"
-                                           ng-keyup="ctrl.onTargetNameEdit()"
-                                           placeholder="Zielort (z.B. Hamburg)"
-                                           required
-                                           autocomplete="off" />
-                                    <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-success'"></span>
-                                    <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-error'"></span>
-                                </div>
-                                <div class="list-group" ng-show="ctrl.targetPredictions.length > 0">
-                                    <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.targetPredictions" ng-click="ctrl.setTargetPlace(prediction)">
-                                        {{prediction.description}}
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="ctrl.submitMap()" ng-disabled="ctrl.mapLoading">
-                                    <span ng-show="ctrl.mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
-                                    <span ng-hide="ctrl.mapLoading">Angebot kalkulieren</span>
-                                </button>
-                                <small class="lead-out">Keine Angst. Das Angebot ist unverbindlich.</small>
+                            <div class="list-group" ng-show="ctrl.startPredictions.length > 0">
+                                <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.startPredictions" ng-click="ctrl.setStartPlace(prediction)">
+                                    {{prediction.description}}
+                                </a>
                             </div>
                         </div>
-                        <div ng-if="ctrl.gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{ctrl.gacValidationMessage}}</div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="form-group-lg has-feedback"
+                                    ng-class="ctrl.targetErrorClass()">
+                                <input class="form-control input-lg"
+                                        type="text"
+                                        id="TargetName"
+                                        name="TargetName"
+                                        ng-model="TargetName"
+                                        ng-keyup="ctrl.onTargetNameEdit()"
+                                        placeholder="Zielort (z.B. Hamburg)"
+                                        required
+                                        autocomplete="off" />
+                                <span class="glyphicon glyphicon-ok form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-success'"></span>
+                                <span class="glyphicon glyphicon-remove form-control-feedback ng-cloak" ng-show="ctrl.targetErrorClass() == 'has-error'"></span>
+                            </div>
+                            <div class="list-group" ng-show="ctrl.targetPredictions.length > 0">
+                                <a style="cursor:pointer" class="list-group-item" ng-repeat="prediction in ctrl.targetPredictions" ng-click="ctrl.setTargetPlace(prediction)">
+                                    {{prediction.description}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <button class="btn btn-primary btn-lg btn-block" type="button" ng-click="ctrl.submitMap()" ng-disabled="ctrl.mapLoading">
+                                <span ng-show="ctrl.mapLoading"><span class="fa fa-fw fa-cog fa-spin"></span></span>
+                                <span ng-hide="ctrl.mapLoading">Angebot kalkulieren</span>
+                            </button>
+                            <small class="lead-out">Keine Angst. Das Angebot ist unverbindlich.</small>
+                        </div>
                     </div>
+                    <div ng-if="ctrl.gacValidationMessage.length > 0" class="alert alert-warning"><span class="fa fa-exclamation-circle"></span> {{ctrl.gacValidationMessage}}</div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
-<div class="text-center"><span id="downArrow" ng-click="ctrl.onDownArrowClick()" class="fa fa-chevron-down fa-5x" style="color:#fff;text-shadow: 0 0 5px #000;cursor:pointer"></span></div>
 <!-- /.row -->

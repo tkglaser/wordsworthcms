@@ -346,6 +346,7 @@
     <Compile Include="ViewModels\UrlViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\bigLoader.gif" />
     <Content Include="Content\template\main\bootstrap\bootstrap.css" />
     <Content Include="Content\template\main\bootstrap\bootstrap.min.css" />
     <Content Include="Content\template\main\bootstrap\variables.css" />
