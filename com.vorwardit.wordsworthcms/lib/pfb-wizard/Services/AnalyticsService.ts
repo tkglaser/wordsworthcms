@@ -16,18 +16,24 @@
         
         pageview(page?: string): void {
             if (page) {
-                this.windowService["ga"]('send', 'pageview', { page: page });
+                this.ga('send', 'pageview', { page: page });
             } else {
-                this.windowService["ga"]('send', 'pageview', { page: this.locationService.url() });
+                this.ga('send', 'pageview', { page: this.locationService.url() });
             }
         }
 
         buttonclick(label: string): void {
-            this.windowService["ga"]('send', 'event', 'button', 'click', label);
+            this.ga('send', 'event', 'button', 'click', label);
         }
 
         offersdisplayed(): void {
-            this.windowService["ga"]('send', 'event', 'quotation', 'display', 'offers');
+            this.ga('send', 'event', 'quotation', 'display', 'offers');
+        }
+
+        ga(a, b, c, d?, e?): void {
+            if (typeof (this.windowService["ga"]) == "function") {
+                this.windowService["ga"](a, b, c, d, e);
+            }
         }
     }
 
