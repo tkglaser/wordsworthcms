@@ -11,7 +11,7 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Layout</button>
+                    <a class="btn btn-app" ng-href="#/layouts/new"><i class="fa fa-plus"></i> Neues Layout</a>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <td>{{layout.name}}</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-default btn-xs" ng-click="ctrl.edit(layout)"><i class="fa fa-edit"></i> Bearbeiten</button>
+                        <a class="btn btn-default btn-xs" href="#/layouts/{{layout.layoutId}}"><i class="fa fa-edit"></i> Bearbeiten</a>
                         <button class="btn btn-danger btn-xs" ng-click="ctrl.delete(layout)"><i class="fa fa-remove"></i> L&ouml;schen</button>
                     </div>
                 </td>
@@ -49,44 +49,6 @@
         </table>
     </div><!-- /.box -->
 </section><!-- /.content -->
-
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{ctrl.modalHeading}}</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">Name</label>
-                        <div class="col-sm-11">
-                            <input type="text" class="form-control" ng-model="ctrl.layout.name" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-1 control-label">HTML</label>
-                        <div class="col-sm-11">
-                            <textarea rows="20" type="text" class="form-control" id="htmlEditorLayouts" ng-model="ctrl.layout.body" />
-                            <p class="help-block"><i class="fa fa-lightbulb-o"></i> Der Platzhalter f&uuml;r den Seiteninhalt ist <strong>@RenderBody()</strong></p>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="callout callout-danger" style="display:none" id="saveError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

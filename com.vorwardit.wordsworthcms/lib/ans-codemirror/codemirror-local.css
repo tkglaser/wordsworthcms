@@ -2,3 +2,8 @@
     font-size: 14px;
     line-height: 16px;
 }
+
+.CodeMirror-fullscreen {
+    z-index: 1000!important;
+    margin-top: 50px;
+}
