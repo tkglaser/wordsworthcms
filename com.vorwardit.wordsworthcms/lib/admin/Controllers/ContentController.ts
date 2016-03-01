@@ -36,28 +36,6 @@
                 });
         };
 
-        create(): void {
-            $('#saveError').hide();
-            this.modalHeading = ContentController.modalHeadingNew;
-            this.content = {
-                contentId: -1,
-                siteId: this.site.siteId,
-                url: '',
-                body: ''                
-            };
-            $('#editModal').modal();
-        };
-
-        edit(content: app.domain.IContent): void {
-            this.ContentService.getData(content.contentId).then(
-                (data) => {
-                    $('#saveError').hide();
-                    this.modalHeading = ContentController.modalHeadingEdit;
-                    this.content = data;
-                    $('#editModal').modal();
-                });
-        };
-
         delete(content: app.domain.IContent): void {
             $('#deleteError').hide();
             this.content = content;
@@ -72,17 +50,6 @@
                 },
                 () => {
                     $('#deleteError').show();
-                });
-        }
-
-        save(): void {
-            this.ContentService.update(this.content).then(
-                () => {
-                    $('#editModal').modal("hide");
-                    this.getData();
-                },
-                () => {
-                    $('#saveError').show();
                 });
         }
     }

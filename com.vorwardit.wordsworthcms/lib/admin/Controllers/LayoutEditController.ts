@@ -10,17 +10,14 @@ module app.controllers {
 
         layout: app.domain.ILayout;
 
-        layoutId: string;
-
         static $inject = ['$routeParams', '$location', 'LayoutService', 'SiteService'];
         constructor(
             private RouteParamsService: ng.route.IRouteParamsService,
             private LocationService: ng.ILocationService,
             private LayoutService: app.services.ILayoutService,
-            private SiteService: app.services.ISiteService)
-        {
-            this.layoutId = RouteParamsService["id"];
-            this.getLayout(this.layoutId);
+            private SiteService: app.services.ISiteService) {
+            var layoutId = RouteParamsService["id"];
+            this.getLayout(layoutId);
             var mixedMode = {
                 name: "htmlmixed",
                 scriptTypes: [{

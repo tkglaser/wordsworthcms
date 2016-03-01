@@ -34,6 +34,10 @@
                     templateUrl: 'lib/admin/Views/Content.html',
                     controller: 'ContentController as ctrl'
                 })
+                .when('/content/:id', {
+                    templateUrl: 'lib/admin/Views/ContentEdit.html',
+                    controller: 'ContentEditController as ctrl'
+                })
                 .when('/users', {
                     templateUrl: 'lib/admin/Views/Users.html',
                     controller: 'UserController as ctrl'

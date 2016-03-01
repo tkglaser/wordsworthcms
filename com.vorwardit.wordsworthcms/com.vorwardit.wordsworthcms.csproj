@@ -394,10 +394,12 @@
     <Content Include="Content\template\main\img\slide7.jpg" />
     <Content Include="Content\template\main\img\slide8.jpg" />
     <Content Include="lib\admin\app.min.js" />
+    <TypeScriptCompile Include="lib\admin\Controllers\ContentEditController.ts" />
     <TypeScriptCompile Include="lib\admin\Controllers\LayoutEditController.ts" />
     <TypeScriptCompile Include="lib\admin\Directives\FileModelDirective.ts" />
     <TypeScriptCompile Include="lib\admin\Directives\LoadingDirective.ts" />
     <Content Include="lib\admin\Views\Assets.html" />
+    <Content Include="lib\admin\Views\ContentEdit.html" />
     <Content Include="lib\admin\Views\Content.html" />
     <Content Include="lib\admin\Views\LayoutEdit.html" />
     <Content Include="lib\admin\Views\Layouts.html" />
