@@ -14,6 +14,10 @@
                     templateUrl: 'lib/admin/Views/Layouts.html',
                     controller: 'LayoutController as ctrl'
                 })
+                .when('/layouts/:id', {
+                    templateUrl: 'lib/admin/Views/LayoutEdit.html',
+                    controller: 'LayoutEditController as ctrl'
+                })
                 .when('/pagelayouts', {
                     templateUrl: 'lib/admin/Views/PageLayouts.html',
                     controller: 'PageLayoutController as ctrl'
