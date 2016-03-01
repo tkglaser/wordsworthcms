@@ -1,6 +1,8 @@
 ﻿module app.controllers {
     class ContentEditController {
 
+        editor: any;
+
         sites: app.domain.ISite[] = [];
         site: app.domain.ISite;
 
@@ -21,6 +23,31 @@
                 contentId = parseInt(contentIdStr);
             }
             this.getContent(contentId);
+
+            var mixedMode = {
+                name: "htmlmixed",
+                scriptTypes: [{
+                    matches: /\/x-handlebars-template|\/x-mustache/i,
+                    mode: null
+                },
+                    {
+                        matches: /(text|application)\/(x-)?vb(a|script)/i,
+                        mode: "vbscript"
+                    }]
+            };
+            this.editor = CodeMirror.fromTextArea(document.getElementById("htmlEditorContent"), {
+                mode: mixedMode,
+                selectionPointer: true,
+                extraKeys: {
+                    "F11": function (cm) {
+                        cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                    },
+                    "Esc": function (cm) {
+                        if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                    }
+                }
+            });
+
         }
 
         getContent(id: number): void {
@@ -35,15 +62,24 @@
                             url: '',
                             body: ''
                         };
+                        this.editor.setValue('');
+                        setTimeout(() => {
+                            this.editor.refresh();
+                        }, 200);
                     } else {
                         this.ContentService.getData(id).then((data) => {
                             this.content = data;
+                            this.editor.setValue(this.content.body);
+                            setTimeout(() => {
+                                this.editor.refresh();
+                            }, 200);
                         });
                     }
                 });
         }
 
         save(): void {
+            this.content.body = this.editor.getValue();
             this.ContentService.update(this.content).then(
                 () => {
                     this.LocationService.path('/content');
