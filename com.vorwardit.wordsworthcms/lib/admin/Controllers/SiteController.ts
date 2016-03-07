@@ -5,8 +5,8 @@
         sites: app.domain.ISite[];
         site: app.domain.ISite;
 
-        static modalHeadingNew: string = 'Neuen Auftritt anlegen';
-        static modalHeadingEdit: string = 'Auftritt bearbeiten';
+        static modalHeadingNew: string = 'Create New Site';
+        static modalHeadingEdit: string = 'Edit Site';
         modalHeading: string;
 
         static $inject = ['SiteService'];

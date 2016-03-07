@@ -1,8 +1,7 @@
 ﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Webauftritte
-        <small>Es k&ouml;nnen beliebig viele Webauftritte auf verschiedenen Dom&auml;nen verwaltet werden</small>
+        Sites
     </h1>
 </section>
 <!-- Main content -->
@@ -11,14 +10,14 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.newSite()"><i class="fa fa-plus"></i> Neuer Webauftritt</button>
+                    <button class="btn btn-app" ng-click="ctrl.newSite()"><i class="fa fa-plus"></i> New Site</button>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="callout callout-info">
                 <i class="fa fa-lightbulb-o"></i>
-                Folgende DNS Eintr&auml;ge m&uuml;ssen auf der Zieldom&auml;ne vorgenommen werden:
+                The following changes are required for DNS:
                 <table class="table table-condensed">
                     <tr>
                         <td>A</td>
@@ -42,7 +41,7 @@
         <table class="table table-hover table-striped table-condensed">
             <tr>
                 <th>Name</th>
-                <th>Bindungen</th>
+                <th>Binding</th>
                 <th></th>
             </tr>
             <tr ng-repeat="site in ctrl.sites">
@@ -52,8 +51,8 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-default btn-xs" ng-click="ctrl.editSite(site)"><i class="fa fa-edit"></i> Bearbeiten</button>
-                        <button class="btn btn-danger btn-xs" ng-click="ctrl.deleteSite(site)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                        <button class="btn btn-default btn-xs" ng-click="ctrl.editSite(site)"><i class="fa fa-edit"></i> Edit</button>
+                        <button class="btn btn-danger btn-xs" ng-click="ctrl.deleteSite(site)"><i class="fa fa-remove"></i> Delete</button>
                     </div>
                 </td>
             </tr>
@@ -78,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group" ng-repeat="binding in ctrl.site.bindings">
-                        <label class="col-sm-2 control-label">Bindung</label>
+                        <label class="col-sm-2 control-label">Binding</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" ng-model="binding.value" />
                         </div>
@@ -88,18 +87,18 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button class="btn btn-xs btn-default" ng-click="ctrl.addBinding()"><i class="fa fa-plus"></i> Neue Bindung</button>
+                            <button class="btn btn-xs btn-default" ng-click="ctrl.addBinding()"><i class="fa fa-plus"></i> New Binding</button>
                         </div>
                     </div>
                 </form>
 
                 <div class="callout callout-danger" style="display:none" id="saveError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Save</button>
             </div>
         </div>
     </div>
@@ -112,17 +111,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Site L&ouml;schen?</h4>
+                <h4 class="modal-title" id="myModalLabel">Delete Site?</h4>
             </div>
             <div class="modal-body">
-                <p class="text-danger">Soll die Site <strong>{{ctrl.site.name}}</strong> wirklich gel&ouml;scht werden?</p>
+                <p class="text-danger">Are you sure, you want to delete the Site <strong>{{ctrl.site.name}}</strong>?</p>
                 <div class="callout callout-danger" style="display:none" id="deleteError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">Delete</button>
             </div>
         </div>
     </div>

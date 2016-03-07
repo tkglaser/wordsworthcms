@@ -7,8 +7,8 @@
         contents: app.domain.IContent[] = [];
         content: app.domain.IContent;
 
-        static modalHeadingNew = 'Neuen Content anlegen';
-        static modalHeadingEdit = 'Content bearbeiten';
+        static modalHeadingNew = 'Create New Content';
+        static modalHeadingEdit = 'Edit Content';
         modalHeading: string;
 
         static $inject = ['ContentService', 'SiteService'];

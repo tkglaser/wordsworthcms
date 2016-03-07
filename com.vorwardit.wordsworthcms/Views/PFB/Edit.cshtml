@@ -1,7 +1,7 @@
 ﻿@model com.vorwardit.wordsworthcms.Modules.PFBModel
 
 
-<h4>PAUL f&auml;hrt Bus Konfiguration</h4>
+<h4>PAUL f&auml;hrt Bus Configuration</h4>
 <hr />
 
 @using (Html.BeginForm())
@@ -26,9 +26,9 @@
     @Html.ValidationMessageFor(model => model.Html5, "", new { @class = "" })
 
     <br />
-    <button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
-    <button type="button" class="cmsTypeCancelButton">Abbrechen</button>
-    <button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
+    <button type="button" class="cmsTypeChangeModuleTypeButton">Change Module</button>
+    <button type="button" class="cmsTypeCancelButton">Cancel</button>
+    <button type="button" class="cmsTypeSaveSettingsButton">Save</button>
 }
 
 

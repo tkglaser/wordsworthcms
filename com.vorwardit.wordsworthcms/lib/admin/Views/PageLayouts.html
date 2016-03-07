@@ -1,8 +1,7 @@
 ﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Seitenlayouts
-        <small>Das Seitenlayout definiert, wie die Contentbausteine innerhalb eines Layouts angeordnet sind</small>
+        Page Layouts
     </h1>
 </section>
 <!-- Main content -->
@@ -11,13 +10,13 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Layout</button>
+                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> New Layout</button>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="box">
-                <div class="box-header">Webauftritt</div>
+                <div class="box-header">Site</div>
                 <div class="box-body">
                     <select class="form-control"
                             ng-model="ctrl.site"
@@ -41,8 +40,8 @@
                 <td>{{pagelayout.name}}</td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-default btn-xs" ng-click="ctrl.edit(pagelayout)"><i class="fa fa-edit"></i> Bearbeiten</button>
-                        <button class="btn btn-danger btn-xs" ng-click="ctrl.delete(pagelayout)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                        <button class="btn btn-default btn-xs" ng-click="ctrl.edit(pagelayout)"><i class="fa fa-edit"></i> Edt</button>
+                        <button class="btn btn-danger btn-xs" ng-click="ctrl.delete(pagelayout)"><i class="fa fa-remove"></i> Delete</button>
                     </div>
                 </td>
             </tr>
@@ -78,20 +77,20 @@
                         <div class="col-sm-11">
                             <textarea id="htmlEditorPageLayout" rows="19" type="text" class="form-control" ng-model="ctrl.pagelayout.body" />
                             <p class="help-block">
-                                <i class="fa fa-lightbulb-o"></i> Mit <strong>@Html.Module("position1")</strong> werden Platzhalter f&uuml;r Contentbausteine angelegt.
-                                Der Name "position1" ist beliebig, muss jedoch pro Layout eindeutig sein.
+                                <i class="fa fa-lightbulb-o"></i> The placeholder for content modules is <strong>@Html.Module("position1")</strong>.
+                                The name "position1" is arbitrary but must be unique per Layout.
                             </p>
                         </div>
                     </div>
                 </form>
 
                 <div class="callout callout-danger" style="display:none" id="saveError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Save</button>
             </div>
         </div>
     </div>
@@ -104,18 +103,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Layout L&ouml;schen?</h4>
+                <h4 class="modal-title" id="myModalLabel">Delete Layout?</h4>
             </div>
             <div class="modal-body">
-                <p class="text-danger">Soll die Site <strong>{{ctrl.pagelayout.name}}</strong> wirklich gel&ouml;scht werden?</p>
+                <p class="text-danger">Are you sure, you want to delete the Layout <strong>{{ctrl.pagelayout.name}}</strong>?</p>
 
                 <div class="callout callout-danger" style="display:none" id="deleteError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">Delete</button>
             </div>
         </div>
     </div>
