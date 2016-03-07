@@ -1,7 +1,7 @@
 ﻿@model com.vorwardit.wordsworthcms.Modules.ImageBannerModel
 
 <div style="height:100px">&nbsp;</div>
-<h4>Banner mit Schrift</h4>
+<h4>Banner with text</h4>
 <hr />
 @using (Html.BeginForm())
 {
@@ -21,9 +21,9 @@
     @Html.ValidationMessageFor(model => model.SubHeading, "", new { @class = "" })
 
     <br />
-    <button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
-    <button type="button" class="cmsTypeCancelButton">Abbrechen</button>
-    <button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
+    <button type="button" class="cmsTypeChangeModuleTypeButton">Change Module</button>
+    <button type="button" class="cmsTypeCancelButton">Cancel</button>
+    <button type="button" class="cmsTypeSaveSettingsButton">Save</button>
 }
 
 

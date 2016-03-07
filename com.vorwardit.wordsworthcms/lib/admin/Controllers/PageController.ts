@@ -1,8 +1,8 @@
 ﻿module app.controllers {
     class PageController {
 
-        static modalHeadingNew = 'Neue Seite anlegen';
-        static modalHeadingEdit = 'Seite bearbeiten';
+        static modalHeadingNew = 'Create New Page';
+        static modalHeadingEdit = 'Edit Page';
         modalHeading: string;
         pages: app.domain.IPage[] = [];
         page: app.domain.IPage;

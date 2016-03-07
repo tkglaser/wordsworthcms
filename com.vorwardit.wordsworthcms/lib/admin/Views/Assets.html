@@ -2,7 +2,6 @@
 <section class="content-header">
     <h1>
         Assets
-        <small>Hier k&ouml;nnen alle sonstigen Dateien hochgeladen werden, Typischerweise Bilder, PDFs, ...</small>
     </h1>
 </section>
 <!-- Main content -->
@@ -11,13 +10,13 @@
         <div class="col-md-8">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neues Asset</button>
+                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> New Asset</button>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="box">
-                <div class="box-header">Webauftritt</div>
+                <div class="box-header">Site</div>
                 <div class="box-body">
                     <select class="form-control"
                             ng-model="ctrl.site"
@@ -47,7 +46,7 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-danger btn-xs" ng-click="ctrl.delete(asset)"><i class="fa fa-remove"></i> L&ouml;schen</button>
+                        <button class="btn btn-danger btn-xs" ng-click="ctrl.delete(asset)"><i class="fa fa-remove"></i> Delete</button>
                     </div>
                 </td>
             </tr>
@@ -60,7 +59,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Asset hochladen</h4>
+                <h4 class="modal-title" id="myModalLabel">Upload Asset</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -73,12 +72,12 @@
                 </form>
 
                 <div class="callout callout-danger" style="display:none" id="saveError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Save</button>
             </div>
         </div>
     </div>
@@ -90,18 +89,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Asset L&ouml;schen?</h4>
+                <h4 class="modal-title" id="myModalLabel">Delete Asset?</h4>
             </div>
             <div class="modal-body">
-                <p class="text-danger">Soll die Datei <strong>{{ctrl.asset.name}}</strong> wirklich gel&ouml;scht werden?</p>
+                <p class="text-danger">Are you sure, you want to delete the Asset <strong>{{ctrl.asset.name}}</strong>?</p>
 
                 <div class="callout callout-danger" style="display:none" id="deleteError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">Delete</button>
             </div>
         </div>
     </div>

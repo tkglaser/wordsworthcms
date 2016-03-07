@@ -10,8 +10,8 @@
 
         showPasswordBox: boolean;
 
-        static modalHeadingNew: string = 'Neuen Nutzer anlegen';
-        static modalHeadingEdit: string = 'Nutzer bearbeiten';
+        static modalHeadingNew: string = 'Create New User';
+        static modalHeadingEdit: string = 'Edit User';
         modalHeading: string;
 
         static $inject = ['UserService', 'SiteService'];

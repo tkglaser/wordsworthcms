@@ -14,7 +14,7 @@
                     link: '',
                     isHeader: true,
                     icon: '',
-                    name: 'HAUPTMENÜ'
+                    name: 'MAIN MENU'
                 });
 
                 if (user.type <= 1) {
@@ -44,7 +44,7 @@
                         link: '/pagelayouts',
                         isHeader: false,
                         icon: 'fa-book',
-                        name: 'Seitenlayouts'
+                        name: 'Page Layouts'
                     });
                 }
                 if (user.type <= 2) {
@@ -52,7 +52,7 @@
                         link: '/pages',
                         isHeader: false,
                         icon: 'fa-file',
-                        name: 'Seiten'
+                        name: 'Pages'
                     });
                 }
                 if (user.type == 0) {
@@ -66,13 +66,13 @@
                         link: '/sites',
                         isHeader: false,
                         icon: 'fa-home',
-                        name: 'Webauftritte'
+                        name: 'Sites'
                     });
                     this.menuItems.push({
                         link: '/users',
                         isHeader: false,
                         icon: 'fa-users',
-                        name: 'Nutzerverwaltung'
+                        name: 'User Management'
                     });
                 }
             })

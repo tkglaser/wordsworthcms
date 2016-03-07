@@ -13,8 +13,8 @@ module app.controllers {
         pagelayouts: app.domain.IPageLayout[];
         pagelayout: app.domain.IPageLayout;
 
-        static modalHeadingNew: string = 'Neues Seitenlayout anlegen';
-        static modalHeadingEdit: string = 'Seitenlayout bearbeiten';
+        static modalHeadingNew: string = 'Create New Page Layout';
+        static modalHeadingEdit: string = 'Edit Page Layout';
         modalHeading: string;
 
         static $inject = ['LayoutService', 'PageLayoutService', 'SiteService'];

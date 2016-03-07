@@ -69,7 +69,7 @@ function payLoad() {
             var editor = $(this).find($('[data-editor]'));
             var content = $(this).find($('[data-content]'));
 
-            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
+            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Edit</button></div>");
             content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
         });
 
@@ -88,7 +88,7 @@ function payLoad() {
             var position = module.attr('data-position');
             var editor = module.find($('[data-editor]'));
             var content = module.find($('[data-content]'));
-            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
+            editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Edit</button></div>");
             content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
         });
 
@@ -120,7 +120,7 @@ function payLoad() {
             var content = module.find($('[data-content]'));
 
             $.post(form.attr('action'), form.serialize(), function(){
-                editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Bearbeiten</button></div>");
+                editor.html("<div class='cmsEditButtonWrapper'><button class='cmsEditButton'>Edit</button></div>");
                 content.load('/module/rendermodule?pageVersionId=' + pageVersionId + '&position=' + position);
             });
         });

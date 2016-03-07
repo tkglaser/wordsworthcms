@@ -1,6 +1,6 @@
 ﻿@model com.vorwardit.wordsworthcms.Modules.ImageModel
 
-<h4>Pfad zum Bild</h4>
+<h4>Path to image</h4>
 <hr />
 @using (Html.BeginForm())
 {
@@ -10,7 +10,7 @@
     @Html.EditorFor(model => model.Image, new { htmlAttributes = new { @class = "", style="width:100%" } })
     @Html.ValidationMessageFor(model => model.Image, "", new { @class = "" })
     <br/>
-    <button type="button" class="cmsTypeChangeModuleTypeButton">Anderes Modul</button>
-    <button type="button" class="cmsTypeCancelButton">Abbrechen</button>
-    <button type="button" class="cmsTypeSaveSettingsButton">Speichern</button>
+    <button type="button" class="cmsTypeChangeModuleTypeButton">Change Module</button>
+    <button type="button" class="cmsTypeCancelButton">Cancel</button>
+    <button type="button" class="cmsTypeSaveSettingsButton">Save</button>
 }

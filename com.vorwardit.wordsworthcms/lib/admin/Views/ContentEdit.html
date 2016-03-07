@@ -8,7 +8,7 @@
         </div>
 
         <div class="box-header">
-            <h2 class="box-title">Content Bearbeiten</h2>
+            <h2 class="box-title">Edit Content</h2>
             <div class="box-tools pull-right">
                 <a href="#/content" class="btn btn-box-tool"><i class="fa fa-times"></i></a>
             </div>
@@ -21,7 +21,7 @@
                 <div class="col-sm-11">
                     <input type="text" class="form-control" ng-model="ctrl.content.url" />
                     <p class="help-block">
-                        <i class="fa fa-lightbulb-o"></i> Die Url eines Stylesheets sollte auf <strong>-css</strong> enden, die einer JavaScript Datei auf <strong>-js</strong>.
+                        <i class="fa fa-lightbulb-o"></i> The url of a style sheet should end in <strong>-css</strong>, the url of a JavaScript file in <strong>-js</strong>.
                     </p>
                 </div>
             </div>
@@ -30,21 +30,21 @@
                 <div class="col-sm-11">
                     <textarea rows="19" type="text" class="form-control" id="htmlEditorContent" ng-model="ctrl.content.body" />
                     <p class="help-block">
-                        <i class="fa fa-lightbulb-o"></i> <strong>F11</strong> f&uuml;r Vollbild
+                        <i class="fa fa-lightbulb-o"></i> <strong>F11</strong> for fullscreen
                     </p>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-11 col-sm-offset-1">
-                    <a href="#/content" class="btn btn-default">Schliessen</a>
-                    <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+                    <a href="#/content" class="btn btn-default">Close</a>
+                    <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Save</button>
                 </div>
             </div>
 
         </form>
 
         <div class="callout callout-danger" style="display:none" id="saveError">
-            Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+            An error occured. Please inform IT.
         </div>
 
     </div>

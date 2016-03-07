@@ -1,8 +1,7 @@
 ﻿ <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Seiten
-        <small>Eine Seite ist eine Seite eines Webauftritts. In einer Seite wird der Content (Text/Bilder) definiert</small>
+        Pages
     </h1>
 </section>
 <!-- Main content -->
@@ -11,16 +10,16 @@
         <div class="col-md-4">
             <div class="box box-info">
                 <div class="box-body">
-                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> Neue Seite</button>
+                    <button class="btn btn-app" ng-click="ctrl.create()"><i class="fa fa-plus"></i> New Page</button>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="callout callout-info">Um eine 404 Fehlerseite zu erzeugen, eine Seite mit der URL <strong>/errors/404</strong> anlegen!</div>
+            <div class="callout callout-info">To create a 404 error page, create a page with the URL <strong>/errors/404</strong>!</div>
         </div>
         <div class="col-md-4">
             <div class="box">
-                <div class="box-header">Webauftritt</div>
+                <div class="box-header">Site</div>
                 <div class="box-body">
                     <select class="form-control"
                             ng-model="ctrl.site"
@@ -38,7 +37,7 @@
         <table class="table table-hover table-striped table-condensed">
             <tr>
                 <th>Name</th>
-                <th>Seitenlayout</th>
+                <th>Page Layout</th>
                 <th>URLs</th>
                 <th></th>
             </tr>
@@ -52,11 +51,11 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-xs btn-default dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> <span class="caret"></span></button>
                         <ul class="dropdown-menu pull-right">
-                            <li><a ng-click="ctrl.edit(page)"><i class="fa fa-edit"></i> Einstellungen</a></li>
+                            <li><a ng-click="ctrl.edit(page)"><i class="fa fa-edit"></i> Settings</a></li>
                             <li><a ng-click="ctrl.editContent(page)"><i class="fa fa-align-left"></i> Content</a></li>
-                            <li><a ng-click="ctrl.showVersions(page)"><i class="fa fa-code-fork"></i> Versionen</a></li>
+                            <li><a ng-click="ctrl.showVersions(page)"><i class="fa fa-code-fork"></i> Versions</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a ng-click="ctrl.delete(page)"><i class="fa fa-remove"></i> L&ouml;schen</a></li>
+                            <li><a ng-click="ctrl.delete(page)"><i class="fa fa-remove"></i> Delete</a></li>
                         </ul>
                     </div>
                 </td>
@@ -99,18 +98,18 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-1 col-sm-11">
-                            <button class="btn btn-xs btn-default" ng-click="ctrl.addUrl()"><i class="fa fa-plus"></i> Neue Url</button>
+                            <button class="btn btn-xs btn-default" ng-click="ctrl.addUrl()"><i class="fa fa-plus"></i> New Url</button>
                         </div>
                     </div>
                 </form>
 
                 <div class="callout callout-danger" style="display:none" id="saveError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Speichern</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.save()">Save</button>
             </div>
         </div>
     </div>
@@ -122,39 +121,39 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Versionen</h4>
+                <h4 class="modal-title" id="myModalLabel">Versions</h4>
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-striped">
                     <tr>
-                        <th>Revisionsnummer</th>
+                        <th>Revision</th>
                         <th>Status</th>
-                        <th>Vorschau</th>
+                        <th>Preview</th>
                         <th></th>
                     </tr>
                     <tr ng-repeat="version in ctrl.pageversions">
                         <td>{{version.revisionNumber}}</td>
                         <td>
-                            <span ng-if="version.status == 0">Entwurf</span>
-                            <span ng-if="version.status == 1">Ver&ouml;ffentlicht</span>
+                            <span ng-if="version.status == 0">Draft</span>
+                            <span ng-if="version.status == 1">Published</span>
                         </td>
                         <td>
-                            <a ng-href="{{'/preview/' + version.pageVersionId}}" target="_blank">Vorschau</a>
+                            <a ng-href="{{'/preview/' + version.pageVersionId}}" target="_blank">Preview</a>
                         </td>
                         <td>
-                            <a ng-if="version.status == 0 && $index == 0" target="_blank" ng-href="{{'/edit/' + version.pageVersionId}}" class="btn btn-default btn-sm">Bearbeiten</a>
-                            <button ng-if="version.status == 0" ng-click="ctrl.publish(version.pageVersionId)" class="btn btn-primary btn-sm">Ver&ouml;ffentlichen</button>
+                            <a ng-if="version.status == 0 && $index == 0" target="_blank" ng-href="{{'/edit/' + version.pageVersionId}}" class="btn btn-default btn-sm">Edit</a>
+                            <button ng-if="version.status == 0" ng-click="ctrl.publish(version.pageVersionId)" class="btn btn-primary btn-sm">Publish</button>
                         </td>
                     </tr>
                 </table>
 
                 <div class="callout callout-danger" style="display:none" id="publishError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" ng-click="ctrl.newVersion()">Neue Version Anlegen</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.newVersion()">Create New Version</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -166,12 +165,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Content bearbeiten</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Content</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-1 control-label">Titel</label>
+                        <label class="col-sm-1 control-label">Title</label>
                         <div class="col-sm-11">
                             <input type="text" class="form-control" ng-model="ctrl.pageversion.title" />
                         </div>
@@ -185,12 +184,12 @@
                 </form>
 
                 <div class="callout callout-danger" style="display:none" id="saveContentError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.saveVersion()">Speichern</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.saveVersion()">Save</button>
             </div>
         </div>
     </div>
@@ -203,18 +202,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Layout L&ouml;schen?</h4>
+                <h4 class="modal-title" id="myModalLabel">Delete Page?</h4>
             </div>
             <div class="modal-body">
-                <p class="text-danger">Soll die Site <strong>{{ctrl.page.name}}</strong> wirklich gel&ouml;scht werden?</p>
+                <p class="text-danger">Are you sure, you want to delete the Page <strong>{{ctrl.page.name}}</strong>?</p>
 
                 <div class="callout callout-danger" style="display:none" id="deleteError">
-                    Fehler. Ihre Daten wurden nicht gespeichert. Bitte informieren Sie IT.
+                    An error occured. Please inform IT.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Schliessen</button>
-                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">L&ouml;schen</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="ctrl.deleteConfirmed()">Delete</button>
             </div>
         </div>
     </div>
