@@ -58,7 +58,6 @@ namespace com.vorwardit.wordsworthcms.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-			ViewBag.ApplicationNameLong = WebConfigurationManager.AppSettings["ApplicationNameLong"];
 			ViewBag.ReturnUrl = returnUrl;
             return View();
         }

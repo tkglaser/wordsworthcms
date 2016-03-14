@@ -22,8 +22,6 @@ namespace com.vorwardit.wordsworthcms.Controllers
         // GET: Admin
         public async Task<ActionResult> Index()
         {
-			ViewBag.ApplicationNameLong = WebConfigurationManager.AppSettings["ApplicationNameLong"];
-			ViewBag.ApplicationNameShort = WebConfigurationManager.AppSettings["ApplicationNameShort"];
 			ViewBag.DefaultSiteId = (await siteService.GetByHostnameAsync(Request.Url.DnsSafeHost))?.SiteId;
             return View();
         }
